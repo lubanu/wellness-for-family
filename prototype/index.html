@@ -33,9 +33,65 @@
       background: linear-gradient(135deg, #10b981 0%, #047857 100%);
       color: white;
     }
+
+    /* KWCAG 2.2 / WCAG 2.2 AAA Senior & Barrier-Free Mode */
+    body.senior-mode {
+      font-size: 118%;
+      line-height: 1.75;
+    }
+    body.senior-mode h1, body.senior-mode h2, body.senior-mode h3 {
+      font-weight: 800;
+    }
+    body.senior-mode button, 
+    body.senior-mode a, 
+    body.senior-mode input, 
+    body.senior-mode select {
+      min-height: 48px;
+    }
+    body.senior-mode .text-slate-400,
+    body.senior-mode .text-slate-500 {
+      color: #334155 !important;
+    }
+    body.senior-mode .text-slate-600 {
+      color: #0f172a !important;
+    }
+
+    /* Native HTML5 Dialog & Backdrop */
+    dialog::backdrop {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+    }
+    dialog {
+      overscroll-behavior: contain;
+    }
+
+    /* Skip navigation link */
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 12px;
+      background: #1d4ed8;
+      color: #ffffff;
+      padding: 10px 18px;
+      z-index: 9999;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      transition: top 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .skip-link:focus {
+      top: 12px;
+      outline: 3px solid #facc15;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-blue-500 selection:text-white">
+
+  <!-- ACCESSIBILITY: SKIP NAVIGATION & LIVE ANNOUNCER -->
+  <a href="#main-content" class="skip-link">본문 바로가기 (Skip to Main Content)</a>
+  <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
   <!-- TOP HEADER -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
@@ -50,15 +106,25 @@
         </div>
       </div>
 
-      <!-- Quick Profile Switcher & Notification Badge -->
-      <div class="flex items-center space-x-3">
-        <div class="hidden sm:flex items-center bg-slate-100 rounded-lg p-1 text-xs font-medium">
-          <button onclick="applyPreset('young_family')" id="preset-young" class="px-2.5 py-1 rounded-md bg-white shadow-sm font-bold text-blue-600 transition">영유아 신혼부부</button>
+      <!-- Quick Profile Switcher, Accessibility & Care+ VIP Badge -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button id="senior-mode-toggle" onclick="toggleSeniorMode()" aria-pressed="false" class="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 text-xs font-bold transition shadow-xs" title="시니어·저시력자를 위한 큰글씨 고대비 모드 토글">
+          <i data-lucide="zoom-in" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span id="senior-mode-text">큰글씨</span>
+        </button>
+
+        <button onclick="openCarePlusModal()" id="header-care-plus-btn" class="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 text-xs font-black transition shadow-xs" title="WelFamily Care+ 멤버십 혜택 모의계산">
+          <i data-lucide="crown" class="w-3.5 h-3.5 text-slate-950"></i>
+          <span id="header-care-plus-text">Care+ VIP</span>
+        </button>
+
+        <div class="hidden lg:flex items-center bg-slate-100 rounded-lg p-1 text-xs font-medium">
+          <button onclick="applyPreset('young_family')" id="preset-young" class="px-2.5 py-1 rounded-md bg-white shadow-xs font-bold text-blue-600 transition">영유아 신혼부부</button>
           <button onclick="applyPreset('youth_single')" id="preset-youth" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition">청년 1인가구</button>
           <button onclick="applyPreset('multi_child')" id="preset-multi" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition">다자녀·노부모</button>
         </div>
 
-        <button onclick="switchTab('profile')" class="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold transition">
+        <button onclick="switchTab('profile')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs sm:text-sm font-semibold transition">
           <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i>
           <span id="header-region-text">서울 관악구</span>
         </button>
@@ -124,7 +190,7 @@
   </nav>
 
   <!-- MAIN CONTENT CONTAINER -->
-  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
+  <main id="main-content" tabindex="-1" class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 focus:outline-none">
 
     <!-- ========================================== -->
     <!-- 1. DASHBOARD VIEW -->
@@ -200,6 +266,35 @@
               <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </button>
           </div>
+        </div>
+      </div>
+
+      <!-- WELFAMILY CARE+ REVENUE ACCELERATOR CARD -->
+      <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-600 rounded-2xl p-5 sm:p-6 text-slate-950 shadow-md relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1.5 z-10">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-slate-950 text-amber-300 text-xs font-black tracking-wide flex items-center space-x-1">
+              <i data-lucide="crown" class="w-3.5 h-3.5"></i>
+              <span>WelFamily Care+ (복지 케어 플러스)</span>
+            </span>
+            <span class="text-xs font-bold text-slate-900 bg-white/40 px-2 py-0.5 rounded">100% 전액 환불 보장제</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-950">
+            아직 안 찾아간 우리 가족 숨은 지원금 <span class="underline decoration-slate-950 decoration-2 font-black" id="care-plus-unclaimed-highlight">1,800,000원</span>, 서류 0초 자동완성으로 챙기세요!
+          </h3>
+          <p class="text-xs sm:text-sm font-medium text-slate-900/90">
+            선착순 지자체 공고 0초 카톡 즉시 알림 + 정부24 필수서류 일괄 PDF 자동 결합 + 전문 행정사 1:1 상담
+          </p>
+        </div>
+        <div class="shrink-0 flex flex-col sm:flex-row items-center gap-2.5 z-10">
+          <div class="text-right hidden sm:block">
+            <span class="text-[11px] text-slate-900/80 block line-through">월 9,900원</span>
+            <span class="text-base font-black text-slate-950">월 3,900원 <span class="text-xs font-bold text-slate-800">(연 39,000원)</span></span>
+          </div>
+          <button onclick="openCarePlusModal()" class="w-full sm:w-auto px-5 py-3 bg-slate-950 hover:bg-slate-900 text-amber-300 font-extrabold rounded-xl text-sm transition shadow-lg flex items-center justify-center space-x-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+            <span>ROI 모의계산 및 VIP 혜택받기</span>
+          </button>
         </div>
       </div>
 
@@ -712,20 +807,20 @@
   </main>
 
   <!-- ========================================== -->
-  <!-- POLICY DETAIL SLIDE-OVER / MODAL -->
+  <!-- 1. POLICY DETAIL NATIVE DIALOG (WCAG 2.2 AAA ACCESSIBLE) -->
   <!-- ========================================== -->
-  <div id="policy-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100">
-      <div class="sticky top-0 bg-white/95 backdrop-blur-md px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+  <dialog id="policy-modal" class="rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-0 p-0 m-auto" aria-labelledby="modal-title">
+    <div class="bg-white rounded-2xl w-full border border-slate-100">
+      <div class="sticky top-0 bg-white/95 backdrop-blur-md px-6 py-4 border-b border-slate-100 flex items-center justify-between z-10">
         <span id="modal-agency-badge" class="px-2.5 py-1 rounded-full text-xs font-bold badge-local">지자체 특화</span>
-        <button onclick="closePolicyModal()" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+        <button onclick="closePolicyModal()" class="p-1 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="닫기">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div class="p-6 space-y-5">
         <div>
-          <span id="modal-managing-org" class="text-xs font-semibold text-slate-500">서울특별시 관악구 청년정책과</span>
+          <span id="modal-managing-org" class="text-xs font-semibold text-slate-600">서울특별시 관악구 청년정책과</span>
           <h3 id="modal-title" class="text-xl font-bold text-slate-900 mt-0.5">관악구 청년·신혼부부 부동산 중개보수 및 이사비 지원</h3>
           <div class="flex items-center space-x-2 mt-2">
             <span class="text-2xl font-black text-blue-600" id="modal-amount">최대 400,000 원</span>
@@ -750,7 +845,7 @@
         <div>
           <h4 class="font-bold text-slate-900 text-sm mb-2 flex items-center justify-between">
             <span>📋 신청 전 필수 서류 체크리스트</span>
-            <span class="text-[11px] text-slate-400">모바일에서 바로 체크해보세요</span>
+            <span class="text-[11px] text-slate-500">모바일에서 바로 체크해보세요</span>
           </h4>
           <div class="space-y-2 text-xs" id="modal-docs-container">
             <!-- Rendered by JS -->
@@ -758,32 +853,32 @@
         </div>
 
         <!-- Contact & Desk Info -->
-        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1 text-slate-600">
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1 text-slate-700">
           <div class="flex items-center space-x-1">
-            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500"></i>
             <span><strong>접수처:</strong> 관악구청 본관 청년정책과 (또는 서울청년몽땅정보통 웹)</span>
           </div>
           <div class="flex items-center space-x-1">
-            <i data-lucide="phone" class="w-3.5 h-3.5 text-slate-400"></i>
+            <i data-lucide="phone" class="w-3.5 h-3.5 text-slate-500"></i>
             <span><strong>문의처:</strong> 02-879-5931</span>
           </div>
         </div>
 
-        <!-- Contextual Affiliate Callout Box -->
-        <div id="modal-affiliate-box" class="p-3.5 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 border border-blue-200 rounded-xl space-y-1.5">
+        <!-- Contextual Affiliate Callout Box with FTC Notice -->
+        <div id="modal-affiliate-box" class="p-3.5 bg-gradient-to-r from-blue-50/90 to-indigo-50/90 border border-blue-200 rounded-xl space-y-1.5">
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-bold px-2 py-0.5 bg-blue-600 text-white rounded" id="modal-aff-tag">💡 추천 제휴 혜택</span>
-            <span class="text-[10px] text-slate-400">공식 행정과 무관한 편의 제휴</span>
+            <span class="text-[10px] text-slate-500">공식 행정과 무관한 편의 제휴</span>
           </div>
           <h5 class="font-bold text-xs text-slate-900" id="modal-aff-title">📦 이사 전 필수! 포장이사 무료 비교견적</h5>
           <p class="text-[11px] text-slate-600" id="modal-aff-desc">이사비 지원 신청 전, 검증된 이사업체 무료 방문 견적과 인터넷 최대 현금 혜택을 확인해보세요.</p>
           <div class="pt-1">
-            <a href="#" target="_blank" id="modal-aff-link" class="inline-flex items-center space-x-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition">
+            <a href="#" target="_blank" id="modal-aff-link" onclick="trackDealClick(this)" class="inline-flex items-center space-x-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition">
               <span id="modal-aff-btn-text">무료 비교견적 받기</span>
               <i data-lucide="external-link" class="w-3.5 h-3.5 ml-1"></i>
             </a>
           </div>
-          <p class="text-[10px] text-slate-400 pt-1">※ 본 영역은 제휴마케팅 활동의 일환으로 일정액의 수수료를 제공받을 수 있습니다.</p>
+          <p class="text-[10px] text-slate-500 pt-1">※ 공정거래위원회 지침: 본 추천은 제휴마케팅 활동의 일환으로 일정액의 수수료를 제공받을 수 있습니다.</p>
         </div>
 
         <!-- Action Buttons -->
@@ -797,7 +892,122 @@
         </div>
       </div>
     </div>
-  </div>
+  </dialog>
+
+  <!-- ========================================== -->
+  <!-- 2. WELFAMILY CARE+ VIP SUBSCRIPTION DIALOG -->
+  <!-- ========================================== -->
+  <dialog id="care-plus-modal" class="rounded-2xl max-w-xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border-0 p-0 m-auto" aria-labelledby="care-plus-modal-title">
+    <div class="bg-white rounded-2xl w-full border border-slate-100 overflow-hidden">
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-600 px-6 py-5 text-slate-950 flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-xl bg-slate-950 text-amber-300 flex items-center justify-center font-black">
+            <i data-lucide="crown" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="care-plus-modal-title" class="text-lg font-black text-slate-950">WelFamily Care+ 멤버십</h3>
+            <span class="text-xs font-bold text-slate-900/90">우리 가족 숨은 복지 100% 수령 보장제</span>
+          </div>
+        </div>
+        <button onclick="closeCarePlusModal()" class="p-1 rounded-lg text-slate-900 hover:bg-black/10 transition" aria-label="닫기">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-5">
+        <!-- ROI Value Card -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
+          <span class="text-xs font-bold text-amber-900 block mb-1">우리 가족 예상 투자 수익률 (ROI)</span>
+          <div class="flex items-center justify-center space-x-2">
+            <span class="text-3xl font-black text-amber-600" id="care-plus-roi-percent">+4,615%</span>
+            <span class="text-xs font-bold px-2 py-0.5 bg-amber-200 text-amber-900 rounded-full">순이득 ₩1,761,000</span>
+          </div>
+          <p class="text-xs text-amber-800 mt-2 font-medium">
+            연 39,000원(월 3,250원) 투자로 평균 180만 원 이상의 숨은 미수령 복지금을 수령합니다.
+          </p>
+        </div>
+
+        <!-- 4 Key VIP Features -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-extrabold text-slate-900 tracking-wide uppercase">Care+ 정회원 전용 4대 핵심 혜택</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+              <div class="flex items-center space-x-1.5 font-bold text-slate-900 mb-1">
+                <i data-lucide="zap" class="w-4 h-4 text-amber-500 shrink-0"></i>
+                <span>선착순 공고 0초 즉시 알림</span>
+              </div>
+              <p class="text-slate-600 text-[11px]">예산 소진형 지자체 지원 사업 등록 즉시 카카오 알림톡/SMS 발송</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+              <div class="flex items-center space-x-1.5 font-bold text-slate-900 mb-1">
+                <i data-lucide="file-check-2" class="w-4 h-4 text-blue-500 shrink-0"></i>
+                <span>정부24 서류 원클릭 완성</span>
+              </div>
+              <p class="text-slate-600 text-[11px]">등본·건보료·가족관계증명서 등 필수 서류를 PDF 단일팩으로 압축 결합</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+              <div class="flex items-center space-x-1.5 font-bold text-slate-900 mb-1">
+                <i data-lucide="scale" class="w-4 h-4 text-indigo-500 shrink-0"></i>
+                <span>복지 전문 행정사 1:1 상담</span>
+              </div>
+              <p class="text-slate-600 text-[11px]">모호한 소득인정액 계산 및 지원 탈락 시 이의신청 자문 제공</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+              <div class="flex items-center space-x-1.5 font-bold text-slate-900 mb-1">
+                <i data-lucide="search-check" class="w-4 h-4 text-emerald-500 shrink-0"></i>
+                <span>숨은 환급금·바우처 추적</span>
+              </div>
+              <p class="text-slate-600 text-[11px]">지자체 조례별 미청구 환급금 및 소멸 임박 바우처 자동 푸시</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Plan Selection -->
+        <div>
+          <h4 class="text-xs font-extrabold text-slate-900 tracking-wide uppercase mb-2">플랜 선택</h4>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="relative flex flex-col p-3.5 border-2 border-amber-500 bg-amber-50/60 rounded-xl cursor-pointer">
+              <input type="radio" name="care_plan" value="ANNUAL" checked class="sr-only" onchange="updatePlanSelection('ANNUAL')">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-slate-900">연간 결제 (17% 할인)</span>
+                <span class="text-[10px] font-black px-1.5 py-0.5 bg-amber-500 text-slate-950 rounded">BEST</span>
+              </div>
+              <span class="text-base font-black text-slate-950">39,000 원 <span class="text-xs font-semibold text-slate-600">/ 년</span></span>
+              <span class="text-[10px] text-slate-500">월 3,250원 꼴 • 1일 단 107원</span>
+            </label>
+
+            <label class="relative flex flex-col p-3.5 border border-slate-200 bg-white hover:bg-slate-50 rounded-xl cursor-pointer">
+              <input type="radio" name="care_plan" value="MONTHLY" class="sr-only" onchange="updatePlanSelection('MONTHLY')">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-slate-900">월간 결제</span>
+              </div>
+              <span class="text-base font-black text-slate-950">3,900 원 <span class="text-xs font-semibold text-slate-600">/ 월</span></span>
+              <span class="text-[10px] text-slate-500">언제든 위약금 없이 해지 가능</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 100% Refund Guarantee Badge -->
+        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center space-x-2 text-xs text-emerald-900">
+          <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 shrink-0"></i>
+          <span><strong>100% 무조건 전액 환불 보장:</strong> 가입 후 1년 내 미수령 복지금을 단 1건도 발견하지 못할 시 구독료 전액을 환불해 드립니다.</span>
+        </div>
+
+        <!-- Simulated Subscription CTA -->
+        <div class="pt-2 space-y-2">
+          <button onclick="simulateSubscribeCarePlus()" class="w-full py-3.5 bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-black rounded-xl text-sm transition shadow-md flex items-center justify-center space-x-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-slate-950"></i>
+            <span id="care-plus-submit-btn-text">카카오페이 / 카드로 Care+ 1초 시작하기</span>
+          </button>
+          <p class="text-[11px] text-slate-500 text-center">※ 결제 시 즉시 VIP 권한이 부여되며 서류 자동완성 팩이 잠금 해제됩니다.</p>
+        </div>
+      </div>
+    </div>
+  </dialog>
 
   <!-- JAVASCRIPT LOGIC & DATABASE -->
   <script>
@@ -1245,8 +1455,148 @@
         affBtn.innerText = "1금융권 고금리 파킹통장 비교";
       }
 
-      document.getElementById('policy-modal').classList.remove('hidden');
+      const pModal = document.getElementById('policy-modal');
+      if (typeof pModal.showModal === 'function') {
+        pModal.showModal();
+      } else {
+        pModal.classList.remove('hidden');
+      }
+      announceA11y(`${p.title} 상세 정보 창이 열렸습니다.`);
       lucide.createIcons();
+    }
+
+    function closePolicyModal() {
+      const pModal = document.getElementById('policy-modal');
+      if (typeof pModal.close === 'function') {
+        pModal.close();
+      } else {
+        pModal.classList.add('hidden');
+      }
+      announceA11y("상세 정보 창이 닫혔습니다.");
+    }
+
+    // ==========================================
+    // 5-1. CARE+ VIP SUBSCRIPTION MODAL LOGIC
+    // ==========================================
+    let selectedCarePlan = 'ANNUAL';
+
+    function openCarePlusModal() {
+      const cModal = document.getElementById('care-plus-modal');
+      const unclaimed = document.getElementById('unclaimed-amount').innerText;
+      const numAmount = parseInt(unclaimed.replace(/[^0-9]/g, '')) || 1800000;
+      const annualFee = 39000;
+      const roiRatio = Math.round((numAmount / annualFee) * 100);
+      
+      const roiEl = document.getElementById('care-plus-roi-percent');
+      if (roiEl) roiEl.innerText = `+${roiRatio.toLocaleString()}%`;
+
+      if (typeof cModal.showModal === 'function') {
+        cModal.showModal();
+      } else {
+        cModal.classList.remove('hidden');
+      }
+      announceA11y("WelFamily Care+ 멤버십 안내 모달이 열렸습니다.");
+      lucide.createIcons();
+    }
+
+    function closeCarePlusModal() {
+      const cModal = document.getElementById('care-plus-modal');
+      if (typeof cModal.close === 'function') {
+        cModal.close();
+      } else {
+        cModal.classList.add('hidden');
+      }
+      announceA11y("Care+ 멤버십 모달이 닫혔습니다.");
+    }
+
+    function updatePlanSelection(cycle) {
+      selectedCarePlan = cycle;
+      const btnText = document.getElementById('care-plus-submit-btn-text');
+      if (cycle === 'ANNUAL') {
+        btnText.innerText = "연 39,000원으로 Care+ 1초 시작하기 (17% 할인)";
+      } else {
+        btnText.innerText = "월 3,900원으로 Care+ 1초 시작하기";
+      }
+    }
+
+    async function simulateSubscribeCarePlus() {
+      const isAnnual = (selectedCarePlan === 'ANNUAL');
+      const priceText = isAnnual ? "연간 39,000원" : "월간 3,900원";
+
+      // Call backend API if running
+      try {
+        await fetch('http://localhost:8000/api/v1/care-plus/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_name: "홍길동",
+            phone_number: "010-1234-5678",
+            billing_cycle: selectedCarePlan,
+            payment_method: "KAKAO_PAY"
+          })
+        });
+      } catch (err) {
+        // Fallback for static client execution
+      }
+
+      closeCarePlusModal();
+      
+      // Update UI Header and Badge to VIP
+      const headerBtn = document.getElementById('header-care-plus-text');
+      if (headerBtn) {
+        headerBtn.innerText = "VIP 정회원 ★";
+      }
+      const headerBtnWrapper = document.getElementById('header-care-plus-btn');
+      if (headerBtnWrapper) {
+        headerBtnWrapper.className = "flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition shadow-xs";
+      }
+
+      alert(`🎉 축하합니다! WelFamily Care+ 멤버십(${priceText})이 활성화되었습니다!\n\n[부여된 정회원 특권]\n1. 관악구/전국 선착순 공고 0초 카카오톡 즉시 알림 가동\n2. 정부24 주민등록등본·건보료 서류 원클릭 자동완성 팩 해제\n3. 전담 복지 행정사 1:1 상담 연결 티켓 발급\n\n(1년 내 미수령 복지금 미발견 시 100% 무조건 전액 환불)`);
+      announceA11y("Care+ VIP 멤버십 활성화가 완료되었습니다.");
+    }
+
+    // ==========================================
+    // 5-2. ACCESSIBILITY & CONTEXTUAL AFFILIATE
+    // ==========================================
+    let isSeniorMode = false;
+    function toggleSeniorMode() {
+      isSeniorMode = !isSeniorMode;
+      document.body.classList.toggle('senior-mode', isSeniorMode);
+      const btn = document.getElementById('senior-mode-toggle');
+      const text = document.getElementById('senior-mode-text');
+      btn.setAttribute('aria-pressed', isSeniorMode ? 'true' : 'false');
+      if (isSeniorMode) {
+        btn.classList.add('bg-amber-100', 'border-amber-400', 'text-amber-950');
+        text.innerText = "큰글씨 ON";
+        announceA11y("어르신 및 저시력자를 위한 큰글씨 고대비 모드가 활성화되었습니다.");
+      } else {
+        btn.classList.remove('bg-amber-100', 'border-amber-400', 'text-amber-950');
+        text.innerText = "큰글씨";
+        announceA11y("일반 글씨 모드로 전환되었습니다.");
+      }
+    }
+
+    function announceA11y(msg) {
+      const announcer = document.getElementById('a11y-announcer');
+      if (announcer) {
+        announcer.textContent = msg;
+      }
+    }
+
+    function trackDealClick(element) {
+      try {
+        fetch('http://localhost:8000/api/v1/affiliate/track-click', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            deal_id: "aff_modal_dynamic",
+            user_session_id: "web_session_" + Date.now(),
+            referrer_page: "policy_modal"
+          })
+        });
+      } catch (e) {
+        // silent
+      }
     }
 
     function copyWidgetCode() {
@@ -1262,10 +1612,6 @@
       const p = POLICIES.find(x => x.id === policyId);
       if (!p) return;
       alert(`[SEO 블로그 글 미리보기]\n\n제목: [2026 최신] ${p.regionName} ${p.title} 신청 자격 및 필수 서류 총정리\n\n📌 3줄 핵심 요약:\n• 누가: ${p.summary3[0]}\n• 얼마: ${p.summary3[1]}\n• 어떻게: ${p.summary3[2]}\n\n(애드센스 인아티클 광고 코드 2개 + 쿠팡/이사 제휴 배너 + 1분 위젯 자동 포함)\n* 전체 Markdown 원문은 blog_posts/${policyId}.md에 자동 저장되어 있습니다.`);
-    }
-
-    function closePolicyModal() {
-      document.getElementById('policy-modal').classList.add('hidden');
     }
 
     function toggleBookmarkModal() {
@@ -1512,6 +1858,13 @@
         document.getElementById('current-claimed-amount').innerText = "5,400,000 원";
         document.getElementById('unclaimed-amount').innerText = "3,520,000 원";
       }
+
+      const highlight = document.getElementById('care-plus-unclaimed-highlight');
+      if (highlight) {
+        highlight.innerText = document.getElementById('unclaimed-amount').innerText;
+      }
+      announceA11y(`가구 프로필이 ${document.getElementById('dash-family-badge').innerText}로 변경되었습니다. 예상 연간 혜택은 ${document.getElementById('total-annual-amount').innerText}원 입니다.`);
+
       renderDashboardCards();
       renderExplorer();
     }
@@ -1525,6 +1878,24 @@
       renderDashboardCards();
       renderExplorer();
       loadRemoteCatalog();
+
+      // Native dialog backdrop auto-close handlers
+      const pModal = document.getElementById('policy-modal');
+      if (pModal) {
+        pModal.addEventListener('click', (e) => {
+          const rect = pModal.getBoundingClientRect();
+          const inDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+          if (!inDialog) closePolicyModal();
+        });
+      }
+      const cModal = document.getElementById('care-plus-modal');
+      if (cModal) {
+        cModal.addEventListener('click', (e) => {
+          const rect = cModal.getBoundingClientRect();
+          const inDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+          if (!inDialog) closeCarePlusModal();
+        });
+      }
     };
   </script>
 </body>
