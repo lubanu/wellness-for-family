@@ -1,0 +1,56 @@
+name: "Daily Welfare Policy Sync & Free Alert"
+
+on:
+  schedule:
+    # Runs every day at 04:00 KST (19:00 UTC)
+    - cron: '0 19 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+  push:
+    branches: [ master, main ]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/welfare_sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: "Sync Latest Welfare Data & Dispatch Free Alerts"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Collector & AI Normalizer
+        env:
+          DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python3 scripts/collector.py
+
+      - name: Dispatch Notifications (Telegram / Discord / Kakao)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 scripts/notifier.py
+
+      - name: Commit and Push Changes to GitOps Storage
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No data updates detected. Catalog is already up to date."
+          else
+            git commit -m "chore(data): automated welfare catalog sync [skip ci]"
+            git push
+          fi

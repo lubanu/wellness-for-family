@@ -28,6 +28,7 @@
 | **03** | [시스템 아키텍처 및 데이터 파이프라인](docs/03_system_architecture_and_data_pipeline.md) | 243개 지자체 고시공고 HWP/PDF LLM 파싱, PostgreSQL ERD, 매칭 알고리즘 |
 | **04** | [UI/UX 화면 설계서 및 사용자 플로우](docs/04_ui_ux_wireframes_and_user_flows.md) | 모바일 퍼스트 와이어프레임, 정보 구조도(IA), 1분 온보딩 및 서류 체크리스트 |
 | **05** | [사업화 전략 및 MVP 로드맵](docs/05_mvp_roadmap_and_business_model.md) | B2C Care+ 구독, B2B 임직원 복지 SaaS, 3단계 개발 로드맵 및 핵심 KPI |
+| **06** | [100% 무료 인프라 자동 최신화 가이드](docs/06_free_tier_infrastructure_and_automation.md) | GitHub Actions + GitOps DB + Gemini Flash + 텔레그램 무료 알림 파이프라인 |
 
 ---
 
@@ -63,13 +64,34 @@
 
 ---
 
-## 4. 시스템 아키텍처 및 파이프라인 (Architecture & Data Pipeline)
+## 4. 100% 무료 인프라 기반 자동 최신화 파이프라인 (Zero-Cost Online Infrastructure)
 
-- **공공 데이터 수집**: 공공데이터포털(보조금24 API, 복지로 API) + 243개 지자체 크롤러 (Scrapy/Celery).
-- **비정형 문서 AI 추출**: 지자체 고시공고 첨부파일(HWP, PDF) → Gemini Flash 기반 정규화 JSON 추출.
-- **백엔드/인프라**: FastAPI / Node.js, PostgreSQL(pgvector), Redis(캐싱/알림 큐).
-- **클라이언트**: Next.js (App Router), Tailwind CSS, PWA 지원.
-- **알림 채널**: 카카오 비즈메시지(알림톡) + FCM 푸시.
+본 서비스는 서버 호스팅 비용과 DB 유지비가 **영구히 0원($0/월)**인 100% 무료 온라인 인프라에서 구동되도록 완전히 구현되었습니다.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                 WelFamily 100% 무료 온라인 인프라 스택 ($0/월)               │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 1. [스케줄링 & 연산] GitHub Actions : 매일 새벽 04:00 KST 자동 실행 (무료)   │
+│ 2. [데이터 수집 & AI] 공공데이터포털 API + Google Gemini Flash 무료 티어    │
+│ 3. [영구 DB & 스토리지] GitOps Flat JSON DB (data/welfare_catalog.json)      │
+│ 4. [선택 클라우드 DB] Supabase Free Tier (500MB PostgreSQL 지원)             │
+│ 5. [글로벌 웹 호스팅] GitHub Pages / Cloudflare Pages (무료 SSL 및 CDN)      │
+│ 6. [무제한 모바일 알림] Telegram Bot API + Discord Webhook (100% 무료 푸시) │
+│ 7. [클라이언트 프라이버시] Browser LocalStorage (서버 DB $0 & 개인정보 완벽 보호)│
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 🚀 일일 자동 최신화 동작 방식
+1. **GitHub Actions 스케줄러 (`.github/workflows/welfare_sync.yml`)**:
+   - 매일 새벽 04:00 KST (또는 수동 실행)에 가상 컨테이너 실행.
+2. **수집 및 정규화 (`scripts/collector.py`)**:
+   - 보조금24 API 및 지자체 공고를 수집하고, 비정형 텍스트는 Gemini Flash가 3줄 요약/구비서류 JSON으로 정제.
+   - `data/welfare_catalog.json` 및 `data/latest_sync.json`에 저장 후 GitHub에 자동 커밋.
+3. **무료 푸시 알림 디스패치 (`scripts/notifier.py`)**:
+   - D-3 마감 임박 정책 및 신규 조례 발생 시 텔레그램/디스코드로 즉시 모바일 푸시 발송.
+4. **웹 자동 배포 (`.github/workflows/deploy_pages.yml`)**:
+   - 변경된 데이터가 GitHub Pages로 자동 배포되어 전 세계 사용자가 실시간 최신 정보 확인.
 
 ---
 
