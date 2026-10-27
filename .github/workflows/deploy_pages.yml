@@ -33,9 +33,13 @@ jobs:
 
       - name: Prepare Static Artifacts
         run: |
-          mkdir -p dist
+          mkdir -p dist/prototype
           cp prototype/index.html dist/index.html
+          cp prototype/widget.html dist/widget.html
+          cp prototype/index.html dist/prototype/index.html
+          cp prototype/widget.html dist/prototype/widget.html
           cp -r data dist/data
+          if [ -d "blog_posts" ]; then cp -r blog_posts dist/blog_posts; fi
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3

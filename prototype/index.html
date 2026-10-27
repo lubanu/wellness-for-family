@@ -95,26 +95,30 @@
 
   <!-- NAVIGATION TABS -->
   <nav class="bg-white border-b border-slate-200 sticky top-16 z-30">
-    <div class="max-w-6xl mx-auto px-4 flex space-x-8 text-sm font-semibold">
-      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 border-b-2 border-blue-600 text-blue-600 flex items-center space-x-2 transition">
+    <div class="max-w-6xl mx-auto px-4 flex space-x-6 sm:space-x-8 text-sm font-semibold overflow-x-auto hide-scrollbar">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 border-b-2 border-blue-600 text-blue-600 flex items-center space-x-1.5 transition shrink-0">
         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
         <span>대시보드</span>
       </button>
-      <button onclick="switchTab('explorer')" id="nav-explorer" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-2 transition">
+      <button onclick="switchTab('explorer')" id="nav-explorer" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
         <i data-lucide="search" class="w-4 h-4"></i>
         <span>맞춤 복지 탐색</span>
       </button>
-      <button onclick="switchTab('calendar')" id="nav-calendar" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-2 transition">
+      <button onclick="switchTab('calendar')" id="nav-calendar" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
         <i data-lucide="calendar" class="w-4 h-4"></i>
         <span>가족 복지 캘린더</span>
       </button>
-      <button onclick="switchTab('profile')" id="nav-profile" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-2 transition">
+      <button onclick="switchTab('profile')" id="nav-profile" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
         <i data-lucide="users" class="w-4 h-4"></i>
         <span>가구 조건 설정</span>
       </button>
-      <button onclick="switchTab('notifications')" id="nav-notifications" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-2 transition">
+      <button onclick="switchTab('notifications')" id="nav-notifications" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
         <i data-lucide="message-square" class="w-4 h-4"></i>
         <span>알림톡 미리보기</span>
+      </button>
+      <button onclick="switchTab('affiliate')" id="nav-affiliate" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
+        <i data-lucide="share-2" class="w-4 h-4 text-purple-600"></i>
+        <span class="text-purple-700">블로그·광고 연계 🚀</span>
       </button>
     </div>
   </nav>
@@ -570,6 +574,141 @@
       </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- 6. AFFILIATE & BLOG INTEGRATION VIEW -->
+    <!-- ========================================== -->
+    <div id="view-affiliate" class="space-y-6 hidden">
+      <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-blue-900 text-white rounded-2xl p-6 sm:p-7 shadow-lg relative overflow-hidden">
+        <div class="relative z-10">
+          <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-sm mb-3">
+            <i data-lucide="trending-up" class="w-3.5 h-3.5 text-yellow-300"></i>
+            <span>광고 블로그 & 제휴 마케팅 연계 허브</span>
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight mb-2">복지 콘텐츠 바이럴 & 고수익 제휴 자동화</h2>
+          <p class="text-xs sm:text-sm text-purple-200 max-w-2xl leading-relaxed">
+            월 수백만 건의 복지 검색 트래픽을 유입시키는 <strong>SEO 블로그 자동 발행</strong>, 블로거용 <strong>1분 복지 계산기 위젯</strong>, 그리고 카테고리별 <strong>맥락형 제휴 마케팅(쿠팡 파트너스, 이사견적 등)</strong>을 통해 서비스 성장을 가속합니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- Grid of 2 Key Features: Widget & SEO Blog -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Widget Card -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
+                <i data-lucide="code" class="w-5 h-5 text-purple-600"></i>
+                <span>블로그 임베드용 복지 계산기 위젯</span>
+              </h3>
+              <span class="text-[11px] font-bold px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full">바이럴 백링크</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+              티스토리, 네이버 블로그, 워드프레스에 아래 코드를 붙여넣으면 방문자가 글 안에서 직접 지원금을 계산해볼 수 있습니다. (체류 시간 및 애드센스 단가 상승)
+            </p>
+
+            <!-- Widget Live Preview Container -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden mb-4 bg-slate-50 p-2">
+              <iframe src="widget.html" class="w-full h-[280px] border-0 rounded-lg"></iframe>
+            </div>
+
+            <!-- Code Copy Snippet -->
+            <div class="relative bg-slate-900 text-slate-200 p-3 rounded-xl text-[11px] font-mono break-all mb-3">
+              <code>&lt;iframe src="https://welfamily.github.io/prototype/widget.html" width="100%" height="320" frameborder="0" style="border-radius: 16px;"&gt;&lt;/iframe&gt;</code>
+            </div>
+          </div>
+
+          <button onclick="copyWidgetCode()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl flex items-center justify-center space-x-1.5 transition shadow-sm">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span>위젯 HTML 코드 복사하기</span>
+          </button>
+        </div>
+
+        <!-- SEO Blog Posts Card -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
+                <i data-lucide="file-edit" class="w-5 h-5 text-blue-600"></i>
+                <span>자동 생성된 SEO 복지 블로그 글</span>
+              </h3>
+              <span class="text-[11px] font-bold px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">16개 포스팅 준비됨</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+              <code>scripts/blog_generator.py</code>가 생성한 애드센스 반응형 광고 슬롯 및 쿠팡 파트너스 제휴 박스가 포함된 최신 포스팅입니다.
+            </p>
+
+            <!-- Sample Post List -->
+            <div class="space-y-2 mb-4">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div class="flex items-center space-x-1.5">
+                    <span class="text-[10px] font-bold px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded">주거·이사</span>
+                    <span class="font-bold text-xs text-slate-800">관악구 청년 이사비 40만원 신청 자격 총정리</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400">이사 무료견적 제휴 + 애드센스 인아티클 포함</span>
+                </div>
+                <button onclick="previewSampleBlogPost('pol_gwanak_moving')" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-100 text-xs font-semibold rounded-lg text-slate-700">미리보기</button>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div class="flex items-center space-x-1.5">
+                    <span class="text-[10px] font-bold px-1.5 py-0.5 bg-emerald-100 text-emerald-800 rounded">영유아</span>
+                    <span class="font-bold text-xs text-slate-800">2026 부모급여 100만원 입금일 & 신청방법</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400">쿠팡 파트너스 분유/기저귀 특가 제휴 포함</span>
+                </div>
+                <button onclick="previewSampleBlogPost('pol_parent_0')" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-100 text-xs font-semibold rounded-lg text-slate-700">미리보기</button>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div class="flex items-center space-x-1.5">
+                    <span class="text-[10px] font-bold px-1.5 py-0.5 bg-blue-100 text-blue-800 rounded">청년금융</span>
+                    <span class="font-bold text-xs text-slate-800">청년도약계좌 5000만원 만들기 정부기여금 정리</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400">1금융권 고금리 파킹통장 비교 제휴 포함</span>
+                </div>
+                <button onclick="previewSampleBlogPost('pol_youth_jump')" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-100 text-xs font-semibold rounded-lg text-slate-700">미리보기</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-[11px] text-slate-400 text-center">
+            * <code>python3 scripts/blog_generator.py</code> 실행 시 <code>blog_posts/</code>에 자동 생성
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Affiliate Partner Matrix -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <h3 class="font-bold text-slate-900 text-base mb-3 flex items-center space-x-2">
+          <i data-lucide="handshake" class="w-5 h-5 text-indigo-600"></i>
+          <span>카테고리별 맥락 맞춤형 제휴 네트워크 (CPA/CPS)</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="font-bold text-slate-900 block mb-1">🏠 주거 / 이사 지원금</span>
+            <p class="text-slate-600 text-[11px] mb-2">포장이사 무료 견적 비교, 인터넷 가입 현금 사은품</p>
+            <span class="text-indigo-600 font-extrabold text-xs">건당 ₩15,000 ~ ₩70,000</span>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="font-bold text-slate-900 block mb-1">👶 출산 / 영유아 (부모급여)</span>
+            <p class="text-slate-600 text-[11px] mb-2">쿠팡 파트너스 기저귀·분유 로켓배송, 국민행복카드</p>
+            <span class="text-indigo-600 font-extrabold text-xs">구매액의 3~5% + 카드 10만</span>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="font-bold text-slate-900 block mb-1">💳 청년 금융 / 자산형성</span>
+            <p class="text-slate-600 text-[11px] mb-2">고금리 파킹통장, CMA, 청년도약계좌 은행 비교</p>
+            <span class="text-indigo-600 font-extrabold text-xs">개설 건당 ₩10,000 ~ ₩30,000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- ========================================== -->
@@ -628,6 +767,23 @@
             <i data-lucide="phone" class="w-3.5 h-3.5 text-slate-400"></i>
             <span><strong>문의처:</strong> 02-879-5931</span>
           </div>
+        </div>
+
+        <!-- Contextual Affiliate Callout Box -->
+        <div id="modal-affiliate-box" class="p-3.5 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 border border-blue-200 rounded-xl space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold px-2 py-0.5 bg-blue-600 text-white rounded" id="modal-aff-tag">💡 추천 제휴 혜택</span>
+            <span class="text-[10px] text-slate-400">공식 행정과 무관한 편의 제휴</span>
+          </div>
+          <h5 class="font-bold text-xs text-slate-900" id="modal-aff-title">📦 이사 전 필수! 포장이사 무료 비교견적</h5>
+          <p class="text-[11px] text-slate-600" id="modal-aff-desc">이사비 지원 신청 전, 검증된 이사업체 무료 방문 견적과 인터넷 최대 현금 혜택을 확인해보세요.</p>
+          <div class="pt-1">
+            <a href="#" target="_blank" id="modal-aff-link" class="inline-flex items-center space-x-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition">
+              <span id="modal-aff-btn-text">무료 비교견적 받기</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 ml-1"></i>
+            </a>
+          </div>
+          <p class="text-[10px] text-slate-400 pt-1">※ 본 영역은 제휴마케팅 활동의 일환으로 일정액의 수수료를 제공받을 수 있습니다.</p>
         </div>
 
         <!-- Action Buttons -->
@@ -872,16 +1028,17 @@
     // ==========================================
     function switchTab(tabId) {
       currentTab = tabId;
-      const tabs = ['dashboard', 'explorer', 'calendar', 'profile', 'notifications'];
+      const tabs = ['dashboard', 'explorer', 'calendar', 'profile', 'notifications', 'affiliate'];
       tabs.forEach(t => {
         const view = document.getElementById(`view-${t}`);
         const nav = document.getElementById(`nav-${t}`);
+        if (!view || !nav) return;
         if (t === tabId) {
           view.classList.remove('hidden');
-          nav.className = "py-3 border-b-2 border-blue-600 text-blue-600 flex items-center space-x-2 transition";
+          nav.className = "py-3 border-b-2 border-blue-600 text-blue-600 flex items-center space-x-1.5 transition shrink-0";
         } else {
           view.classList.add('hidden');
-          nav.className = "py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-2 transition";
+          nav.className = "py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0";
         }
       });
       lucide.createIcons();
@@ -1065,8 +1222,46 @@
         docsContainer.appendChild(item);
       });
 
+      // Contextual Affiliate Box Setup
+      const affTitle = document.getElementById('modal-aff-title');
+      const affDesc = document.getElementById('modal-aff-desc');
+      const affBtn = document.getElementById('modal-aff-btn-text');
+      const affTag = document.getElementById('modal-aff-tag');
+
+      if (p.category === 'HOUSING') {
+        affTag.innerText = "📦 이사·주거 제휴";
+        affTitle.innerText = "📦 이사 전 필수! 포장이사 무료 비교견적";
+        affDesc.innerText = "이사비 지원 신청 전, 관내 검증된 이사업체 무료 방문 견적과 인터넷 최대 현금 사은품을 확인해보세요.";
+        affBtn.innerText = "포장이사 무료 비교견적 받기";
+      } else if (p.category === 'CARE' || p.category === 'VOUCHER') {
+        affTag.innerText = "👶 육아용품 제휴";
+        affTitle.innerText = "👶 국민행복카드 바우처 전액 사용 가능처 특가";
+        affDesc.innerText = "바우처 지급 즉시 사용 가능한 기저귀, 친환경 분유, 신생아 인기 필수템 로켓배송 최저가전을 확인해보세요.";
+        affBtn.innerText = "로켓배송 영유아 인기 필수템 보기";
+      } else {
+        affTag.innerText = "💰 스마트 금융 제휴";
+        affTitle.innerText = "💰 지원금 입금 전용 고금리 수시입출금 파킹통장";
+        affDesc.innerText = "지원금 통장 등록 시 연 최대 3.5%~4.0% 금리와 수수료 면제 혜택을 제공하는 비대면 파킹통장을 확인해보세요.";
+        affBtn.innerText = "1금융권 고금리 파킹통장 비교";
+      }
+
       document.getElementById('policy-modal').classList.remove('hidden');
       lucide.createIcons();
+    }
+
+    function copyWidgetCode() {
+      const code = `<iframe src="https://welfamily.github.io/prototype/widget.html" width="100%" height="320" frameborder="0" style="border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);"></iframe>`;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('블로그용 위젯 HTML 코드가 클립보드에 복사되었습니다!\n티스토리/네이버 블로그/워드프레스 에디터의 HTML 모드에 붙여넣으세요.');
+      }).catch(() => {
+        prompt('아래 코드를 복사하여 블로그에 붙여넣으세요:', code);
+      });
+    }
+
+    function previewSampleBlogPost(policyId) {
+      const p = POLICIES.find(x => x.id === policyId);
+      if (!p) return;
+      alert(`[SEO 블로그 글 미리보기]\n\n제목: [2026 최신] ${p.regionName} ${p.title} 신청 자격 및 필수 서류 총정리\n\n📌 3줄 핵심 요약:\n• 누가: ${p.summary3[0]}\n• 얼마: ${p.summary3[1]}\n• 어떻게: ${p.summary3[2]}\n\n(애드센스 인아티클 광고 코드 2개 + 쿠팡/이사 제휴 배너 + 1분 위젯 자동 포함)\n* 전체 Markdown 원문은 blog_posts/${policyId}.md에 자동 저장되어 있습니다.`);
     }
 
     function closePolicyModal() {

@@ -35,6 +35,10 @@ jobs:
         run: |
           python3 scripts/collector.py
 
+      - name: Generate SEO Blog Posts & Affiliate Content
+        run: |
+          python3 scripts/blog_generator.py
+
       - name: Dispatch Notifications (Telegram / Discord / Kakao)
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -47,10 +51,10 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/
+          git add data/ blog_posts/
           if git diff --staged --quiet; then
             echo "No data updates detected. Catalog is already up to date."
           else
-            git commit -m "chore(data): automated welfare catalog sync [skip ci]"
+            git commit -m "chore(data): automated welfare catalog & blog sync [skip ci]"
             git push
           fi

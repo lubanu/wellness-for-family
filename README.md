@@ -29,6 +29,7 @@
 | **04** | [UI/UX 화면 설계서 및 사용자 플로우](docs/04_ui_ux_wireframes_and_user_flows.md) | 모바일 퍼스트 와이어프레임, 정보 구조도(IA), 1분 온보딩 및 서류 체크리스트 |
 | **05** | [사업화 전략 및 MVP 로드맵](docs/05_mvp_roadmap_and_business_model.md) | B2C Care+ 구독, B2B 임직원 복지 SaaS, 3단계 개발 로드맵 및 핵심 KPI |
 | **06** | [100% 무료 인프라 자동 최신화 가이드](docs/06_free_tier_infrastructure_and_automation.md) | GitHub Actions + GitOps DB + Gemini Flash + 텔레그램 무료 알림 파이프라인 |
+| **07** | [광고 및 블로그 제휴 마케팅 연계 전략](docs/07_advertising_and_blog_affiliate_strategy.md) | SEO 복지 블로그 자동 발행, 애드센스 슬롯, 쿠팡 파트너스, 블로그 임베드 위젯 |
 
 ---
 
@@ -88,14 +89,30 @@
 2. **수집 및 정규화 (`scripts/collector.py`)**:
    - 보조금24 API 및 지자체 공고를 수집하고, 비정형 텍스트는 Gemini Flash가 3줄 요약/구비서류 JSON으로 정제.
    - `data/welfare_catalog.json` 및 `data/latest_sync.json`에 저장 후 GitHub에 자동 커밋.
-3. **무료 푸시 알림 디스패치 (`scripts/notifier.py`)**:
+3. **SEO 블로그 글 자동 생성 (`scripts/blog_generator.py`)**:
+   - 최신 정책 데이터를 바탕으로 애드센스 인아티클 광고 코드와 쿠팡 파트너스/이사 제휴 박스가 포함된 Markdown 블로그 포스팅(`blog_posts/`) 자동 생성.
+4. **무료 푸시 알림 디스패치 (`scripts/notifier.py`)**:
    - D-3 마감 임박 정책 및 신규 조례 발생 시 텔레그램/디스코드로 즉시 모바일 푸시 발송.
-4. **웹 자동 배포 (`.github/workflows/deploy_pages.yml`)**:
-   - 변경된 데이터가 GitHub Pages로 자동 배포되어 전 세계 사용자가 실시간 최신 정보 확인.
+5. **웹 자동 배포 (`.github/workflows/deploy_pages.yml`)**:
+   - 변경된 데이터, 블로그 포스팅, 그리고 블로거용 위젯(`widget.html`)이 GitHub Pages로 자동 배포되어 전 세계 사용자가 실시간 최신 정보 확인.
 
 ---
 
-## 5. 인터랙티브 프로토타입 체험 (Interactive Prototype)
+## 5. 광고 및 광고 블로그 연계 모델 (Advertising & Affiliate Strategy)
+
+1. **SEO 블로그 자동 생성 엔진 (`scripts/blog_generator.py`)**:
+   - 네이버 블로그, 티스토리, 워드프레스용 최적화 포스팅 자동 생성.
+   - 고단가 키워드(부모급여, 청년월세, 이사비 등) 공략으로 구글 애드센스 및 카카오 애드핏 광고 수익 극대화.
+2. **카테고리별 맥락 맞춤형 제휴 커머스**:
+   - 주거/이사 지원금 ➔ 포장이사 무료 견적 비교(CPA ₩15,000~₩30,000) 및 인터넷 신규 가입 제휴(₩40,000~₩70,000).
+   - 출산/영유아 지원금 ➔ 쿠팡 파트너스 기저귀·분유 로켓배송 특가 및 국민행복카드 신규 발급 캐시백.
+   - 청년 금융 지원 ➔ 1금융권 고금리 파킹통장/CMA 계좌 개설 제휴.
+3. **외부 블로거용 무료 복지 계산기 위젯 (`prototype/widget.html`)**:
+   - 블로거가 포스팅에 1줄 아이프레임(`<iframe>`)으로 삽입하여 독자 체류 시간을 높이고, WelFamily로 무료 바이럴 백링크 유입 유도.
+
+---
+
+## 6. 인터랙티브 프로토타입 체험 (Interactive Prototype)
 
 본 저장소의 `prototype/index.html` 파일을 브라우저로 열면 다음 기능을 직접 체험해 볼 수 있습니다:
 - **프로필 동적 변경**: 거주지(서울 관악구, 경기 성남시, 부산 해운대구 등) 및 가구 구성(신혼부부, 영유아, 청년 1인가구) 변경에 따른 실시간 복지 목록 재계산.
