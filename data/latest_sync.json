@@ -1,5 +1,5 @@
 {
-  "last_sync_at": "2026-10-28T04:32:28.291412+09:00",
+  "last_sync_at": "2026-10-28 12:49:57 KST",
   "sync_status": "SUCCESS",
   "total_active_policies": 16,
   "breakdown": {
@@ -8,7 +8,6 @@
   },
   "metrics": {
     "urgent_dday_count": 1,
-    "newly_added_last_24h": 2,
     "sources_checked": [
       "행정안전부_대한민국 공공서비스(보조금24) API",
       "한국사회보장정보원_중앙부처복지서비스 API",
@@ -17,19 +16,5 @@
       "경기데이터드림 청년/복지 조례",
       "부산시 공공데이터포털"
     ]
-  },
-  "latest_alerts": [
-    {
-      "policy_id": "pol_gwanak_moving",
-      "title": "관악구 청년·신혼부부 이사비 및 중개보수 지원",
-      "alert_type": "URGENT_DDAY_D3",
-      "deadline": "2026-11-30"
-    },
-    {
-      "policy_id": "pol_parent_0",
-      "title": "2026 정부 공통 부모급여",
-      "alert_type": "REGULAR_PAYMENT_D25",
-      "pay_day": "2026-11-25"
-    }
-  ]
+  }
 }

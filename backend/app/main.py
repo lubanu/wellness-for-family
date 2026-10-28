@@ -44,6 +44,7 @@ def root():
         "version": settings.VERSION,
         "status": "ONLINE",
         "web_app_url": "/prototype/index.html",
+        "admin_url": "/prototype/admin.html",
         "widget_url": "/prototype/widget.html",
         "docs_url": "/docs",
         "description": "정부·지자체 맞춤 복지 진단 & 고수익 제휴·Care+ 구독 플랫폼 API"
