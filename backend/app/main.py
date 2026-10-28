@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 import os
 import json
@@ -26,12 +27,24 @@ app.add_middleware(
 
 app.include_router(api_router, prefix="/api/v1")
 
+# Mount prototype and data static directories for local all-in-one preview
+prototype_dir = settings.BASE_DIR / "prototype"
+data_dir = settings.BASE_DIR / "data"
+
+if prototype_dir.exists():
+    app.mount("/prototype", StaticFiles(directory=str(prototype_dir), html=True), name="prototype")
+
+if data_dir.exists():
+    app.mount("/data", StaticFiles(directory=str(data_dir)), name="data")
+
 @app.get("/")
 def root():
     return {
         "service": settings.PROJECT_NAME,
         "version": settings.VERSION,
         "status": "ONLINE",
+        "web_app_url": "/prototype/index.html",
+        "widget_url": "/prototype/widget.html",
         "docs_url": "/docs",
         "description": "정부·지자체 맞춤 복지 진단 & 고수익 제휴·Care+ 구독 플랫폼 API"
     }
