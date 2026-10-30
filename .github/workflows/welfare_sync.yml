@@ -28,6 +28,10 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install Dependencies
+        run: |
+          pip install --no-cache-dir -r backend/requirements.txt
+
       - name: Run Collector & AI Normalizer
         env:
           DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}

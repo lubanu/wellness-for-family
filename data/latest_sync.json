@@ -1,5 +1,5 @@
 {
-  "last_sync_at": "2026-10-28 12:49:57 KST",
+  "last_sync_at": "2026-10-30T13:50:10.483700+09:00",
   "sync_status": "SUCCESS",
   "total_active_policies": 16,
   "breakdown": {
@@ -8,6 +8,7 @@
   },
   "metrics": {
     "urgent_dday_count": 1,
+    "newly_added_last_24h": 0,
     "sources_checked": [
       "행정안전부_대한민국 공공서비스(보조금24) API",
       "한국사회보장정보원_중앙부처복지서비스 API",

@@ -42,3 +42,7 @@ htmlcov/
 # Environment Variables
 .env
 .env.local
+
+# Multi-Agent State
+.agents/
+

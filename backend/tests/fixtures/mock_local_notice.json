@@ -1,0 +1,139 @@
+{
+  "generated_at": "2026-10-29T13:00:00+09:00",
+  "total_items": 4,
+  "staged_policies": [
+    {
+      "stg_id": "stg_seoul_gwanak_moving_2026",
+      "title": "2026년 관악구 청년 전월세 중개보수 및 이사비 지원사업",
+      "region_code": "seoul_gwanak",
+      "region_name": "서울특별시 관악구",
+      "managing_org": "서울특별시 관악구 청년정책과",
+      "local_ordinance_basis": "서울특별시 관악구 청년 기본 조례 제12조",
+      "category": "CASH",
+      "amount_value": 400000,
+      "amount_text": "최대 40만 원 (실비 현금 지원)",
+      "application_period_type": "FIRST_COME_FIRST_SERVED",
+      "start_date": "2026-03-01",
+      "end_date": "2026-11-30",
+      "is_budget_limited": true,
+      "slot_capacity": 300,
+      "budget_status": "OPEN",
+      "is_urgent": false,
+      "target_eligibility": {
+        "min_age": 19,
+        "max_age": 39,
+        "income_limit_ratio": 150,
+        "required_tags": ["youth", "newlywed", "housing"]
+      },
+      "summary_3lines": [
+        "관악구로 전입한 지 1년 이내의 무주택 청년 및 신혼부부 가구",
+        "부동산 중개수수료 및 이사 용달 실비 합산 최대 40만 원 지원",
+        "선착순 예산 소진형 공고이므로 마감 전 온라인 신청 필수"
+      ],
+      "required_documents": [
+        {"name": "주민등록초본", "issuer": "정부24", "can_online": true},
+        {"name": "확정일자부 임대차계약서", "issuer": "본인 소지", "can_online": false}
+      ],
+      "application_url": "https://youth.seoul.go.kr",
+      "contact_phone": "02-879-5931"
+    },
+    {
+      "stg_id": "stg_gyeonggi_seongnam_youth_2026",
+      "title": "2026년 성남시 청년기본소득 2분기 접수",
+      "region_code": "gyeonggi_seongnam",
+      "region_name": "경기도 성남시",
+      "managing_org": "성남시 청년정책과",
+      "local_ordinance_basis": "성남시 청년배당 지급 조례 제5조",
+      "category": "VOUCHER",
+      "amount_value": 250000,
+      "amount_text": "분기별 25만 원 (연 최대 100만 원 성남사랑상품권)",
+      "application_period_type": "REGULAR",
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-30",
+      "is_budget_limited": false,
+      "slot_capacity": null,
+      "budget_status": "OPEN",
+      "is_urgent": false,
+      "target_eligibility": {
+        "min_age": 24,
+        "max_age": 24,
+        "income_limit_ratio": 999,
+        "required_tags": ["youth"]
+      },
+      "summary_3lines": [
+        "성남시에 3년 이상 주민등록을 두고 거주 중인 만 24세 청년",
+        "분기별 25만 원씩 연간 최대 100만 원 성남사랑상품권 모바일 지급",
+        "경기도 일자리플랫폼 잡아바 온라인 신청"
+      ],
+      "required_documents": [
+        {"name": "주민등록초본", "issuer": "정부24", "can_online": true}
+      ],
+      "application_url": "https://apply.jobaba.net",
+      "contact_phone": "1577-0075"
+    },
+    {
+      "stg_id": "stg_busan_busanjin_care_2026",
+      "title": "부산진구 다자녀 영유아 가정 가사돌봄 무료 파견 서비스",
+      "region_code": "busan_busanjin",
+      "region_name": "부산광역시 부산진구",
+      "managing_org": "부산진구 가족복지과",
+      "local_ordinance_basis": "부산광역시 부산진구 출산장려 및 양육지원에 관한 조례",
+      "category": "CARE",
+      "amount_value": 0,
+      "amount_text": "전액 무료 서비스 파견 (월 4회 가사지원)",
+      "application_period_type": "FIRST_COME_FIRST_SERVED",
+      "start_date": "2026-01-15",
+      "end_date": "2026-12-15",
+      "is_budget_limited": true,
+      "slot_capacity": 50,
+      "budget_status": "NEAR_EXHAUSTION",
+      "is_urgent": true,
+      "target_eligibility": {
+        "min_age": 0,
+        "max_age": 5,
+        "income_limit_ratio": 120,
+        "required_tags": ["multichild", "infant"]
+      },
+      "summary_3lines": [
+        "부산진구 거주 2자녀 이상 만 5세 이하 영유아 양육 가정",
+        "전문 가사관리사 월 4회 무료 파견 (현금 미지급, 서비스 제공)",
+        "부산진구 건강가정지원센터 전화 및 방문 신청"
+      ],
+      "required_documents": [
+        {"name": "주민등록등본", "issuer": "정부24", "can_online": true}
+      ],
+      "application_url": "https://busanjin.familynet.or.kr",
+      "contact_phone": "051-802-2004"
+    },
+    {
+      "stg_id": "stg_invalid_notice_2026",
+      "title": "비정상 조례 공고 테스트용",
+      "region_code": "seoul_invalid",
+      "region_name": "서울특별시 테스트구",
+      "managing_org": "오류테스트과",
+      "local_ordinance_basis": "테스트 조례",
+      "category": "UNKNOWN_CATEGORY",
+      "amount_value": -500000,
+      "amount_text": "음수 금액 오류",
+      "application_period_type": "FIRST_COME_FIRST_SERVED",
+      "start_date": "2026-12-31",
+      "end_date": "2026-01-01",
+      "is_budget_limited": true,
+      "slot_capacity": -10,
+      "budget_status": "CORRUPTED_STATUS",
+      "is_urgent": false,
+      "target_eligibility": {
+        "min_age": 50,
+        "max_age": 20,
+        "income_limit_ratio": -50,
+        "required_tags": []
+      },
+      "summary_3lines": [
+        "1줄 요약만 있는 불완전 요약"
+      ],
+      "required_documents": [],
+      "application_url": "invalid-url",
+      "contact_phone": "invalid-phone"
+    }
+  ]
+}

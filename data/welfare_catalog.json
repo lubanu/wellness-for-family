@@ -1,6 +1,6 @@
 {
   "version": "1.2.0",
-  "last_updated": "2026-10-28T04:32:28.291412+09:00",
+  "last_updated": "2026-10-30T13:50:10.483700+09:00",
   "total_policies": 16,
   "sources": [
     "공공데이터포털(data.go.kr) 보조금24 공공서비스 API",
@@ -10,11 +10,15 @@
   "policies": [
     {
       "id": "pol_parent_0",
+      "fingerprint": "27c6c4ff517528f3",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "2026 정부 공통 부모급여 (만 0세)",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "보건복지부",
+      "local_ordinance_basis": null,
       "category": "CASH",
       "category_name": "현금지원",
       "amount_value": 12000000,
@@ -25,10 +29,18 @@
         "income_limit_ratio": 999,
         "required_tags": [
           "infant"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 100,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "매월 25일 정기입금",
       "summary_3lines": [
@@ -40,24 +52,34 @@
         {
           "name": "사회보장급여 신청서",
           "issuer": "정부24 / 복지로 웹 서식",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         },
         {
           "name": "보호자 및 아동 명의 통장 사본",
           "issuer": "은행 앱 발급",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.bokjiro.go.kr",
-      "contact_phone": "129"
+      "contact_phone": "129",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_parent_1",
+      "fingerprint": "efc3bad1c1dce2ec",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "2026 정부 공통 부모급여 (만 1세)",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "보건복지부",
+      "local_ordinance_basis": null,
       "category": "CASH",
       "category_name": "현금지원",
       "amount_value": 6000000,
@@ -68,10 +90,18 @@
         "income_limit_ratio": 999,
         "required_tags": [
           "infant"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 100,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "매월 25일 정기입금",
       "summary_3lines": [
@@ -83,19 +113,28 @@
         {
           "name": "기존 신청 계좌 유지 시 서류 불필요",
           "issuer": "자동 연장",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.bokjiro.go.kr",
-      "contact_phone": "129"
+      "contact_phone": "129",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_child_allowance",
+      "fingerprint": "c927526eb5a9c3fd",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "정부 아동수당 (만 8세 미만)",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "보건복지부",
+      "local_ordinance_basis": null,
       "category": "CASH",
       "category_name": "현금지원",
       "amount_value": 1200000,
@@ -107,10 +146,18 @@
         "required_tags": [
           "infant",
           "multichild"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 100,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "매월 25일 정기입금",
       "summary_3lines": [
@@ -122,19 +169,28 @@
         {
           "name": "아동수당 지급신청서",
           "issuer": "정부24 / 복지로",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.gov.kr",
-      "contact_phone": "129"
+      "contact_phone": "129",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_first_encounter",
+      "fingerprint": "1efff1504405b068",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "첫만남이용권 바우처 (첫째 200만 / 둘째 300만)",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "보건복지부",
+      "local_ordinance_basis": null,
       "category": "VOUCHER",
       "category_name": "바우처",
       "amount_value": 2000000,
@@ -145,10 +201,18 @@
         "income_limit_ratio": 999,
         "required_tags": [
           "infant"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 100,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "출생 후 1년 이내 사용",
       "summary_3lines": [
@@ -160,19 +224,28 @@
         {
           "name": "국민행복카드 발급확인서",
           "issuer": "카드사 앱",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.bokjiro.go.kr",
-      "contact_phone": "129"
+      "contact_phone": "129",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_utility_discount",
+      "fingerprint": "8e2650c3d7109797",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "영유아 가구 한전 전기요금 30% 감면",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "한국전력공사 / 산업통상자원부",
+      "local_ordinance_basis": null,
       "category": "DISCOUNT",
       "category_name": "요금감면",
       "amount_value": 192000,
@@ -183,10 +256,18 @@
         "income_limit_ratio": 999,
         "required_tags": [
           "infant"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 100,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "상시 접수",
       "summary_3lines": [
@@ -198,24 +279,34 @@
         {
           "name": "주민등록등본",
           "issuer": "정부24",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         },
         {
           "name": "전기요금 고객번호",
           "issuer": "전기요금 고지서 또는 한전ON",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://cyber.kepco.co.kr",
-      "contact_phone": "123"
+      "contact_phone": "123",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_subfertility",
+      "fingerprint": "061201bd9097d07c",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "난임부부 시술비 지원사업 (소득기준 폐지)",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "보건복지부",
+      "local_ordinance_basis": null,
       "category": "CARE",
       "category_name": "의료·돌봄",
       "amount_value": 4400000,
@@ -226,10 +317,18 @@
         "income_limit_ratio": 999,
         "required_tags": [
           "newlywed"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 90,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "시술 전 신청 필수",
       "summary_3lines": [
@@ -241,24 +340,34 @@
         {
           "name": "난임진단서",
           "issuer": "난임시술 지정 의료기관",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         },
         {
           "name": "주민등록등본",
           "issuer": "정부24",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.gov.kr",
-      "contact_phone": "129"
+      "contact_phone": "129",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_youth_rent",
+      "fingerprint": "34b1ce11976c6a06",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "청년 월세 한시 특별지원 (월 20만원 지원)",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "국토교통부",
+      "local_ordinance_basis": null,
       "category": "HOUSING",
       "category_name": "주거·대출",
       "amount_value": 2400000,
@@ -270,10 +379,18 @@
         "required_tags": [
           "youth",
           "housing"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 88,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "상시 접수",
       "summary_3lines": [
@@ -285,29 +402,40 @@
         {
           "name": "임대차계약서 사본",
           "issuer": "본인 소지본",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         },
         {
           "name": "최근 3개월 월세 이체 확인증",
           "issuer": "은행 앱",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         },
         {
           "name": "가족관계증명서(상세)",
           "issuer": "대법원 전자가족관계등록시스템",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.bokjiro.go.kr",
-      "contact_phone": "1600-0777"
+      "contact_phone": "1600-0777",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_youth_jump",
+      "fingerprint": "68435a8f0b59c159",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "청년도약계좌 (정부기여금 + 비과세 혜택)",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "서민금융진흥원 / 금융위원회",
+      "local_ordinance_basis": null,
       "category": "CASH",
       "category_name": "금융·자산",
       "amount_value": 4500000,
@@ -318,10 +446,18 @@
         "income_limit_ratio": 150,
         "required_tags": [
           "youth"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 94,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "매월 초 가입 신청",
       "summary_3lines": [
@@ -333,19 +469,28 @@
         {
           "name": "소득금액증명원 (비대면 스크래핑)",
           "issuer": "국세청 홈택스",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.kinfa.or.kr",
-      "contact_phone": "1397"
+      "contact_phone": "1397",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_basic_pension",
+      "fingerprint": "ee01adeaef38a1f3",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "어르신 기초연금 (만 65세 이상)",
       "origin": "CENTRAL",
       "region_code": "ALL",
       "region_name": "대한민국 전국 공통",
       "managing_org": "보건복지부 / 국민연금공단",
+      "local_ordinance_basis": null,
       "category": "CASH",
       "category_name": "현금지원",
       "amount_value": 4017600,
@@ -356,10 +501,18 @@
         "income_limit_ratio": 70,
         "required_tags": [
           "elderly"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 90,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "매월 25일 정기입금",
       "summary_3lines": [
@@ -371,24 +524,34 @@
         {
           "name": "신분증 및 통장사본",
           "issuer": "본인 지참",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         },
         {
           "name": "금융정보제공동의서",
           "issuer": "주민센터 비치 서식",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         }
       ],
       "application_url": "https://www.bokjiro.go.kr",
-      "contact_phone": "1355"
+      "contact_phone": "1355",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_gwanak_moving",
+      "fingerprint": "b7c5273712525749",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "관악구 청년·신혼부부 이사비 및 중개보수 지원",
       "origin": "LOCAL",
       "region_code": "seoul_gwanak",
       "region_name": "서울특별시 관악구",
       "managing_org": "서울특별시 관악구 청년정책과",
+      "local_ordinance_basis": null,
       "category": "CASH",
       "category_name": "현금지원",
       "amount_value": 400000,
@@ -400,10 +563,18 @@
         "required_tags": [
           "newlywed",
           "housing"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 98,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": true,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": true,
       "dday_text": "2026.11.30 마감 (D-3)",
       "summary_3lines": [
@@ -415,34 +586,46 @@
         {
           "name": "주민등록등본",
           "issuer": "정부24 무료 발급",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         },
         {
           "name": "부동산 임대차계약서 사본",
           "issuer": "본인 소지본",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         },
         {
           "name": "중개보수 영수증 또는 이사비 영수증",
           "issuer": "업체 발급본",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         },
         {
           "name": "본인 통장 사본",
           "issuer": "은행 앱 캡처",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://youth.seoul.go.kr",
-      "contact_phone": "02-879-5931"
+      "contact_phone": "02-879-5931",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_seoul_care",
+      "fingerprint": "44665d943c395ae5",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "서울형 가사돌봄 서비스 (연 10회 지원)",
       "origin": "LOCAL",
       "region_code": "seoul",
       "region_name": "서울특별시 전체",
       "managing_org": "서울특별시 여성가족실",
+      "local_ordinance_basis": null,
       "category": "CARE",
       "category_name": "돌봄서비스",
       "amount_value": 500000,
@@ -454,10 +637,18 @@
         "required_tags": [
           "infant",
           "newlywed"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 92,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": true,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "상시 접수",
       "summary_3lines": [
@@ -469,29 +660,40 @@
         {
           "name": "주민등록등본",
           "issuer": "정부24",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         },
         {
           "name": "맞벌이 증빙(재직증명서)",
           "issuer": "회사 발급",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         },
         {
           "name": "건강보험료 납부확인서",
           "issuer": "국민건강보험공단",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://umppa.seoul.go.kr",
-      "contact_phone": "02-120"
+      "contact_phone": "02-120",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_gwanak_postpartum",
+      "fingerprint": "d08bb00d2435264f",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "관악구 산후조리비 지원 (관악사랑상품권)",
       "origin": "LOCAL",
       "region_code": "seoul_gwanak",
       "region_name": "서울특별시 관악구",
       "managing_org": "관악구 보건소 모자보건실",
+      "local_ordinance_basis": null,
       "category": "VOUCHER",
       "category_name": "바우처",
       "amount_value": 500000,
@@ -502,10 +704,18 @@
         "income_limit_ratio": 999,
         "required_tags": [
           "infant"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 96,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "출산일로부터 60일 이내",
       "summary_3lines": [
@@ -517,24 +727,34 @@
         {
           "name": "출생증명서",
           "issuer": "병원 발급",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         },
         {
           "name": "주민등록초본(주소이력 포함)",
           "issuer": "정부24",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://seoul-agi.seoul.go.kr",
-      "contact_phone": "02-879-7155"
+      "contact_phone": "02-879-7155",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_seongnam_youth",
+      "fingerprint": "1099bfdc54cda6cb",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "성남시 청년 기본소득 (분기별 25만원)",
       "origin": "LOCAL",
       "region_code": "gyeonggi_seongnam",
       "region_name": "경기도 성남시",
       "managing_org": "성남시 청년정책과",
+      "local_ordinance_basis": null,
       "category": "CASH",
       "category_name": "현금지원",
       "amount_value": 1000000,
@@ -545,10 +765,18 @@
         "income_limit_ratio": 999,
         "required_tags": [
           "youth"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 100,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "분기별 접수",
       "summary_3lines": [
@@ -560,19 +788,28 @@
         {
           "name": "주민등록초본",
           "issuer": "정부24",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://apply.jobaba.net",
-      "contact_phone": "031-729-8752"
+      "contact_phone": "031-729-8752",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_gyeonggi_postpartum",
+      "fingerprint": "0af42162b50bfd8f",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "경기도 산후조리비 지원 (출생아당 50만원)",
       "origin": "LOCAL",
       "region_code": "gyeonggi",
       "region_name": "경기도 전체",
       "managing_org": "경기도 보건복지국",
+      "local_ordinance_basis": null,
       "category": "VOUCHER",
       "category_name": "바우처",
       "amount_value": 500000,
@@ -583,10 +820,18 @@
         "income_limit_ratio": 999,
         "required_tags": [
           "infant"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 98,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "출생일 12개월 이내",
       "summary_3lines": [
@@ -598,19 +843,28 @@
         {
           "name": "주민등록등본",
           "issuer": "정부24",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://gg24.gg.go.kr",
-      "contact_phone": "031-120"
+      "contact_phone": "031-120",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_busan_birth",
+      "fingerprint": "f2ad0c90d730741b",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "부산시 출산지원금 (둘째 이후 300만원 추가)",
       "origin": "LOCAL",
       "region_code": "busan",
       "region_name": "부산광역시 전체",
       "managing_org": "부산광역시 출생장려협력과",
+      "local_ordinance_basis": null,
       "category": "CASH",
       "category_name": "현금지원",
       "amount_value": 3000000,
@@ -622,10 +876,18 @@
         "required_tags": [
           "infant",
           "multichild"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 95,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": false,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "출생 후 90일 내",
       "summary_3lines": [
@@ -637,19 +899,28 @@
         {
           "name": "출생신고서 및 주민등록등본",
           "issuer": "정부24",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.busan.go.kr",
-      "contact_phone": "051-120"
+      "contact_phone": "051-120",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     },
     {
       "id": "pol_haeundae_youth",
+      "fingerprint": "3b712ece317f20dd",
+      "source_id": null,
+      "source_type": "SYSTEM",
       "title": "해운대구 청년 자립정착금 및 월세 지원",
       "origin": "LOCAL",
       "region_code": "busan_haeundae",
       "region_name": "부산광역시 해운대구",
       "managing_org": "해운대구 청년정책담당",
+      "local_ordinance_basis": null,
       "category": "HOUSING",
       "category_name": "주거·대출",
       "amount_value": 1800000,
@@ -661,10 +932,18 @@
         "required_tags": [
           "youth",
           "housing"
-        ]
+        ],
+        "residence_condition": null,
+        "housing_types": []
       },
       "certainty_score": 90,
+      "application_period_type": "FIXED_PERIOD",
+      "start_date": null,
+      "end_date": null,
       "is_budget_limited": true,
+      "budget_status": "OPEN",
+      "slot_capacity": null,
+      "current_applicant_count": null,
       "is_urgent": false,
       "dday_text": "상반기 정기모집",
       "summary_3lines": [
@@ -676,16 +955,22 @@
         {
           "name": "임대차계약서",
           "issuer": "본인 소지본",
-          "can_online": false
+          "can_online": false,
+          "download_url": null
         },
         {
           "name": "주민등록등본",
           "issuer": "정부24",
-          "can_online": true
+          "can_online": true,
+          "download_url": null
         }
       ],
       "application_url": "https://www.haeundae.go.kr",
-      "contact_phone": "051-749-4000"
+      "contact_phone": "051-749-4000",
+      "version": 1,
+      "created_at": "2026-10-28T00:00:00+09:00",
+      "updated_at": "2026-10-28T00:00:00+09:00",
+      "last_verified_at": "2026-10-29T12:00:00+09:00"
     }
   ]
 }
