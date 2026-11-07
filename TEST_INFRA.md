@@ -37,9 +37,10 @@ Prior to this infrastructure, running test suites mutated production files (`dat
 
 ### 2.2 Autouse Isolation Sandbox
 `backend/tests/conftest.py` implements an `autouse=True` fixture `isolate_test_storage`:
-- Clones production catalog, sync metadata, and regions into pytest's temporary directory (`tmp_path / "data"`).
-- Replaces runtime references `settings.CATALOG_PATH`, `settings.SYNC_PATH`, and environment variables (`CATALOG_PATH`, `SYNC_PATH`, `QUARANTINE_PATH`, `CHANGELOGS_DIR`).
+- Copies frozen seed files from `backend/tests/fixtures/seed/` into pytest's temporary directory (`tmp_path / "data"`). It never reads the live `data/` folder, so tests pass the same way whatever the sync has written there.
+- Replaces the storage paths in `settings`, in environment variables (`CATALOG_PATH`, `SYNC_PATH`, `REGIONS_PATH`, `QUARANTINE_PATH`, `STAGING_PATH`, `CHANGELOGS_DIR`), and in `scripts.collector`.
 - Guarantees that any CRUD mutation or sync trigger executes strictly within the sandbox and is cleanly discarded upon test completion.
+- `backend/tests/test_isolation.py` guards the sandbox itself.
 
 ---
 
@@ -52,6 +53,9 @@ To achieve **100% offline determinism** without requiring external API keys or h
 | `backend/tests/fixtures/mock_bojo24.json` | Synthetic response from data.go.kr (Bojo24 `serviceList` API) | - Central cash normalization (Parent Allowance)<br>- Voucher normalization (First Encounter)<br>- Malformed item for quarantine isolation |
 | `backend/tests/fixtures/mock_bokjiro.json` | Synthetic response from SSIS (Bokjiro `NationalWelfarelist` API) | - LifeCycle & target characteristic mapping<br>- Cross-agency duplicate policy with Bojo24<br>- Corrupted record error isolation |
 | `backend/tests/fixtures/mock_local_notice.json` | Municipal announcements & staging queue items (`local_staging_queue.json`) | - Municipal ordinance metadata & slot limits<br>- Zero-amount in-kind care service<br>- Corrupted notice with inverted age ranges |
+| `backend/tests/fixtures/seed/` | Frozen copies of the original 16-policy catalog, sync metadata, and regions | - Starting data for every test<br>- Do not refresh these from `data/` |
+
+The `mock_*` files are synthetic. They show that the code agrees with itself, not that it fits the real government APIs.
 
 ---
 
@@ -65,17 +69,23 @@ backend/tests/
 ├── fixtures/                         # Deterministic synthetic JSON datasets
 │   ├── mock_bojo24.json
 │   ├── mock_bokjiro.json
-│   └── mock_local_notice.json
+│   ├── mock_local_notice.json
+│   └── seed/                         # Frozen starting data for every test
 ├── test_admin.py                     # Legacy Admin CMS & monetized affiliate tests (isolated)
 ├── test_backend.py                   # Public matching, catalog, and widget tests
-└── test_e2e_welfare_pipeline.py      # Comprehensive 4-Tier E2E Welfare Pipeline Test Suite
+├── test_collector.py                 # Collector normalization and fault tolerance tests
+├── test_data_integrity.py            # Schema, deduplication, and versioning unit tests
+├── test_e2e_welfare_pipeline.py      # Comprehensive 4-Tier E2E Welfare Pipeline Test Suite
+├── test_isolation.py                 # Guards for the test sandbox itself
+└── test_local_admin.py               # Local policy API and staging queue tests
 ```
 
-### 4.1 Progressive Testability & Import Guards
-To comply with Progressive Testability during milestone implementation (M1 -> M2 -> M3 -> M4 -> M5):
-- Tests dynamically import M2/M3/M4 modules via graceful import guards (`get_unified_policy_module()`, `get_deduplication_module()`, `get_versioning_module()`).
-- When a milestone's code has not yet been delivered by workers, tests cleanly skip (`pytest.skip("M... not yet implemented")`) rather than crashing pytest collection.
-- As workers implement M2-M4, tests automatically run and assert all business invariants.
+### 4.1 No Silent Passes
+Tests must fail loudly when code is missing or broken:
+- Import modules at the top of the file. Do not wrap them in `try/except` or `pytest.skip`.
+- Do not write fallback branches (`if hasattr(...)`, `if res.status_code == 404`) that test something else instead.
+- Do not put assertions behind `if file.exists():`. Assert that the file exists.
+- Read the sandbox through the `isolate_test_storage` fixture, never through `settings.BASE_DIR`.
 
 ---
 
