@@ -16,11 +16,11 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-# Configure CORS for GitHub Pages, local development, and external partner widgets
+# Local-only API. The public site is static and never calls this server.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -70,4 +70,4 @@ def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)

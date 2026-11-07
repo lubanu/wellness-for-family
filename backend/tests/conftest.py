@@ -21,6 +21,8 @@ if str(repo_dir) not in sys.path:
     sys.path.insert(0, str(repo_dir))
 
 import scripts.collector as collector_mod
+from app.api.v1.affiliate import CLICK_LOGS
+from app.api.v1.care_plus import ACTIVE_SUBSCRIPTIONS
 from app.core.config import settings
 from app.main import app
 
@@ -41,6 +43,10 @@ def isolate_test_storage(tmp_path, monkeypatch):
     Autouse fixture that gives every test its own temporary data directory,
     built only from tests/fixtures/seed/. It never reads the live data/ folder.
     """
+    # These in-memory lists would otherwise carry over from one test to the next
+    CLICK_LOGS.clear()
+    ACTIVE_SUBSCRIPTIONS.clear()
+
     temp_data_dir = tmp_path / "data"
     temp_data_dir.mkdir(parents=True, exist_ok=True)
 

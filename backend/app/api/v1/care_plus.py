@@ -10,7 +10,7 @@ router = APIRouter()
 ACTIVE_SUBSCRIPTIONS: List[Dict[str, Any]] = []
 
 class CarePlusRoiRequest(BaseModel):
-    unclaimed_amount_krw: int = Field(default=1800000, description="Amount of unclaimed benefits in KRW")
+    unclaimed_amount_krw: int = Field(..., description="Amount of unclaimed benefits in KRW")
     household_size: int = Field(default=3, description="Number of household members")
 
 class CarePlusSubscribeRequest(BaseModel):

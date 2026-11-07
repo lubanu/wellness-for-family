@@ -156,13 +156,13 @@
       <button onclick="switchAdminTab('policies')" id="nav-btn-policies" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition">
         <i data-lucide="file-text" class="w-4 h-4"></i>
         <span>복지 정책 통합 CMS</span>
-        <span class="ml-auto bg-slate-800 text-blue-300 text-[10px] px-2 py-0.5 rounded-full font-bold" id="sidebar-policy-badge">16</span>
+        <span class="ml-auto bg-slate-800 text-blue-300 text-[10px] px-2 py-0.5 rounded-full font-bold" id="sidebar-policy-badge">-</span>
       </button>
 
       <button onclick="switchAdminTab('care_plus')" id="nav-btn-care_plus" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition">
         <i data-lucide="crown" class="w-4 h-4 text-amber-400"></i>
         <span>Care+ 구독자 관리</span>
-        <span class="ml-auto bg-amber-500/20 text-amber-300 text-[10px] px-2 py-0.5 rounded-full font-bold" id="sidebar-sub-badge">100</span>
+        <span class="ml-auto bg-amber-500/20 text-amber-300 text-[10px] px-2 py-0.5 rounded-full font-bold" id="sidebar-sub-badge">-</span>
       </button>
 
       <button onclick="switchAdminTab('affiliate')" id="nav-btn-affiliate" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition">
@@ -235,10 +235,10 @@
             <div>
               <span class="text-xs font-bold text-slate-500 block mb-1">총 관리 복지 정책</span>
               <div class="flex items-baseline space-x-1.5">
-                <span class="text-2xl font-black text-slate-900" id="kpi-total-policies">16</span>
+                <span class="text-2xl font-black text-slate-900" id="kpi-total-policies">-</span>
                 <span class="text-xs text-slate-500">개 정책</span>
               </div>
-              <span class="text-[11px] text-blue-600 font-semibold block mt-1" id="kpi-policy-sub">중앙 9 / 지자체 7</span>
+              <span class="text-[11px] text-blue-600 font-semibold block mt-1" id="kpi-policy-sub">-</span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
               <i data-lucide="file-text" class="w-6 h-6"></i>
@@ -250,9 +250,9 @@
             <div>
               <span class="text-xs font-bold text-slate-500 block mb-1">Care+ 연간 구독 매출 (ARR)</span>
               <div class="flex items-baseline space-x-1.5">
-                <span class="text-2xl font-black text-amber-600" id="kpi-care-arr">₩3,900,000</span>
+                <span class="text-2xl font-black text-amber-600" id="kpi-care-arr">-</span>
               </div>
-              <span class="text-[11px] text-slate-500 font-semibold block mt-1">월 예상 MRR: <strong id="kpi-care-mrr" class="text-slate-800">₩325,000</strong></span>
+              <span class="text-[11px] text-slate-500 font-semibold block mt-1">월 예상 MRR: <strong id="kpi-care-mrr" class="text-slate-800">-</strong></span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
               <i data-lucide="crown" class="w-6 h-6"></i>
@@ -264,9 +264,9 @@
             <div>
               <span class="text-xs font-bold text-slate-500 block mb-1">제휴 커머스 예상 수익</span>
               <div class="flex items-baseline space-x-1.5">
-                <span class="text-2xl font-black text-emerald-600" id="kpi-affiliate-revenue">₩1,485,000</span>
+                <span class="text-2xl font-black text-emerald-600" id="kpi-affiliate-revenue">-</span>
               </div>
-              <span class="text-[11px] text-emerald-700 font-semibold block mt-1">누적 클릭 <span id="kpi-affiliate-clicks">42</span>건 (전환율 14.8%)</span>
+              <span class="text-[11px] text-emerald-700 font-semibold block mt-1">누적 클릭 <span id="kpi-affiliate-clicks">-</span>건 (전환율 14.8%)</span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <i data-lucide="trending-up" class="w-6 h-6"></i>
@@ -278,9 +278,9 @@
             <div>
               <span class="text-xs font-bold text-slate-500 block mb-1">자동 수집 파이프라인</span>
               <div class="flex items-center space-x-1.5">
-                <span class="text-xl font-black text-slate-900" id="kpi-pipeline-status">100% 정상</span>
+                <span class="text-xl font-black text-slate-900" id="kpi-pipeline-status">-</span>
               </div>
-              <span class="text-[10px] text-slate-400 block mt-1 truncate max-w-[150px]" id="kpi-last-sync-text">동기화: 2026-10-28 04:32</span>
+              <span class="text-[10px] text-slate-400 block mt-1 truncate max-w-[150px]" id="kpi-last-sync-text">-</span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
               <i data-lucide="database" class="w-6 h-6"></i>
@@ -470,7 +470,7 @@
           <div class="flex items-center space-x-3 text-right">
             <div>
               <span class="text-[11px] block font-bold text-slate-900">총 활성 회원수</span>
-              <span class="text-2xl font-black" id="care-sub-total-count">100명</span>
+              <span class="text-2xl font-black" id="care-sub-total-count">-</span>
             </div>
             <div class="pl-3 border-l border-slate-900/20">
               <span class="text-[11px] block font-bold text-slate-900">환불 청구율</span>
@@ -757,6 +757,7 @@
           document.getElementById('kpi-affiliate-revenue').innerText = `₩${stats.affiliate_monetization.estimated_commission_krw.toLocaleString()}`;
           document.getElementById('kpi-affiliate-clicks').innerText = stats.affiliate_monetization.total_clicks;
           document.getElementById('kpi-last-sync-text').innerText = `동기화: ${stats.pipeline_health.last_sync_at}`;
+          document.getElementById('kpi-pipeline-status').innerText = stats.pipeline_health.sync_status;
         }
 
         // Fetch Policies
@@ -1014,13 +1015,9 @@
             </span>
           </td>
           <td data-label="결제 수단" class="py-3 px-4 font-semibold text-slate-600">${s.payment_method}</td>
-          <td data-label="숨은 지원금" class="py-3 px-4 font-black text-emerald-600">${s.matched_unclaimed_benefit || '₩1,800,000'}</td>
-          <td data-label="환불보장 잔여일" class="py-3 px-4 font-bold text-amber-700">D-${s.guarantee_days_remaining || 350}일</td>
-          <td data-label="원클릭 작업" class="py-3 px-4 text-center">
-            <button onclick="alert('${s.user_name} 회원님의 정부24 자동완성 PDF 결합 팩이 발송되었습니다.')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded text-[11px] transition">
-              서류팩 재발송
-            </button>
-          </td>
+          <td data-label="숨은 지원금" class="py-3 px-4 font-black text-emerald-600">${s.matched_unclaimed_benefit || '-'}</td>
+          <td data-label="환불보장 잔여일" class="py-3 px-4 font-bold text-amber-700">${s.guarantee_days_remaining ?? '-'}</td>
+          <td data-label="원클릭 작업" class="py-3 px-4 text-center text-slate-400">-</td>
         `;
         tbody.appendChild(tr);
       });
@@ -1109,10 +1106,7 @@
     }
 
     function fallbackLocalData() {
-      document.getElementById('kpi-total-policies').innerText = "16";
-      document.getElementById('kpi-care-arr').innerText = "₩3,900,000";
-      document.getElementById('kpi-affiliate-revenue').innerText = "₩1,485,000";
-      document.getElementById('kpi-pipeline-status').innerText = "100% 정상";
+      document.getElementById('kpi-pipeline-status').innerText = "서버 연결 안 됨";
     }
 
     // Initialization

@@ -84,12 +84,7 @@ class MonetizationEngine:
     @staticmethod
     def calculate_care_plus_roi(unclaimed_amount: int) -> Dict[str, Any]:
         annual_fee = 39000
-        # If user has unclaimed benefits, calculate ROI percentage
-        if unclaimed_amount > 0:
-            roi_ratio = round((unclaimed_amount / annual_fee) * 100, 1)
-        else:
-            roi_ratio = 500.0
-            unclaimed_amount = 1800000
+        roi_ratio = round((unclaimed_amount / annual_fee) * 100, 1) if unclaimed_amount > 0 else 0.0
 
         return {
             "tier_name": "WelFamily Care+ (복지 케어 플러스)",

@@ -16,12 +16,35 @@ def test_admin_stats():
     data = res.json()
     assert "policies_overview" in data
     assert data["policies_overview"]["total_count"] >= 16
-    assert "care_plus_revenue" in data
-    assert data["care_plus_revenue"]["annual_recurring_revenue_krw"] > 0
-    assert "affiliate_monetization" in data
-    assert data["affiliate_monetization"]["total_clicks"] > 0
+    # No real subscribers or clicks exist yet, so nothing may be invented
+    assert data["care_plus_revenue"]["active_subscribers"] == 0
+    assert data["care_plus_revenue"]["annual_recurring_revenue_krw"] == 0
+    assert data["affiliate_monetization"]["total_clicks"] == 0
+    assert data["affiliate_monetization"]["estimated_commission_krw"] == 0
     assert "pipeline_health" in data
     assert data["pipeline_health"]["sync_status"] == "SUCCESS"
+
+def test_admin_stats_count_real_subscribers():
+    client.post("/api/v1/care-plus/subscribe", json={"billing_cycle": "ANNUAL"})
+    data = client.get("/api/v1/admin/stats").json()
+    assert data["care_plus_revenue"]["active_subscribers"] == 1
+    assert data["care_plus_revenue"]["annual_recurring_revenue_krw"] == 39000
+
+def test_other_websites_cannot_call_the_local_api():
+    res = client.options(
+        "/api/v1/admin/policies/pol_parent_0",
+        headers={"Origin": "https://attacker.example", "Access-Control-Request-Method": "DELETE"},
+    )
+    assert res.status_code == 400
+    assert "access-control-allow-origin" not in res.headers
+
+def test_local_pages_can_call_the_local_api():
+    res = client.options(
+        "/api/v1/admin/policies/pol_parent_0",
+        headers={"Origin": "http://127.0.0.1:8000", "Access-Control-Request-Method": "DELETE"},
+    )
+    assert res.status_code == 200
+    assert res.headers["access-control-allow-origin"] == "http://127.0.0.1:8000"
 
 def test_admin_policies_list():
     res = client.get("/api/v1/admin/policies")
@@ -100,13 +123,16 @@ def test_admin_subscribers():
     res = client.get("/api/v1/admin/subscribers")
     assert res.status_code == 200
     data = res.json()
-    assert data["total_active"] >= 1
-    assert len(data["subscribers"]) >= 1
+    assert data["total_active"] == 0
+    assert data["subscribers"] == []
+
+    client.post("/api/v1/care-plus/subscribe", json={"user_name": "테스트"})
+    data = client.get("/api/v1/admin/subscribers").json()
+    assert data["total_active"] == 1
     sub = data["subscribers"][0]
     assert "subscription_id" in sub
-    assert "user_name" in sub
+    assert sub["user_name"] == "테스트"
     assert "billing_cycle" in sub
-    assert "guarantee_days_remaining" in sub
 
 def test_admin_affiliate_performance():
     res = client.get("/api/v1/admin/affiliate-performance")
@@ -117,5 +143,5 @@ def test_admin_affiliate_performance():
     deal = data["deals_performance"][0]
     assert "deal_id" in deal
     assert "unit_payout_krw" in deal
-    assert "total_clicks" in deal
-    assert "estimated_commission_krw" in deal
+    assert deal["total_clicks"] == 0
+    assert deal["estimated_commission_krw"] == 0
