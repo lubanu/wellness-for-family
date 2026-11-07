@@ -77,6 +77,7 @@ backend/tests/
 ├── test_data_integrity.py            # Schema, deduplication, and versioning unit tests
 ├── test_e2e_welfare_pipeline.py      # Comprehensive 4-Tier E2E Welfare Pipeline Test Suite
 ├── test_isolation.py                 # Guards for the test sandbox itself
+├── test_public_page.py               # Guards for public page content and design system rules
 └── test_local_admin.py               # Local policy API and staging queue tests
 ```
 
