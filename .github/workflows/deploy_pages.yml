@@ -1,12 +1,7 @@
 name: "Deploy WelFamily to GitHub Pages"
 
+# Manual only until the go-public gate (after P4).
 on:
-  push:
-    branches: [ master, main ]
-    paths:
-      - 'prototype/**'
-      - 'data/**'
-      - '.github/workflows/deploy_pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -33,13 +28,16 @@ jobs:
 
       - name: Prepare Static Artifacts
         run: |
-          mkdir -p dist/prototype
+          mkdir -p dist/data
           cp prototype/index.html dist/index.html
-          cp prototype/widget.html dist/widget.html
-          cp prototype/index.html dist/prototype/index.html
-          cp prototype/widget.html dist/prototype/widget.html
-          cp -r data dist/data
-          if [ -d "blog_posts" ]; then cp -r blog_posts dist/blog_posts; fi
+          cp data/welfare_catalog.json data/latest_sync.json dist/data/
+
+      - name: Block Unfinished Content
+        run: |
+          if grep -rEn 'localhost|쿠팡|ca-pub|5,400,000|Care\+' dist; then
+            echo "Unfinished content found in the deploy output."
+            exit 1
+          fi
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3

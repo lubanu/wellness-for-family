@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from app.core.config import settings
 from app.services.matching_engine import MatchingEngine
@@ -75,18 +75,11 @@ def get_admin_dashboard_stats():
     # Care+ metrics
     sub_count = len(ACTIVE_SUBSCRIPTIONS)
     total_arr = sum(sub.get("paid_amount_krw", 0) for sub in ACTIVE_SUBSCRIPTIONS)
-    # Baseline demo revenue if list is empty
-    if total_arr == 0:
-        total_arr = 3900000
-        sub_count = 100
     estimated_mrr = round(total_arr / 12)
 
     # Affiliate metrics
     aff_clicks = len(CLICK_LOGS)
     aff_revenue = sum(log.get("estimated_cpa_krw", 0) for log in CLICK_LOGS)
-    if aff_clicks == 0:
-        aff_clicks = 42
-        aff_revenue = 1485000
 
     return {
         "policies_overview": {
@@ -98,18 +91,15 @@ def get_admin_dashboard_stats():
         "care_plus_revenue": {
             "active_subscribers": sub_count,
             "annual_recurring_revenue_krw": total_arr,
-            "monthly_recurring_revenue_krw": estimated_mrr,
-            "money_back_guarantee_claims": 0
+            "monthly_recurring_revenue_krw": estimated_mrr
         },
         "affiliate_monetization": {
             "total_clicks": aff_clicks,
-            "estimated_commission_krw": aff_revenue,
-            "conversion_rate_percentage": 14.8
+            "estimated_commission_krw": aff_revenue
         },
         "pipeline_health": {
-            "last_sync_at": sync_meta.get("last_sync_at", "2026-10-28 04:00:00 KST"),
-            "sync_status": sync_meta.get("sync_status", "SUCCESS"),
-            "sources_active_count": 6
+            "last_sync_at": sync_meta.get("last_sync_at"),
+            "sync_status": sync_meta.get("sync_status", "UNKNOWN")
         }
     }
 
@@ -253,53 +243,6 @@ def trigger_data_sync():
 @router.get("/subscribers")
 def list_subscribers():
     subs = list(ACTIVE_SUBSCRIPTIONS)
-    if not subs:
-        # Provide sample VIP list if none created yet
-        now = datetime.utcnow()
-        subs = [
-            {
-                "subscription_id": "sub_vip_0001",
-                "user_name": "김민준",
-                "phone_number": "010-8921-1234",
-                "billing_cycle": "ANNUAL",
-                "paid_amount_krw": 39000,
-                "payment_method": "KAKAO_PAY",
-                "status": "ACTIVE",
-                "created_at": (now - timedelta(days=12)).isoformat() + "Z",
-                "expires_at": (now + timedelta(days=353)).isoformat() + "Z",
-                "guarantee_days_remaining": 353,
-                "matched_unclaimed_benefit": "₩1,800,000",
-                "vip_doc_pack_downloaded": True
-            },
-            {
-                "subscription_id": "sub_vip_0002",
-                "user_name": "이지현",
-                "phone_number": "010-3342-9981",
-                "billing_cycle": "ANNUAL",
-                "paid_amount_krw": 39000,
-                "payment_method": "TOSS_PAY",
-                "status": "ACTIVE",
-                "created_at": (now - timedelta(days=5)).isoformat() + "Z",
-                "expires_at": (now + timedelta(days=360)).isoformat() + "Z",
-                "guarantee_days_remaining": 360,
-                "matched_unclaimed_benefit": "₩2,800,000",
-                "vip_doc_pack_downloaded": True
-            },
-            {
-                "subscription_id": "sub_vip_0003",
-                "user_name": "박철수",
-                "phone_number": "010-5511-7722",
-                "billing_cycle": "MONTHLY",
-                "paid_amount_krw": 3900,
-                "payment_method": "CARD",
-                "status": "ACTIVE",
-                "created_at": (now - timedelta(days=2)).isoformat() + "Z",
-                "expires_at": (now + timedelta(days=28)).isoformat() + "Z",
-                "guarantee_days_remaining": 28,
-                "matched_unclaimed_benefit": "₩3,520,000",
-                "vip_doc_pack_downloaded": False
-            }
-        ]
     return {
         "total_active": len(subs),
         "subscribers": subs
@@ -313,10 +256,7 @@ def get_affiliate_performance():
     for d in deals:
         cat = d.get("category", "CASH")
         payout = d.get("estimated_cpa_krw", 20000)
-        # Calculate clicks from actual logs or realistic baseline
         matching_clicks = sum(1 for log in CLICK_LOGS if log.get("deal_id") == d["id"])
-        if matching_clicks == 0:
-            matching_clicks = 8 if cat == "HOUSING" else (15 if cat == "CARE" else 6)
         
         est_revenue = matching_clicks * payout
         performance.append({

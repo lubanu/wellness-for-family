@@ -156,3 +156,11 @@ def test_widgets_endpoint():
     res_embed = client.get("/api/v1/widgets/embed-code")
     assert res_embed.status_code == 200
     assert "<iframe" in res_embed.json()["iframe_snippet"]
+
+
+def test_care_plus_roi_invents_nothing_when_unclaimed_is_zero():
+    res = client.post("/api/v1/care-plus/calculate-roi", json={"unclaimed_amount_krw": 0})
+    assert res.status_code == 200
+    data = res.json()
+    assert data["estimated_unclaimed_benefit_krw"] == 0
+    assert data["expected_roi_percentage"] == "0.0%"

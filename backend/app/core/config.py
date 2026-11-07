@@ -16,8 +16,8 @@ class Settings:
     STAGING_PATH: str = os.getenv("STAGING_PATH", str(BASE_DIR / "data" / "local_staging_queue.json"))
     QUARANTINE_PATH: str = os.getenv("QUARANTINE_PATH", str(BASE_DIR / "data" / "quarantine_records.json"))
     
-    # CORS
-    BACKEND_CORS_ORIGINS: list = ["*"]
+    # CORS: this API is local-only. Other websites must not be able to call it.
+    BACKEND_CORS_ORIGINS: list = ["http://127.0.0.1:8000", "http://localhost:8000"]
     
     # Care+ Subscription Pricing (KRW)
     CARE_PLUS_MONTHLY_PRICE: int = 3900

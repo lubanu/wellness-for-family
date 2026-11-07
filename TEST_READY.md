@@ -1,5 +1,9 @@
 # WelFamily Test Readiness Declaration (`TEST_READY.md`)
 
+> **Historical record.** This file describes the state on 2026-10-29 and is no longer current.
+> The skips and import guards it mentions are gone. See [TEST_INFRA.md](TEST_INFRA.md) for how the tests work today.
+> The tests use synthetic data, so passing them does not show that the code works with the real government APIs.
+
 > **Declaration Date**: 2026-10-29  
 > **Author**: E2E Test Writer (`teamwork_test_writer_e2e_1`)  
 > **Status**: **READY FOR MILESTONES M2, M3, M4, M5**  

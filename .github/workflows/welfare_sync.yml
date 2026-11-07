@@ -1,15 +1,8 @@
 name: "Daily Welfare Policy Sync & Free Alert"
 
+# Manual only. The daily schedule returns in P3, when the collector can read the real APIs.
 on:
-  schedule:
-    # Runs every day at 04:00 KST (19:00 UTC)
-    - cron: '0 19 * * *'
-  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
-  push:
-    branches: [ master, main ]
-    paths:
-      - 'scripts/**'
-      - '.github/workflows/welfare_sync.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write

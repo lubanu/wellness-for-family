@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>웰패밀리 (WelFamily) - 우리 가족 맞춤형 복지비서</title>
+  <title>웰패밀리 (WelFamily) - 지역 복지 정보 찾기 (시범)</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -102,60 +102,31 @@
         </div>
         <div>
           <span class="font-extrabold text-lg tracking-tight text-slate-900">WelFamily</span>
-          <span class="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200">우리 가족 맞춤 복지비서</span>
+          <span class="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200">지역 복지 정보 찾기 (시범)</span>
         </div>
       </div>
 
-      <!-- Quick Profile Switcher, Accessibility & Care+ VIP Badge -->
+      <!-- Accessibility & Region -->
       <div class="flex items-center space-x-2 sm:space-x-3">
         <button id="senior-mode-toggle" onclick="toggleSeniorMode()" aria-pressed="false" class="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 text-xs font-bold transition shadow-xs" title="시니어·저시력자를 위한 큰글씨 고대비 모드 토글">
           <i data-lucide="zoom-in" class="w-3.5 h-3.5 text-blue-600"></i>
           <span id="senior-mode-text">큰글씨</span>
         </button>
 
-        <button onclick="openCarePlusModal()" id="header-care-plus-btn" class="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 text-xs font-black transition shadow-xs" title="WelFamily Care+ 멤버십 혜택 모의계산">
-          <i data-lucide="crown" class="w-3.5 h-3.5 text-slate-950"></i>
-          <span id="header-care-plus-text">Care+ VIP</span>
-        </button>
-
-        <div class="hidden lg:flex items-center bg-slate-100 rounded-lg p-1 text-xs font-medium">
-          <button onclick="applyPreset('young_family')" id="preset-young" class="px-2.5 py-1 rounded-md bg-white shadow-xs font-bold text-blue-600 transition">영유아 신혼부부</button>
-          <button onclick="applyPreset('youth_single')" id="preset-youth" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition">청년 1인가구</button>
-          <button onclick="applyPreset('multi_child')" id="preset-multi" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition">다자녀·노부모</button>
-        </div>
-
         <button onclick="switchTab('profile')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs sm:text-sm font-semibold transition">
           <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i>
           <span id="header-region-text">서울 관악구</span>
         </button>
 
-        <button onclick="switchTab('notifications')" class="relative p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition" title="알림 확인">
-          <i data-lucide="bell" class="w-5 h-5"></i>
-          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
-          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-        </button>
       </div>
     </div>
   </header>
 
-  <!-- LIVE FREE-TIER SYNC STATUS BAR -->
-  <div class="bg-emerald-50 border-b border-emerald-200 py-1.5 px-4 text-xs text-emerald-800">
+  <!-- DATA STATUS NOTICE -->
+  <div class="bg-amber-50 border-b border-amber-200 py-1.5 px-4 text-xs text-amber-900">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
-      <div class="flex items-center space-x-2">
-        <span class="flex h-2 w-2 relative">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span class="font-bold">100% 무료 인프라 자동 최신화 파이프라인 가동 중</span>
-        <span class="text-emerald-600 hidden sm:inline">• GitHub Actions 매일 새벽 04:00 자동 동기화</span>
-      </div>
-      <div class="flex items-center space-x-3 text-[11px] font-medium text-emerald-700">
-        <span id="sync-time-indicator">최근 동기화: 2026-10-28 04:00 KST (16개 정책 활성)</span>
-        <button onclick="checkSyncNow()" class="underline hover:text-emerald-950 font-bold flex items-center space-x-0.5">
-          <i data-lucide="refresh-cw" class="w-3 h-3"></i>
-          <span>실시간 확인</span>
-        </button>
-      </div>
+      <span class="font-bold">시범 운영 중입니다. 내용이 오래되었거나 틀릴 수 있으니, 신청 전 공식 사이트에서 꼭 확인하세요.</span>
+      <span id="sync-time-indicator">데이터 기준일을 확인할 수 없습니다</span>
     </div>
   </div>
 
@@ -164,27 +135,15 @@
     <div class="max-w-6xl mx-auto px-4 flex space-x-6 sm:space-x-8 text-sm font-semibold overflow-x-auto hide-scrollbar">
       <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 border-b-2 border-blue-600 text-blue-600 flex items-center space-x-1.5 transition shrink-0">
         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-        <span>대시보드</span>
+        <span>내 지역 복지</span>
       </button>
       <button onclick="switchTab('explorer')" id="nav-explorer" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
         <i data-lucide="search" class="w-4 h-4"></i>
-        <span>맞춤 복지 탐색</span>
-      </button>
-      <button onclick="switchTab('calendar')" id="nav-calendar" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
-        <i data-lucide="calendar" class="w-4 h-4"></i>
-        <span>가족 복지 캘린더</span>
+        <span>복지 검색</span>
       </button>
       <button onclick="switchTab('profile')" id="nav-profile" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
         <i data-lucide="users" class="w-4 h-4"></i>
-        <span>가구 조건 설정</span>
-      </button>
-      <button onclick="switchTab('notifications')" id="nav-notifications" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
-        <i data-lucide="message-square" class="w-4 h-4"></i>
-        <span>알림톡 미리보기</span>
-      </button>
-      <button onclick="switchTab('affiliate')" id="nav-affiliate" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
-        <i data-lucide="share-2" class="w-4 h-4 text-purple-600"></i>
-        <span class="text-purple-700">블로그·광고 연계 🚀</span>
+        <span>지역 설정</span>
       </button>
     </div>
   </nav>
@@ -197,126 +156,14 @@
     <!-- ========================================== -->
     <div id="view-dashboard" class="space-y-6">
 
-      <!-- WELCOME HERO & ANNUAL CASH BENEFIT CARD -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <!-- Main Benefit KPI -->
-        <div class="md:col-span-2 bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-900 text-white rounded-2xl p-6 sm:p-7 shadow-lg relative overflow-hidden">
-          <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
-          <div class="relative z-10">
-            <div class="flex items-center justify-between mb-3">
-              <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-sm border border-white/20">
-                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-yellow-300"></i>
-                <span>2026 실시간 AI 매칭 완료</span>
-              </span>
-              <span id="dash-family-badge" class="text-xs text-blue-200">김민준님 가구 (총 3인)</span>
-            </div>
-
-            <h2 class="text-xl sm:text-2xl font-bold tracking-tight mb-1">우리 가족 예상 연간 복지 혜택</h2>
-            <div class="flex items-baseline space-x-2 mb-4">
-              <span class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white" id="total-annual-amount">5,400,000</span>
-              <span class="text-xl font-medium text-blue-200">원 / 년</span>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 pt-4 border-t border-white/15">
-              <div class="bg-white/10 rounded-xl p-3">
-                <span class="text-xs text-blue-200 block mb-0.5">현재 수령 중인 혜택</span>
-                <span class="text-lg font-bold text-emerald-300" id="current-claimed-amount">3,600,000 원</span>
-              </div>
-              <div class="bg-white/10 rounded-xl p-3 border border-yellow-400/40">
-                <span class="text-xs text-yellow-200 flex items-center space-x-1 mb-0.5">
-                  <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                  <span>아직 안 받은 혜택 발견!</span>
-                </span>
-                <span class="text-lg font-bold text-yellow-300" id="unclaimed-amount">1,800,000 원</span>
-              </div>
-            </div>
-          </div>
+      <!-- INTRO -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 mb-1">내 지역 복지 정보 찾기</h2>
+          <p class="text-sm text-slate-600">거주 지역을 고르면 전국 공통 복지와 그 지역의 복지를 보여 드립니다. 받을 수 있는지와 금액은 아직 계산하지 않습니다.</p>
         </div>
-
-        <!-- Quick Summary & Action Card -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="font-bold text-slate-800 flex items-center space-x-2">
-                <i data-lucide="shield-check" class="w-5 h-5 text-blue-600"></i>
-                <span>혜택 매칭 진단</span>
-              </h3>
-              <span class="text-xs px-2 py-0.5 bg-emerald-50 text-emerald-700 font-bold rounded">자격 충족 98%</span>
-            </div>
-
-            <ul class="space-y-3 text-xs text-slate-600">
-              <li class="flex items-start space-x-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
-                <span><strong class="text-slate-900" id="matched-count-text">8개 정책</strong> 조건 일치 (중앙 4개 / 지자체 4개)</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <i data-lucide="clock" class="w-4 h-4 text-orange-500 shrink-0 mt-0.5"></i>
-                <span><strong class="text-red-600" id="dday-alert-count">D-3 마감 임박 혜택</strong> 1건 존재</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <i data-lucide="file-text" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
-                <span>정부24 즉시 발급 가능 서류 3종 준비 필요</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="pt-4 mt-4 border-t border-slate-100">
-            <button onclick="switchTab('explorer')" class="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-bold flex items-center justify-center space-x-2 transition shadow-sm">
-              <span>내 혜택 전체 확인하기</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- WELFAMILY CARE+ REVENUE ACCELERATOR CARD -->
-      <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-600 rounded-2xl p-5 sm:p-6 text-slate-950 shadow-md relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="space-y-1.5 z-10">
-          <div class="flex items-center space-x-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-slate-950 text-amber-300 text-xs font-black tracking-wide flex items-center space-x-1">
-              <i data-lucide="crown" class="w-3.5 h-3.5"></i>
-              <span>WelFamily Care+ (복지 케어 플러스)</span>
-            </span>
-            <span class="text-xs font-bold text-slate-900 bg-white/40 px-2 py-0.5 rounded">100% 전액 환불 보장제</span>
-          </div>
-          <h3 class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-950">
-            아직 안 찾아간 우리 가족 숨은 지원금 <span class="underline decoration-slate-950 decoration-2 font-black" id="care-plus-unclaimed-highlight">1,800,000원</span>, 서류 0초 자동완성으로 챙기세요!
-          </h3>
-          <p class="text-xs sm:text-sm font-medium text-slate-900/90">
-            선착순 지자체 공고 0초 카톡 즉시 알림 + 정부24 필수서류 일괄 PDF 자동 결합 + 전문 행정사 1:1 상담
-          </p>
-        </div>
-        <div class="shrink-0 flex flex-col sm:flex-row items-center gap-2.5 z-10">
-          <div class="text-right hidden sm:block">
-            <span class="text-[11px] text-slate-900/80 block line-through">월 9,900원</span>
-            <span class="text-base font-black text-slate-950">월 3,900원 <span class="text-xs font-bold text-slate-800">(연 39,000원)</span></span>
-          </div>
-          <button onclick="openCarePlusModal()" class="w-full sm:w-auto px-5 py-3 bg-slate-950 hover:bg-slate-900 text-amber-300 font-extrabold rounded-xl text-sm transition shadow-lg flex items-center justify-center space-x-2">
-            <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
-            <span>ROI 모의계산 및 VIP 혜택받기</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- D-DAY URGENT BANNER -->
-      <div id="urgent-dday-banner" class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-orange-600 text-white flex items-center justify-center font-black text-sm shrink-0">
-            D-3
-          </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs font-bold px-2 py-0.5 bg-orange-200 text-orange-800 rounded">선착순 예산 소진형</span>
-              <span class="text-xs text-slate-500">2026.11.30 마감 예정</span>
-            </div>
-            <p class="font-bold text-slate-900 text-sm mt-0.5">
-              [지자체 특화] 서울 관악구 청년·신혼부부 부동산 중개보수 및 이사비 지원
-            </p>
-          </div>
-        </div>
-        <button onclick="openPolicyModal('pol_gwanak_moving')" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-lg transition shrink-0 flex items-center justify-center space-x-1">
-          <span>서류 챙겨서 신청하기</span>
-          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        <button onclick="switchTab('profile')" class="shrink-0 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-bold transition shadow-sm">
+          지역 설정하기
         </button>
       </div>
 
@@ -325,10 +172,10 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
           <div>
             <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-              <span>우리 가족 맞춤 복지 리스트</span>
-              <span class="text-xs font-semibold px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full" id="policy-list-badge">8건 매칭</span>
+              <span>내 지역 복지 목록</span>
+              <span class="text-xs font-semibold px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full" id="policy-list-badge">0건</span>
             </h3>
-            <p class="text-xs text-slate-500">설정하신 거주지 및 가구원 조건에 따라 자동 정렬된 결과입니다.</p>
+            <p class="text-xs text-slate-500">선택한 지역 기준 목록입니다. 수급 자격은 확인하지 않았습니다.</p>
           </div>
 
           <!-- Quick Filter Tabs -->
@@ -355,7 +202,7 @@
       <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
         <div class="relative">
           <i data-lucide="search" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-400"></i>
-          <input type="text" id="explorer-search" oninput="handleSearch()" placeholder="정책명, 지원 내용, 구비서류 키워드 검색 (예: 월세, 첫만남, 교통비, 난임)" class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+          <input type="text" id="explorer-search" oninput="handleSearch()" placeholder="정책명, 기관, 지원 내용 검색 (예: 월세, 첫만남, 난임)" class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
         </div>
 
         <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-100 text-xs font-medium">
@@ -371,15 +218,7 @@
 
       <!-- Results Count and Sort -->
       <div class="flex items-center justify-between text-xs text-slate-500">
-        <div>검색 결과 총 <strong class="text-slate-900" id="explorer-count">8</strong>건</div>
-        <div class="flex items-center space-x-2">
-          <span>정렬:</span>
-          <select id="explorer-sort" onchange="renderExplorer()" class="bg-transparent font-semibold text-slate-700 border-none focus:outline-none cursor-pointer">
-            <option value="amount">지원금액 높은 순</option>
-            <option value="certainty">매칭 확실도 순</option>
-            <option value="dday">마감 임박 순</option>
-          </select>
-        </div>
+        <div>검색 결과 총 <strong class="text-slate-900" id="explorer-count">0</strong>건</div>
       </div>
 
       <!-- Explorer Grid -->
@@ -389,432 +228,71 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 3. CALENDAR VIEW -->
-    <!-- ========================================== -->
-    <div id="view-calendar" class="space-y-6 hidden">
-      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
-          <div>
-            <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-              <i data-lucide="calendar" class="w-5 h-5 text-blue-600"></i>
-              <span>2026년 11월 우리 가족 복지 캘린더</span>
-            </h3>
-            <p class="text-xs text-slate-500">매월 정기 입금일과 놓치면 안 되는 신청 마감일이 한눈에 정리되어 있습니다.</p>
-          </div>
-          <div class="flex items-center space-x-3 text-xs font-semibold">
-            <span class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span><span>지원금 지급일</span></span>
-            <span class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-orange-500 inline-block"></span><span>신청 마감 D-Day</span></span>
-          </div>
-        </div>
-
-        <!-- Monthly Grid Mockup -->
-        <div class="border border-slate-200 rounded-xl overflow-hidden mb-6">
-          <div class="grid grid-cols-7 bg-slate-50 text-center py-2.5 text-xs font-bold text-slate-600 border-b border-slate-200">
-            <div class="text-red-500">일</div>
-            <div>월</div>
-            <div>화</div>
-            <div>수</div>
-            <div>목</div>
-            <div>금</div>
-            <div class="text-blue-500">토</div>
-          </div>
-          <div class="grid grid-cols-7 text-xs font-medium text-slate-700 divide-x divide-y divide-slate-100 min-h-[300px]">
-            <div class="p-2 text-slate-300">1</div>
-            <div class="p-2">2</div>
-            <div class="p-2">3</div>
-            <div class="p-2">4</div>
-            <div class="p-2">5</div>
-            <div class="p-2">6</div>
-            <div class="p-2 text-blue-500">7</div>
-
-            <div class="p-2 text-red-500">8</div>
-            <div class="p-2">9</div>
-            <div class="p-2">10</div>
-            <div class="p-2">11</div>
-            <div class="p-2">12</div>
-            <div class="p-2">13</div>
-            <div class="p-2 text-blue-500">14</div>
-
-            <div class="p-2 text-red-500">15</div>
-            <div class="p-2">16</div>
-            <div class="p-2">17</div>
-            <div class="p-2">18</div>
-            <div class="p-2">19</div>
-            <div class="p-2">20
-              <div class="mt-1 px-1.5 py-0.5 bg-blue-50 text-blue-700 text-[10px] rounded font-bold truncate">장애인연금</div>
-            </div>
-            <div class="p-2 text-blue-500">21</div>
-
-            <div class="p-2 text-red-500">22</div>
-            <div class="p-2">23</div>
-            <div class="p-2">24</div>
-            <div class="p-2 bg-emerald-50/60 font-bold text-emerald-800">25 💰
-              <div class="mt-1 space-y-0.5">
-                <div class="px-1.5 py-0.5 bg-emerald-600 text-white text-[10px] rounded font-bold truncate">부모급여 (50만)</div>
-                <div class="px-1.5 py-0.5 bg-emerald-500 text-white text-[10px] rounded font-bold truncate">아동수당 (10만)</div>
-              </div>
-            </div>
-            <div class="p-2">26</div>
-            <div class="p-2">27</div>
-            <div class="p-2 text-blue-500">28</div>
-
-            <div class="p-2 text-red-500">29</div>
-            <div class="p-2 bg-orange-50/80 font-bold text-orange-900">30 🚨
-              <div class="mt-1 px-1.5 py-0.5 bg-orange-600 text-white text-[10px] rounded font-bold truncate">관악 이사비 마감</div>
-            </div>
-            <div class="p-2 text-slate-300">1</div>
-            <div class="p-2 text-slate-300">2</div>
-            <div class="p-2 text-slate-300">3</div>
-            <div class="p-2 text-slate-300">4</div>
-            <div class="p-2 text-slate-300">5</div>
-          </div>
-        </div>
-
-        <!-- Schedule Timeline Cards -->
-        <h4 class="font-bold text-slate-800 text-sm mb-3">이번 달 상세 일정</h4>
-        <div class="space-y-3">
-          <div class="flex items-center justify-between p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl">
-            <div class="flex items-center space-x-3">
-              <span class="px-2.5 py-1 bg-emerald-600 text-white font-extrabold text-xs rounded-lg">11월 25일</span>
-              <div>
-                <p class="font-bold text-slate-900 text-sm">정기 복지급여 입금 (부모급여 + 아동수당)</p>
-                <p class="text-xs text-slate-600">지정 계좌로 합산 600,000원이 자동 입금됩니다.</p>
-              </div>
-            </div>
-            <span class="text-emerald-700 font-extrabold text-sm">+600,000원</span>
-          </div>
-
-          <div class="flex items-center justify-between p-3.5 bg-orange-50 border border-orange-200 rounded-xl">
-            <div class="flex items-center space-x-3">
-              <span class="px-2.5 py-1 bg-orange-600 text-white font-extrabold text-xs rounded-lg">11월 30일</span>
-              <div>
-                <p class="font-bold text-slate-900 text-sm">관악구 청년·신혼부부 이사비 지원 접수 마감</p>
-                <p class="text-xs text-slate-600">선착순 예산 소진형 사업으로 조기 마감될 수 있습니다.</p>
-              </div>
-            </div>
-            <button onclick="openPolicyModal('pol_gwanak_moving')" class="text-xs font-bold text-orange-700 underline">서류 확인</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- 4. PROFILE VIEW -->
+    <!-- 3. REGION VIEW -->
     <!-- ========================================== -->
     <div id="view-profile" class="space-y-6 hidden">
       <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+        <div class="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
           <div>
             <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-              <i data-lucide="sliders" class="w-5 h-5 text-blue-600"></i>
-              <span>가구 맞춤 조건 설정</span>
+              <i data-lucide="map-pin" class="w-5 h-5 text-blue-600"></i>
+              <span>거주 지역 설정</span>
             </h3>
-            <p class="text-xs text-slate-500">조건을 변경하면 실시간으로 수혜 가능한 복지 목록과 예상 지원금이 재계산됩니다.</p>
+            <p class="text-xs text-slate-500">선택한 지역과 전국 공통 복지를 보여 드립니다. 가구 조건에 따른 자격 확인은 준비 중입니다.</p>
           </div>
-          <button onclick="saveProfile()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition shadow-sm">
-            설정 저장 및 다시 계산
+          <button onclick="saveProfile()" class="shrink-0 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition shadow-sm">
+            지역 저장
           </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Left Column: Region & Household -->
-          <div class="space-y-4">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">거주 지역 (시/도 및 시/군/구)</label>
-              <div class="grid grid-cols-2 gap-2">
-                <select id="profile-sido" onchange="handleSidoChange()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500">
-                  <option value="seoul">서울특별시</option>
-                  <option value="gyeonggi">경기도</option>
-                  <option value="busan">부산광역시</option>
-                </select>
-                <select id="profile-sigungu" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500">
-                  <option value="gwanak">관악구</option>
-                  <option value="gangnam">강남구</option>
-                  <option value="mapo">마포구</option>
-                </select>
-              </div>
-              <p class="text-[11px] text-blue-600 mt-1">💡 243개 지자체 고유 복지 조례가 해당 지역 기준으로 매칭됩니다.</p>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">가구 구성원 현황</label>
-              <div class="space-y-2" id="member-list-container">
-                <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
-                  <span class="font-bold text-slate-800">본인 (김민준, 만 32세)</span>
-                  <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 font-bold rounded">직장가입자</span>
-                </div>
-                <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
-                  <span class="font-bold text-slate-800">배우자 (이서연, 만 30세)</span>
-                  <span class="text-xs px-2 py-0.5 bg-emerald-100 text-emerald-700 font-bold rounded">육아휴직 중</span>
-                </div>
-                <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
-                  <span class="font-bold text-slate-800">첫째 자녀 (김도윤, 만 14개월)</span>
-                  <span class="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 font-bold rounded">영유아</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Column: Income & Tags -->
-          <div class="space-y-4">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">간이 소득 구간 (기준 중위소득 환산)</label>
-              <select id="profile-income" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500">
-                <option value="under_50">기준 중위소득 50% 이하 (생계/의료급여 구간)</option>
-                <option value="under_100">기준 중위소득 100% 이하 (중위 100% 미만)</option>
-                <option value="under_150" selected>기준 중위소득 150% 이하 (신혼/맞벌이 다수 구간)</option>
-                <option value="under_180">기준 중위소득 180% 이하</option>
-                <option value="over_180">기준 중위소득 180% 초과 (소득 무관 혜택 대상)</option>
+        <div class="max-w-md space-y-4">
+          <div>
+            <span class="block text-xs font-bold text-slate-700 mb-1.5">거주 지역 (시/도 및 시/군/구)</span>
+            <div class="grid grid-cols-2 gap-2">
+              <select id="profile-sido" aria-label="시/도" onchange="handleSidoChange()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500">
+                <option value="seoul">서울특별시</option>
+                <option value="gyeonggi">경기도</option>
+                <option value="busan">부산광역시</option>
+              </select>
+              <select id="profile-sigungu" aria-label="시/군/구" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500">
+                <option value="gwanak">관악구</option>
+                <option value="gangnam">강남구</option>
+                <option value="mapo">마포구</option>
               </select>
             </div>
+            <p class="text-xs text-slate-500 mt-1">시범 운영 중이라 일부 지역만 선택할 수 있습니다.</p>
+          </div>
 
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">가구 특성 태그 (다중 선택)</label>
-              <div class="grid grid-cols-2 gap-2 text-xs">
-                <label class="flex items-center space-x-2 p-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
-                  <input type="checkbox" id="tag-newlywed" checked class="rounded text-blue-600 focus:ring-blue-500">
-                  <span class="font-semibold text-slate-700">신혼부부 (혼인 7년 이내)</span>
-                </label>
-                <label class="flex items-center space-x-2 p-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
-                  <input type="checkbox" id="tag-infant" checked class="rounded text-blue-600 focus:ring-blue-500">
-                  <span class="font-semibold text-slate-700">영유아 양육 (만 0~2세)</span>
-                </label>
-                <label class="flex items-center space-x-2 p-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
-                  <input type="checkbox" id="tag-multichild" class="rounded text-blue-600 focus:ring-blue-500">
-                  <span class="font-semibold text-slate-700">다자녀 (2자녀 이상)</span>
-                </label>
-                <label class="flex items-center space-x-2 p-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
-                  <input type="checkbox" id="tag-housing" checked class="rounded text-blue-600 focus:ring-blue-500">
-                  <span class="font-semibold text-slate-700">무주택 전월세 가구</span>
-                </label>
-              </div>
+          <!-- Privacy Notice -->
+          <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl text-xs space-y-2">
+            <div class="flex items-center space-x-1.5 text-emerald-800 font-bold">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+              <span>개인정보 안내</span>
             </div>
-
-            <!-- Free Tier Client-Side Privacy Notice & Backup -->
-            <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl text-xs space-y-2">
-              <div class="flex items-center space-x-1.5 text-emerald-800 font-bold">
-                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
-                <span>100% 무료 인프라 & 제로 서버 프라이버시</span>
-              </div>
-              <p class="text-slate-600 text-[11px] leading-relaxed">
-                가구원의 나이, 소득 등의 민감 정보는 유료 클라우드 서버에 전송되지 않으며, 사용자 브라우저(LocalStorage)에만 안전하게 영구 저장됩니다.
-              </p>
-              <div class="flex items-center space-x-2 pt-1">
-                <button onclick="exportProfileJSON()" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-50 rounded text-[11px] font-bold text-slate-700 transition">
-                  내 조건 JSON 백업
-                </button>
-                <button onclick="resetProfileToDefault()" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-50 rounded text-[11px] font-medium text-slate-600 transition">
-                  초기화
-                </button>
-              </div>
-            </div>
+            <p class="text-slate-600 leading-relaxed">
+              선택한 지역은 이 기기의 브라우저에만 저장됩니다. 웰패밀리는 이 정보를 수집하지 않습니다.
+            </p>
+            <button onclick="clearSavedRegion()" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-50 rounded text-xs font-bold text-slate-700 transition">
+              저장된 지역 삭제
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- 5. NOTIFICATION PREVIEW (KAKAO MOCKUP) -->
-    <!-- ========================================== -->
-    <div id="view-notifications" class="space-y-6 hidden">
-      <div class="max-w-md mx-auto">
-        <div class="text-center mb-4">
-          <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold rounded-full">카카오 알림톡 실시간 시뮬레이션</span>
-          <h3 class="font-bold text-slate-800 text-base mt-2">새로운 지자체 공고 발생 시 전송되는 메시지</h3>
-        </div>
-
-        <!-- Kakao Alimtalk Chat Card -->
-        <div class="bg-[#FEE500]/20 border border-yellow-300 rounded-3xl p-4 shadow-md bg-white">
-          <div class="flex items-center space-x-3 mb-3 pb-3 border-b border-slate-100">
-            <div class="w-10 h-10 rounded-full bg-[#FEE500] flex items-center justify-center font-black text-slate-900 text-base shadow-sm">
-              톡
-            </div>
-            <div>
-              <div class="flex items-center space-x-1.5">
-                <span class="font-bold text-slate-900 text-sm">웰패밀리 우리 가족 복지비서</span>
-                <i data-lucide="badge-check" class="w-4 h-4 text-blue-600"></i>
-              </div>
-              <span class="text-[11px] text-slate-400">알림톡 도착 • 방금 전</span>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3 text-xs leading-relaxed">
-            <div class="text-blue-700 font-extrabold text-sm flex items-center space-x-1">
-              <i data-lucide="bell-ring" class="w-4 h-4"></i>
-              <span>[신규 공고] 김민준님 가족을 위한 맞춤 복지 안내</span>
-            </div>
-            <p class="text-slate-700">
-              김민준님 가구의 거주지(<strong>서울특별시 관악구</strong>)와 조건에 딱 맞는 신규 지자체 지원 사업이 오늘 구청에 공고되었습니다!
-            </p>
-
-            <div class="p-3 bg-slate-50 rounded-xl space-y-1.5 border border-slate-100 font-medium">
-              <div>• <strong>사업명:</strong> 2026 관악구 청년·신혼부부 이사비 및 중개보수 지원</div>
-              <div>• <strong>지원 혜택:</strong> 최대 40만 원 실비 현금 지원</div>
-              <div>• <strong>신청 마감:</strong> 2026.11.30 (선착순 예산 소진 시 조기 마감)</div>
-              <div>• <strong>매칭 사유:</strong> 관악구 전입 신혼부부 가구 조건 100% 충족</div>
-            </div>
-
-            <p class="text-[11px] text-slate-500">
-              * 주민센터 방문 없이 정부24 모바일 발급 서류 2종만 첨부하면 온라인으로 3분 만에 신청 완료할 수 있습니다.
-            </p>
-
-            <div class="pt-2 space-y-1.5">
-              <button onclick="openPolicyModal('pol_gwanak_moving')" class="w-full py-2.5 bg-[#FEE500] hover:bg-[#ebd200] text-slate-900 font-bold rounded-xl text-center transition flex items-center justify-center space-x-1">
-                <span>필수 서류 확인하고 1분 만에 신청하기</span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- 6. AFFILIATE & BLOG INTEGRATION VIEW -->
-    <!-- ========================================== -->
-    <div id="view-affiliate" class="space-y-6 hidden">
-      <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-blue-900 text-white rounded-2xl p-6 sm:p-7 shadow-lg relative overflow-hidden">
-        <div class="relative z-10">
-          <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-sm mb-3">
-            <i data-lucide="trending-up" class="w-3.5 h-3.5 text-yellow-300"></i>
-            <span>광고 블로그 & 제휴 마케팅 연계 허브</span>
-          </span>
-          <h2 class="text-xl sm:text-2xl font-bold tracking-tight mb-2">복지 콘텐츠 바이럴 & 고수익 제휴 자동화</h2>
-          <p class="text-xs sm:text-sm text-purple-200 max-w-2xl leading-relaxed">
-            월 수백만 건의 복지 검색 트래픽을 유입시키는 <strong>SEO 블로그 자동 발행</strong>, 블로거용 <strong>1분 복지 계산기 위젯</strong>, 그리고 카테고리별 <strong>맥락형 제휴 마케팅(쿠팡 파트너스, 이사견적 등)</strong>을 통해 서비스 성장을 가속합니다.
-          </p>
-        </div>
-      </div>
-
-      <!-- Grid of 2 Key Features: Widget & SEO Blog -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <!-- Widget Card -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
-                <i data-lucide="code" class="w-5 h-5 text-purple-600"></i>
-                <span>블로그 임베드용 복지 계산기 위젯</span>
-              </h3>
-              <span class="text-[11px] font-bold px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full">바이럴 백링크</span>
-            </div>
-            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
-              티스토리, 네이버 블로그, 워드프레스에 아래 코드를 붙여넣으면 방문자가 글 안에서 직접 지원금을 계산해볼 수 있습니다. (체류 시간 및 애드센스 단가 상승)
-            </p>
-
-            <!-- Widget Live Preview Container -->
-            <div class="border border-slate-200 rounded-xl overflow-hidden mb-4 bg-slate-50 p-2">
-              <iframe src="widget.html" class="w-full h-[280px] border-0 rounded-lg"></iframe>
-            </div>
-
-            <!-- Code Copy Snippet -->
-            <div class="relative bg-slate-900 text-slate-200 p-3 rounded-xl text-[11px] font-mono break-all mb-3">
-              <code>&lt;iframe src="https://welfamily.github.io/prototype/widget.html" width="100%" height="320" frameborder="0" style="border-radius: 16px;"&gt;&lt;/iframe&gt;</code>
-            </div>
-          </div>
-
-          <button onclick="copyWidgetCode()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl flex items-center justify-center space-x-1.5 transition shadow-sm">
-            <i data-lucide="copy" class="w-4 h-4"></i>
-            <span>위젯 HTML 코드 복사하기</span>
-          </button>
-        </div>
-
-        <!-- SEO Blog Posts Card -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
-                <i data-lucide="file-edit" class="w-5 h-5 text-blue-600"></i>
-                <span>자동 생성된 SEO 복지 블로그 글</span>
-              </h3>
-              <span class="text-[11px] font-bold px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">16개 포스팅 준비됨</span>
-            </div>
-            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
-              <code>scripts/blog_generator.py</code>가 생성한 애드센스 반응형 광고 슬롯 및 쿠팡 파트너스 제휴 박스가 포함된 최신 포스팅입니다.
-            </p>
-
-            <!-- Sample Post List -->
-            <div class="space-y-2 mb-4">
-              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
-                <div>
-                  <div class="flex items-center space-x-1.5">
-                    <span class="text-[10px] font-bold px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded">주거·이사</span>
-                    <span class="font-bold text-xs text-slate-800">관악구 청년 이사비 40만원 신청 자격 총정리</span>
-                  </div>
-                  <span class="text-[11px] text-slate-400">이사 무료견적 제휴 + 애드센스 인아티클 포함</span>
-                </div>
-                <button onclick="previewSampleBlogPost('pol_gwanak_moving')" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-100 text-xs font-semibold rounded-lg text-slate-700">미리보기</button>
-              </div>
-
-              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
-                <div>
-                  <div class="flex items-center space-x-1.5">
-                    <span class="text-[10px] font-bold px-1.5 py-0.5 bg-emerald-100 text-emerald-800 rounded">영유아</span>
-                    <span class="font-bold text-xs text-slate-800">2026 부모급여 100만원 입금일 & 신청방법</span>
-                  </div>
-                  <span class="text-[11px] text-slate-400">쿠팡 파트너스 분유/기저귀 특가 제휴 포함</span>
-                </div>
-                <button onclick="previewSampleBlogPost('pol_parent_0')" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-100 text-xs font-semibold rounded-lg text-slate-700">미리보기</button>
-              </div>
-
-              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
-                <div>
-                  <div class="flex items-center space-x-1.5">
-                    <span class="text-[10px] font-bold px-1.5 py-0.5 bg-blue-100 text-blue-800 rounded">청년금융</span>
-                    <span class="font-bold text-xs text-slate-800">청년도약계좌 5000만원 만들기 정부기여금 정리</span>
-                  </div>
-                  <span class="text-[11px] text-slate-400">1금융권 고금리 파킹통장 비교 제휴 포함</span>
-                </div>
-                <button onclick="previewSampleBlogPost('pol_youth_jump')" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-100 text-xs font-semibold rounded-lg text-slate-700">미리보기</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="text-[11px] text-slate-400 text-center">
-            * <code>python3 scripts/blog_generator.py</code> 실행 시 <code>blog_posts/</code>에 자동 생성
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Affiliate Partner Matrix -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-base mb-3 flex items-center space-x-2">
-          <i data-lucide="handshake" class="w-5 h-5 text-indigo-600"></i>
-          <span>카테고리별 맥락 맞춤형 제휴 네트워크 (CPA/CPS)</span>
-        </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-            <span class="font-bold text-slate-900 block mb-1">🏠 주거 / 이사 지원금</span>
-            <p class="text-slate-600 text-[11px] mb-2">포장이사 무료 견적 비교, 인터넷 가입 현금 사은품</p>
-            <span class="text-indigo-600 font-extrabold text-xs">건당 ₩15,000 ~ ₩70,000</span>
-          </div>
-          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-            <span class="font-bold text-slate-900 block mb-1">👶 출산 / 영유아 (부모급여)</span>
-            <p class="text-slate-600 text-[11px] mb-2">쿠팡 파트너스 기저귀·분유 로켓배송, 국민행복카드</p>
-            <span class="text-indigo-600 font-extrabold text-xs">구매액의 3~5% + 카드 10만</span>
-          </div>
-          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-            <span class="font-bold text-slate-900 block mb-1">💳 청년 금융 / 자산형성</span>
-            <p class="text-slate-600 text-[11px] mb-2">고금리 파킹통장, CMA, 청년도약계좌 은행 비교</p>
-            <span class="text-indigo-600 font-extrabold text-xs">개설 건당 ₩10,000 ~ ₩30,000</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer with Admin Console Link -->
-    <footer class="mt-12 py-6 border-t border-slate-200 text-center text-xs text-slate-500 space-y-2">
-      <div class="flex items-center justify-center space-x-4">
-        <span>© 2026 WelFamily • 우리 가족 맞춤 복지비서</span>
-        <span>•</span>
-        <a href="admin.html" class="font-bold text-slate-700 hover:text-blue-600 transition flex items-center space-x-1 inline-flex">
-          <i data-lucide="shield" class="w-3.5 h-3.5"></i>
-          <span>관리자 콘솔 (Admin)</span>
-        </a>
-      </div>
-      <p class="text-[11px] text-slate-400">대한민국 공공데이터 및 지자체 조례 기반 100% 무료 인프라 자동화 서비스</p>
+    <footer class="mt-12 py-6 border-t border-slate-200 text-xs text-slate-600 space-y-2">
+      <p class="font-bold text-slate-800">이용 안내</p>
+      <ul class="space-y-1">
+        <li>이 서비스의 내용은 참고용 안내입니다. 공식 결정이 아니며, 실제 지원 여부와 금액은 담당 기관의 심사로 정해집니다.</li>
+        <li>웰패밀리는 정부나 지방자치단체가 운영하는 서비스가 아닙니다. 민간 정보 안내 서비스입니다.</li>
+        <li>데이터 출처: 지금 보이는 정책은 운영자가 직접 입력한 시범 데이터입니다. 공공데이터 연동은 준비 중입니다.</li>
+        <li>정확한 정보:
+          <a href="https://www.bokjiro.go.kr" target="_blank" rel="noopener noreferrer" class="underline font-bold text-slate-800 hover:text-blue-600">복지로</a>,
+          <a href="https://www.gov.kr" target="_blank" rel="noopener noreferrer" class="underline font-bold text-slate-800 hover:text-blue-600">정부24</a>,
+          보건복지상담센터 129
+        </li>
+      </ul>
+      <p class="text-slate-500">© 2026 WelFamily</p>
     </footer>
 
   </main>
@@ -838,6 +316,7 @@
           <div class="flex items-center space-x-2 mt-2">
             <span class="text-2xl font-black text-blue-600" id="modal-amount">최대 400,000 원</span>
             <span class="text-xs font-semibold px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded" id="modal-type-tag">현금 실비 지원</span>
+            <span class="text-xs font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">확인 필요</span>
           </div>
         </div>
 
@@ -865,158 +344,20 @@
           </div>
         </div>
 
-        <!-- Contact & Desk Info -->
-        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1 text-slate-700">
-          <div class="flex items-center space-x-1">
-            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500"></i>
-            <span><strong>접수처:</strong> 관악구청 본관 청년정책과 (또는 서울청년몽땅정보통 웹)</span>
-          </div>
+        <!-- Contact Info -->
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700">
           <div class="flex items-center space-x-1">
             <i data-lucide="phone" class="w-3.5 h-3.5 text-slate-500"></i>
-            <span><strong>문의처:</strong> 02-879-5931</span>
+            <span><strong>문의처:</strong> <span id="modal-contact-phone">129</span></span>
           </div>
         </div>
 
-        <!-- Contextual Affiliate Callout Box with FTC Notice -->
-        <div id="modal-affiliate-box" class="p-3.5 bg-gradient-to-r from-blue-50/90 to-indigo-50/90 border border-blue-200 rounded-xl space-y-1.5">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold px-2 py-0.5 bg-blue-600 text-white rounded" id="modal-aff-tag">💡 추천 제휴 혜택</span>
-            <span class="text-[10px] text-slate-500">공식 행정과 무관한 편의 제휴</span>
-          </div>
-          <h5 class="font-bold text-xs text-slate-900" id="modal-aff-title">📦 이사 전 필수! 포장이사 무료 비교견적</h5>
-          <p class="text-[11px] text-slate-600" id="modal-aff-desc">이사비 지원 신청 전, 검증된 이사업체 무료 방문 견적과 인터넷 최대 현금 혜택을 확인해보세요.</p>
-          <div class="pt-1">
-            <a href="#" target="_blank" id="modal-aff-link" onclick="trackDealClick(this)" class="inline-flex items-center space-x-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition">
-              <span id="modal-aff-btn-text">무료 비교견적 받기</span>
-              <i data-lucide="external-link" class="w-3.5 h-3.5 ml-1"></i>
-            </a>
-          </div>
-          <p class="text-[10px] text-slate-500 pt-1">※ 공정거래위원회 지침: 본 추천은 제휴마케팅 활동의 일환으로 일정액의 수수료를 제공받을 수 있습니다.</p>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="pt-2 flex items-center space-x-3">
-          <button onclick="alert('정부24 / 지자체 공식 신청 페이지로 이동합니다.')" class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition text-center shadow-sm">
-            공식 사이트에서 바로 신청하기
-          </button>
-          <button onclick="toggleBookmarkModal()" id="modal-bookmark-btn" class="p-3 border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl transition" title="혜택 보관함에 저장">
-            <i data-lucide="bookmark" class="w-5 h-5"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
-  <!-- ========================================== -->
-  <!-- 2. WELFAMILY CARE+ VIP SUBSCRIPTION DIALOG -->
-  <!-- ========================================== -->
-  <dialog id="care-plus-modal" class="rounded-2xl max-w-xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border-0 p-0 m-auto" aria-labelledby="care-plus-modal-title">
-    <div class="bg-white rounded-2xl w-full border border-slate-100 overflow-hidden">
-      <!-- Modal Header -->
-      <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-600 px-6 py-5 text-slate-950 flex items-center justify-between">
-        <div class="flex items-center space-x-2.5">
-          <div class="w-9 h-9 rounded-xl bg-slate-950 text-amber-300 flex items-center justify-center font-black">
-            <i data-lucide="crown" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <h3 id="care-plus-modal-title" class="text-lg font-black text-slate-950">WelFamily Care+ 멤버십</h3>
-            <span class="text-xs font-bold text-slate-900/90">우리 가족 숨은 복지 100% 수령 보장제</span>
-          </div>
-        </div>
-        <button onclick="closeCarePlusModal()" class="p-1 rounded-lg text-slate-900 hover:bg-black/10 transition" aria-label="닫기">
-          <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-      </div>
-
-      <div class="p-6 space-y-5">
-        <!-- ROI Value Card -->
-        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
-          <span class="text-xs font-bold text-amber-900 block mb-1">우리 가족 예상 투자 수익률 (ROI)</span>
-          <div class="flex items-center justify-center space-x-2">
-            <span class="text-3xl font-black text-amber-600" id="care-plus-roi-percent">+4,615%</span>
-            <span class="text-xs font-bold px-2 py-0.5 bg-amber-200 text-amber-900 rounded-full">순이득 ₩1,761,000</span>
-          </div>
-          <p class="text-xs text-amber-800 mt-2 font-medium">
-            연 39,000원(월 3,250원) 투자로 평균 180만 원 이상의 숨은 미수령 복지금을 수령합니다.
-          </p>
-        </div>
-
-        <!-- 4 Key VIP Features -->
-        <div class="space-y-3">
-          <h4 class="text-xs font-extrabold text-slate-900 tracking-wide uppercase">Care+ 정회원 전용 4대 핵심 혜택</h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
-              <div class="flex items-center space-x-1.5 font-bold text-slate-900 mb-1">
-                <i data-lucide="zap" class="w-4 h-4 text-amber-500 shrink-0"></i>
-                <span>선착순 공고 0초 즉시 알림</span>
-              </div>
-              <p class="text-slate-600 text-[11px]">예산 소진형 지자체 지원 사업 등록 즉시 카카오 알림톡/SMS 발송</p>
-            </div>
-
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
-              <div class="flex items-center space-x-1.5 font-bold text-slate-900 mb-1">
-                <i data-lucide="file-check-2" class="w-4 h-4 text-blue-500 shrink-0"></i>
-                <span>정부24 서류 원클릭 완성</span>
-              </div>
-              <p class="text-slate-600 text-[11px]">등본·건보료·가족관계증명서 등 필수 서류를 PDF 단일팩으로 압축 결합</p>
-            </div>
-
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
-              <div class="flex items-center space-x-1.5 font-bold text-slate-900 mb-1">
-                <i data-lucide="scale" class="w-4 h-4 text-indigo-500 shrink-0"></i>
-                <span>복지 전문 행정사 1:1 상담</span>
-              </div>
-              <p class="text-slate-600 text-[11px]">모호한 소득인정액 계산 및 지원 탈락 시 이의신청 자문 제공</p>
-            </div>
-
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
-              <div class="flex items-center space-x-1.5 font-bold text-slate-900 mb-1">
-                <i data-lucide="search-check" class="w-4 h-4 text-emerald-500 shrink-0"></i>
-                <span>숨은 환급금·바우처 추적</span>
-              </div>
-              <p class="text-slate-600 text-[11px]">지자체 조례별 미청구 환급금 및 소멸 임박 바우처 자동 푸시</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Plan Selection -->
-        <div>
-          <h4 class="text-xs font-extrabold text-slate-900 tracking-wide uppercase mb-2">플랜 선택</h4>
-          <div class="grid grid-cols-2 gap-3">
-            <label class="relative flex flex-col p-3.5 border-2 border-amber-500 bg-amber-50/60 rounded-xl cursor-pointer">
-              <input type="radio" name="care_plan" value="ANNUAL" checked class="sr-only" onchange="updatePlanSelection('ANNUAL')">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-slate-900">연간 결제 (17% 할인)</span>
-                <span class="text-[10px] font-black px-1.5 py-0.5 bg-amber-500 text-slate-950 rounded">BEST</span>
-              </div>
-              <span class="text-base font-black text-slate-950">39,000 원 <span class="text-xs font-semibold text-slate-600">/ 년</span></span>
-              <span class="text-[10px] text-slate-500">월 3,250원 꼴 • 1일 단 107원</span>
-            </label>
-
-            <label class="relative flex flex-col p-3.5 border border-slate-200 bg-white hover:bg-slate-50 rounded-xl cursor-pointer">
-              <input type="radio" name="care_plan" value="MONTHLY" class="sr-only" onchange="updatePlanSelection('MONTHLY')">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-slate-900">월간 결제</span>
-              </div>
-              <span class="text-base font-black text-slate-950">3,900 원 <span class="text-xs font-semibold text-slate-600">/ 월</span></span>
-              <span class="text-[10px] text-slate-500">언제든 위약금 없이 해지 가능</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- 100% Refund Guarantee Badge -->
-        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center space-x-2 text-xs text-emerald-900">
-          <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 shrink-0"></i>
-          <span><strong>100% 무조건 전액 환불 보장:</strong> 가입 후 1년 내 미수령 복지금을 단 1건도 발견하지 못할 시 구독료 전액을 환불해 드립니다.</span>
-        </div>
-
-        <!-- Simulated Subscription CTA -->
+        <!-- Official Link -->
         <div class="pt-2 space-y-2">
-          <button onclick="simulateSubscribeCarePlus()" class="w-full py-3.5 bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-black rounded-xl text-sm transition shadow-md flex items-center justify-center space-x-2">
-            <i data-lucide="sparkles" class="w-4 h-4 text-slate-950"></i>
-            <span id="care-plus-submit-btn-text">카카오페이 / 카드로 Care+ 1초 시작하기</span>
-          </button>
-          <p class="text-[11px] text-slate-500 text-center">※ 결제 시 즉시 VIP 권한이 부여되며 서류 자동완성 팩이 잠금 해제됩니다.</p>
+          <a id="modal-apply-link" href="https://www.bokjiro.go.kr" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition text-center shadow-sm">
+            공식 사이트에서 확인하기
+          </a>
+          <p class="text-xs text-slate-500 text-center">참고용 안내입니다. 자격과 금액은 공식 사이트나 담당 기관에서 확인하세요.</p>
         </div>
       </div>
     </div>
@@ -1251,7 +592,7 @@
     // ==========================================
     function switchTab(tabId) {
       currentTab = tabId;
-      const tabs = ['dashboard', 'explorer', 'calendar', 'profile', 'notifications', 'affiliate'];
+      const tabs = ['dashboard', 'explorer', 'profile'];
       tabs.forEach(t => {
         const view = document.getElementById(`view-${t}`);
         const nav = document.getElementById(`nav-${t}`);
@@ -1271,10 +612,12 @@
     // ==========================================
     // 4. RENDERING FUNCTIONS
     // ==========================================
+    const REVIEW_BADGE = '<span class="text-xs font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">확인 필요</span>';
+
     function getFilteredPolicies() {
       return POLICIES.filter(p => {
-        // Region matching (ALL or currentRegion)
-        const matchRegion = (p.region === 'ALL' || p.region === currentRegion);
+        // Region matching: national, the selected sigungu, or its parent sido
+        const matchRegion = (p.region === 'ALL' || p.region === currentRegion || currentRegion.startsWith(`${p.region}_`));
         if (!matchRegion) return false;
 
         // Search term matching
@@ -1318,9 +661,7 @@
                 </span>
                 <span class="text-xs text-slate-500 font-medium">${policy.regionName}</span>
               </div>
-              <span class="text-xs font-bold ${policy.certainty >= 95 ? 'text-emerald-600' : 'text-blue-600'}">
-                매칭 확실도 ${policy.certainty}%
-              </span>
+              ${REVIEW_BADGE}
             </div>
 
             <h4 class="font-bold text-slate-900 text-base mb-1 tracking-tight">${policy.title}</h4>
@@ -1335,7 +676,6 @@
           <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
             <span class="text-base font-extrabold text-blue-700">${policy.amountText}</span>
             <div class="flex items-center space-x-2">
-              ${policy.isUrgent ? `<span class="px-2 py-0.5 bg-orange-100 text-orange-700 font-bold text-xs rounded">${policy.dday}</span>` : ''}
               <span class="text-xs font-bold text-slate-600 flex items-center">
                 <span>상세보기</span>
                 <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
@@ -1347,7 +687,7 @@
       });
 
       // Update badge
-      document.getElementById('policy-list-badge').innerText = `${list.length}건 매칭`;
+      document.getElementById('policy-list-badge').innerText = `${list.length}건`;
       lucide.createIcons();
     }
 
@@ -1355,16 +695,7 @@
       const container = document.getElementById('explorer-policy-cards');
       container.innerHTML = '';
 
-      let list = getFilteredPolicies();
-      const sortBy = document.getElementById('explorer-sort').value;
-      if (sortBy === 'amount') {
-        list.sort((a, b) => b.amountValue - a.amountValue);
-      } else if (sortBy === 'certainty') {
-        list.sort((a, b) => b.certainty - a.certainty);
-      } else if (sortBy === 'dday') {
-        list.sort((a, b) => (b.isUrgent ? 1 : 0) - (a.isUrgent ? 1 : 0));
-      }
-
+      const list = getFilteredPolicies();
       document.getElementById('explorer-count').innerText = list.length;
 
       list.forEach(policy => {
@@ -1379,7 +710,10 @@
               <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${isLocal ? 'badge-local' : 'badge-central'}">
                 ${isLocal ? '지자체 특화 ★' : '중앙부처 공통'}
               </span>
-              <span class="text-xs font-semibold px-2 py-0.5 bg-slate-100 text-slate-700 rounded">${policy.categoryName}</span>
+              <span class="flex items-center space-x-1.5">
+                <span class="text-xs font-semibold px-2 py-0.5 bg-slate-100 text-slate-700 rounded">${policy.categoryName}</span>
+                ${REVIEW_BADGE}
+              </span>
             </div>
             <h4 class="font-bold text-slate-900 text-base mb-1">${policy.title}</h4>
             <div class="text-xs text-slate-500 mb-2">${policy.managingOrg}</div>
@@ -1445,28 +779,10 @@
         docsContainer.appendChild(item);
       });
 
-      // Contextual Affiliate Box Setup
-      const affTitle = document.getElementById('modal-aff-title');
-      const affDesc = document.getElementById('modal-aff-desc');
-      const affBtn = document.getElementById('modal-aff-btn-text');
-      const affTag = document.getElementById('modal-aff-tag');
-
-      if (p.category === 'HOUSING') {
-        affTag.innerText = "📦 이사·주거 제휴";
-        affTitle.innerText = "📦 이사 전 필수! 포장이사 무료 비교견적";
-        affDesc.innerText = "이사비 지원 신청 전, 관내 검증된 이사업체 무료 방문 견적과 인터넷 최대 현금 사은품을 확인해보세요.";
-        affBtn.innerText = "포장이사 무료 비교견적 받기";
-      } else if (p.category === 'CARE' || p.category === 'VOUCHER') {
-        affTag.innerText = "👶 육아용품 제휴";
-        affTitle.innerText = "👶 국민행복카드 바우처 전액 사용 가능처 특가";
-        affDesc.innerText = "바우처 지급 즉시 사용 가능한 기저귀, 친환경 분유, 신생아 인기 필수템 로켓배송 최저가전을 확인해보세요.";
-        affBtn.innerText = "로켓배송 영유아 인기 필수템 보기";
-      } else {
-        affTag.innerText = "💰 스마트 금융 제휴";
-        affTitle.innerText = "💰 지원금 입금 전용 고금리 수시입출금 파킹통장";
-        affDesc.innerText = "지원금 통장 등록 시 연 최대 3.5%~4.0% 금리와 수수료 면제 혜택을 제공하는 비대면 파킹통장을 확인해보세요.";
-        affBtn.innerText = "1금융권 고금리 파킹통장 비교";
-      }
+      // Contact and official link (only http or https links are used)
+      document.getElementById('modal-contact-phone').innerText = p.contactPhone || '129';
+      document.getElementById('modal-apply-link').href =
+        /^https?:\/\//.test(p.applicationUrl || '') ? p.applicationUrl : 'https://www.bokjiro.go.kr';
 
       const pModal = document.getElementById('policy-modal');
       if (typeof pModal.showModal === 'function') {
@@ -1489,87 +805,7 @@
     }
 
     // ==========================================
-    // 5-1. CARE+ VIP SUBSCRIPTION MODAL LOGIC
-    // ==========================================
-    let selectedCarePlan = 'ANNUAL';
-
-    function openCarePlusModal() {
-      const cModal = document.getElementById('care-plus-modal');
-      const unclaimed = document.getElementById('unclaimed-amount').innerText;
-      const numAmount = parseInt(unclaimed.replace(/[^0-9]/g, '')) || 1800000;
-      const annualFee = 39000;
-      const roiRatio = Math.round((numAmount / annualFee) * 100);
-      
-      const roiEl = document.getElementById('care-plus-roi-percent');
-      if (roiEl) roiEl.innerText = `+${roiRatio.toLocaleString()}%`;
-
-      if (typeof cModal.showModal === 'function') {
-        cModal.showModal();
-      } else {
-        cModal.classList.remove('hidden');
-      }
-      announceA11y("WelFamily Care+ 멤버십 안내 모달이 열렸습니다.");
-      lucide.createIcons();
-    }
-
-    function closeCarePlusModal() {
-      const cModal = document.getElementById('care-plus-modal');
-      if (typeof cModal.close === 'function') {
-        cModal.close();
-      } else {
-        cModal.classList.add('hidden');
-      }
-      announceA11y("Care+ 멤버십 모달이 닫혔습니다.");
-    }
-
-    function updatePlanSelection(cycle) {
-      selectedCarePlan = cycle;
-      const btnText = document.getElementById('care-plus-submit-btn-text');
-      if (cycle === 'ANNUAL') {
-        btnText.innerText = "연 39,000원으로 Care+ 1초 시작하기 (17% 할인)";
-      } else {
-        btnText.innerText = "월 3,900원으로 Care+ 1초 시작하기";
-      }
-    }
-
-    async function simulateSubscribeCarePlus() {
-      const isAnnual = (selectedCarePlan === 'ANNUAL');
-      const priceText = isAnnual ? "연간 39,000원" : "월간 3,900원";
-
-      // Call backend API if running
-      try {
-        await fetch('http://localhost:8000/api/v1/care-plus/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            user_name: "홍길동",
-            phone_number: "010-1234-5678",
-            billing_cycle: selectedCarePlan,
-            payment_method: "KAKAO_PAY"
-          })
-        });
-      } catch (err) {
-        // Fallback for static client execution
-      }
-
-      closeCarePlusModal();
-      
-      // Update UI Header and Badge to VIP
-      const headerBtn = document.getElementById('header-care-plus-text');
-      if (headerBtn) {
-        headerBtn.innerText = "VIP 정회원 ★";
-      }
-      const headerBtnWrapper = document.getElementById('header-care-plus-btn');
-      if (headerBtnWrapper) {
-        headerBtnWrapper.className = "flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition shadow-xs";
-      }
-
-      alert(`🎉 축하합니다! WelFamily Care+ 멤버십(${priceText})이 활성화되었습니다!\n\n[부여된 정회원 특권]\n1. 관악구/전국 선착순 공고 0초 카카오톡 즉시 알림 가동\n2. 정부24 주민등록등본·건보료 서류 원클릭 자동완성 팩 해제\n3. 전담 복지 행정사 1:1 상담 연결 티켓 발급\n\n(1년 내 미수령 복지금 미발견 시 100% 무조건 전액 환불)`);
-      announceA11y("Care+ VIP 멤버십 활성화가 완료되었습니다.");
-    }
-
-    // ==========================================
-    // 5-2. ACCESSIBILITY & CONTEXTUAL AFFILIATE
+    // 5-1. ACCESSIBILITY
     // ==========================================
     let isSeniorMode = false;
     function toggleSeniorMode() {
@@ -1596,43 +832,8 @@
       }
     }
 
-    function trackDealClick(element) {
-      try {
-        fetch('http://localhost:8000/api/v1/affiliate/track-click', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            deal_id: "aff_modal_dynamic",
-            user_session_id: "web_session_" + Date.now(),
-            referrer_page: "policy_modal"
-          })
-        });
-      } catch (e) {
-        // silent
-      }
-    }
-
-    function copyWidgetCode() {
-      const code = `<iframe src="https://welfamily.github.io/prototype/widget.html" width="100%" height="320" frameborder="0" style="border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);"></iframe>`;
-      navigator.clipboard.writeText(code).then(() => {
-        alert('블로그용 위젯 HTML 코드가 클립보드에 복사되었습니다!\n티스토리/네이버 블로그/워드프레스 에디터의 HTML 모드에 붙여넣으세요.');
-      }).catch(() => {
-        prompt('아래 코드를 복사하여 블로그에 붙여넣으세요:', code);
-      });
-    }
-
-    function previewSampleBlogPost(policyId) {
-      const p = POLICIES.find(x => x.id === policyId);
-      if (!p) return;
-      alert(`[SEO 블로그 글 미리보기]\n\n제목: [2026 최신] ${p.regionName} ${p.title} 신청 자격 및 필수 서류 총정리\n\n📌 3줄 핵심 요약:\n• 누가: ${p.summary3[0]}\n• 얼마: ${p.summary3[1]}\n• 어떻게: ${p.summary3[2]}\n\n(애드센스 인아티클 광고 코드 2개 + 쿠팡/이사 제휴 배너 + 1분 위젯 자동 포함)\n* 전체 Markdown 원문은 blog_posts/${policyId}.md에 자동 저장되어 있습니다.`);
-    }
-
-    function toggleBookmarkModal() {
-      alert('우리 가족 복지 보관함에 혜택이 저장되었습니다!');
-    }
-
     // ==========================================
-    // 6. FILTERING & PRESETS
+    // 6. FILTERING
     // ==========================================
     function filterDashboard(type) {
       currentDashFilter = type;
@@ -1678,41 +879,31 @@
     }
 
     // ==========================================
-    // 7. FREE-TIER PERSISTENCE & REMOTE SYNC
+    // 7. REGION STORAGE & DATA LOADING
     // ==========================================
     const STORAGE_KEY = 'welfamily_user_profile_v1';
+
+    function applyRegion(sido, sigungu) {
+      const sidoSelect = document.getElementById('profile-sido');
+      const sigunguSelect = document.getElementById('profile-sigungu');
+      sidoSelect.value = sido;
+      handleSidoChange();
+      sigunguSelect.value = sigungu;
+      currentRegion = `${sido}_${sigungu}`;
+      document.getElementById('header-region-text').innerText =
+        `${sidoSelect.selectedOptions[0].text.substring(0, 2)} ${sigunguSelect.selectedOptions[0].text}`;
+    }
 
     function saveProfile() {
       const sido = document.getElementById('profile-sido').value;
       const sigungu = document.getElementById('profile-sigungu').value;
-      const sidoText = document.getElementById('profile-sido').selectedOptions[0].text;
-      const sigunguText = document.getElementById('profile-sigungu').selectedOptions[0].text;
-      const income = document.getElementById('profile-income').value;
-
-      const profileData = {
-        sido,
-        sigungu,
-        sidoText,
-        sigunguText,
-        income,
-        tags: {
-          newlywed: document.getElementById('tag-newlywed').checked,
-          infant: document.getElementById('tag-infant').checked,
-          multichild: document.getElementById('tag-multichild').checked,
-          housing: document.getElementById('tag-housing').checked
-        },
-        savedAt: new Date().toISOString()
-      };
-
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(profileData));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ sido, sigungu }));
       } catch (e) {
         console.warn('LocalStorage save failed:', e);
       }
-
-      currentRegion = `${sido}_${sigungu}`;
-      document.getElementById('header-region-text').innerText = `${sidoText.substring(0, 2)} ${sigunguText}`;
-      alert(`가구 조건이 안전하게 기기(LocalStorage)에 저장되었습니다!\n거주지: ${sidoText} ${sigunguText}\n조건에 맞춰 복지 혜택을 다시 계산합니다.`);
+      applyRegion(sido, sigungu);
+      announceA11y('거주 지역을 이 기기에 저장했습니다.');
       renderDashboardCards();
       renderExplorer();
       switchTab('dashboard');
@@ -1720,57 +911,29 @@
 
     function loadSavedProfile() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return false;
-        const p = JSON.parse(raw);
-        if (p.sido) {
-          document.getElementById('profile-sido').value = p.sido;
-          handleSidoChange();
-          if (p.sigungu) document.getElementById('profile-sigungu').value = p.sigungu;
-          if (p.sidoText && p.sigunguText) {
-            currentRegion = `${p.sido}_${p.sigungu}`;
-            document.getElementById('header-region-text').innerText = `${p.sidoText.substring(0, 2)} ${p.sigunguText}`;
-          }
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (saved && saved.sido && saved.sigungu) {
+          applyRegion(saved.sido, saved.sigungu);
         }
-        if (p.income) document.getElementById('profile-income').value = p.income;
-        if (p.tags) {
-          document.getElementById('tag-newlywed').checked = !!p.tags.newlywed;
-          document.getElementById('tag-infant').checked = !!p.tags.infant;
-          document.getElementById('tag-multichild').checked = !!p.tags.multichild;
-          document.getElementById('tag-housing').checked = !!p.tags.housing;
-        }
-        return true;
       } catch (e) {
-        console.warn('Failed to load saved profile:', e);
-        return false;
+        console.warn('Failed to load saved region:', e);
       }
     }
 
-    function exportProfileJSON() {
-      const profile = localStorage.getItem(STORAGE_KEY) || JSON.stringify({
-        region: currentRegion,
-        exportedAt: new Date().toISOString(),
-        household: "김민준님 가구 (부부 + 14개월 자녀)"
-      });
-      const blob = new Blob([profile], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `welfamily_profile_backup_${new Date().toISOString().slice(0,10)}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function resetProfileToDefault() {
-      if (confirm('가구 프로필을 기본 설정으로 되돌리시겠습니까?')) {
+    function clearSavedRegion() {
+      try {
         localStorage.removeItem(STORAGE_KEY);
-        applyPreset('young_family');
-        alert('기본 설정으로 초기화되었습니다.');
+      } catch (e) {
+        console.warn('LocalStorage delete failed:', e);
       }
+      applyRegion('seoul', 'gwanak');
+      renderDashboardCards();
+      renderExplorer();
+      announceA11y('저장된 지역을 삭제했습니다.');
+      alert('저장된 지역을 삭제했습니다.');
     }
 
     async function loadRemoteCatalog() {
-      // Attempts to load latest data from GitOps repository if available
       const paths = ['data/welfare_catalog.json', '../data/welfare_catalog.json', './data/welfare_catalog.json'];
       for (const p of paths) {
         try {
@@ -1790,10 +953,8 @@
                 categoryName: item.category_name || item.categoryName,
                 amountValue: item.amount_value || item.amountValue || 0,
                 amountText: item.amount_text || item.amountText,
-                certainty: item.certainty_score || item.certainty || 90,
-                isUrgent: !!item.is_urgent,
-                dday: item.dday_text || item.dday || "상시",
-                status: "UNCLAIMED",
+                applicationUrl: item.application_url,
+                contactPhone: item.contact_phone,
                 summary3: item.summary_3lines || item.summary3 || [],
                 docs: (item.required_documents || item.docs || []).map(d => ({
                   name: d.name,
@@ -1820,66 +981,13 @@
           if (sresp.ok) {
             const sdata = await sresp.json();
             if (sdata.last_sync_at) {
-              const dateStr = new Date(sdata.last_sync_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
-              document.getElementById('sync-time-indicator').innerText = `최근 동기화: ${dateStr} (${sdata.total_active_policies}개 정책 활성)`;
+              const dateStr = new Date(sdata.last_sync_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' });
+              document.getElementById('sync-time-indicator').innerText = `데이터 기준일: ${dateStr} (정책 ${sdata.total_active_policies}개)`;
             }
             break;
           }
         } catch (e) {}
       }
-    }
-
-    async function checkSyncNow() {
-      const btn = event.currentTarget;
-      const originalText = btn.innerHTML;
-      btn.innerHTML = `<span class="animate-spin inline-block mr-1">⏳</span> 확인 중...`;
-      await loadRemoteCatalog();
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        alert('최신 복지 정책 데이터 동기화 확인이 완료되었습니다!\n현재 모든 정책이 최신 상태입니다.');
-      }, 500);
-    }
-
-    function applyPreset(presetType) {
-      const presetButtons = ['preset-young', 'preset-youth', 'preset-multi'];
-      presetButtons.forEach(b => {
-        document.getElementById(b).className = "px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition";
-      });
-
-      if (presetType === 'young_family') {
-        document.getElementById('preset-young').className = "px-2.5 py-1 rounded-md bg-white shadow-sm font-bold text-blue-600 transition";
-        currentRegion = 'seoul_gwanak';
-        document.getElementById('header-region-text').innerText = "서울 관악구";
-        document.getElementById('dash-family-badge').innerText = "김민준님 가구 (부부 + 14개월 자녀)";
-        document.getElementById('total-annual-amount').innerText = "5,400,000";
-        document.getElementById('current-claimed-amount').innerText = "3,600,000 원";
-        document.getElementById('unclaimed-amount').innerText = "1,800,000 원";
-      } else if (presetType === 'youth_single') {
-        document.getElementById('preset-youth').className = "px-2.5 py-1 rounded-md bg-white shadow-sm font-bold text-blue-600 transition";
-        currentRegion = 'seoul_gwanak';
-        document.getElementById('header-region-text').innerText = "서울 관악구";
-        document.getElementById('dash-family-badge').innerText = "박지훈님 가구 (만 26세 1인 청년)";
-        document.getElementById('total-annual-amount').innerText = "2,800,000";
-        document.getElementById('current-claimed-amount').innerText = "0 원";
-        document.getElementById('unclaimed-amount').innerText = "2,800,000 원";
-      } else if (presetType === 'multi_child') {
-        document.getElementById('preset-multi').className = "px-2.5 py-1 rounded-md bg-white shadow-sm font-bold text-blue-600 transition";
-        currentRegion = 'seoul_gwanak';
-        document.getElementById('header-region-text').innerText = "서울 관악구";
-        document.getElementById('dash-family-badge').innerText = "최영식님 가구 (부부 + 3자녀 + 노모 6인)";
-        document.getElementById('total-annual-amount').innerText = "8,920,000";
-        document.getElementById('current-claimed-amount').innerText = "5,400,000 원";
-        document.getElementById('unclaimed-amount').innerText = "3,520,000 원";
-      }
-
-      const highlight = document.getElementById('care-plus-unclaimed-highlight');
-      if (highlight) {
-        highlight.innerText = document.getElementById('unclaimed-amount').innerText;
-      }
-      announceA11y(`가구 프로필이 ${document.getElementById('dash-family-badge').innerText}로 변경되었습니다. 예상 연간 혜택은 ${document.getElementById('total-annual-amount').innerText}원 입니다.`);
-
-      renderDashboardCards();
-      renderExplorer();
     }
 
     // ==========================================
@@ -1899,14 +1007,6 @@
           const rect = pModal.getBoundingClientRect();
           const inDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
           if (!inDialog) closePolicyModal();
-        });
-      }
-      const cModal = document.getElementById('care-plus-modal');
-      if (cModal) {
-        cModal.addEventListener('click', (e) => {
-          const rect = cModal.getBoundingClientRect();
-          const inDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
-          if (!inDialog) closeCarePlusModal();
         });
       }
     };
