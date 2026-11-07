@@ -1,0 +1,35 @@
+name: "Probe Public APIs"
+
+# Manual only. Repeats the P0 probe from a GitHub-hosted runner to check network access.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: "Call Each API Once"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Call The APIs
+        env:
+          DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
+        run: python3 scripts/probe_apis.py --out probe-output
+
+      - name: Show Findings
+        if: always()
+        run: |
+          if [ -f probe-output/FINDINGS.md ]; then
+            cat probe-output/FINDINGS.md >> "$GITHUB_STEP_SUMMARY"
+          fi
