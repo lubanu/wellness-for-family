@@ -15,28 +15,31 @@ Covers 3 Stakeholder Perspectives (Central Gov, Local Gov, IT Developer):
 - Tier 4: Real-World Scenarios (Full lifecycle: National policy announced -> Ingestion ->
           Local ordinance top-up -> 1-click status patch -> Citizen matching engine evaluation)
 
-Dual Track & Progressive Testability:
-- Strictly verifies interface contracts defined in PROJECT.md and ORIGINAL_REQUEST.md.
-- Operates on 100% isolated storage fixtures (conftest.py tmp_path) to prevent production pollution.
+Test rules:
+- Every test runs the real code. There are no skips or fallback branches, so a missing
+  module or route fails the test instead of passing silently.
+- Runs on isolated storage (conftest.py tmp_path) seeded from tests/fixtures/seed/.
 """
 
 import json
 import os
 import re
-import hashlib
 from datetime import datetime
-from pathlib import Path
 from typing import Dict, Any, List
 
 import pytest
 from fastapi.testclient import TestClient
 
+import scripts.collector as collector
 from app.core.config import settings
+from app.schemas.unified_policy import BudgetStatus, TargetEligibility, UnifiedWelfarePolicy
+from app.services.deduplication import generate_composite_hash
 from app.services.matching_engine import MatchingEngine
+from app.services.versioning import compute_field_diff, track_policy_change
 
 
 # ==============================================================================
-# Helper Import Guards for Progressive Testability
+# Catalog Helpers
 # ==============================================================================
 
 def load_catalog_direct() -> Dict[str, Any]:
@@ -51,42 +54,6 @@ def save_catalog_direct(catalog: Dict[str, Any]) -> None:
     """Helper to write catalog to currently configured isolated CATALOG_PATH."""
     with open(settings.CATALOG_PATH, "w", encoding="utf-8") as f:
         json.dump(catalog, f, ensure_ascii=False, indent=2)
-
-
-def get_unified_policy_module():
-    """Import guard for M2 Unified Welfare Policy schema."""
-    try:
-        from app.schemas import unified_policy
-        return unified_policy
-    except ImportError:
-        pytest.skip("M2 Schema unified_policy.py not yet implemented by worker")
-
-
-def get_deduplication_module():
-    """Import guard for M2 Deduplication service."""
-    try:
-        from app.services import deduplication
-        return deduplication
-    except ImportError:
-        pytest.skip("M2 Deduplication service deduplication.py not yet implemented by worker")
-
-
-def get_versioning_module():
-    """Import guard for M2 Versioning service."""
-    try:
-        from app.services import versioning
-        return versioning
-    except ImportError:
-        pytest.skip("M2 Versioning service versioning.py not yet implemented by worker")
-
-
-def get_collector_module():
-    """Import guard for M3 Central Collector ingestion logic."""
-    try:
-        import scripts.collector as collector
-        return collector
-    except ImportError:
-        pytest.skip("M3 Collector scripts/collector.py not available")
 
 
 # ==============================================================================
@@ -111,23 +78,13 @@ class TestTier1FeatureCoverage:
 
         parent_item = next((it for it in items if "000000460390" in it.get("SVC_ID", "")), None)
         assert parent_item is not None, "Fixture must include parent benefit (000000460390)"
-
-        collector = get_collector_module()
-        if hasattr(collector, "normalize_bojo24_item"):
-            normalized = collector.normalize_bojo24_item(parent_item)
-            assert normalized["origin"] == "CENTRAL"
-            assert normalized["region_code"] == "ALL"
-            assert normalized["category"] == "CASH"
-            assert normalized["amount_value"] == 12000000
-            assert "보건복지부" in normalized["managing_org"]
-            assert len(normalized["summary_3lines"]) == 3
-        else:
-            # Fallback contract verification: regex extraction specification
-            raw_text = parent_item["ALW_SERV_CN"]
-            match = re.search(r"월\s*(\d+)만\s*원", raw_text)
-            assert match is not None
-            annual_val = int(match.group(1)) * 10000 * 12
-            assert annual_val == 12000000
+        normalized = collector.normalize_bojo24_item(parent_item)
+        assert normalized["origin"] == "CENTRAL"
+        assert normalized["region_code"] == "ALL"
+        assert normalized["category"] == "CASH"
+        assert normalized["amount_value"] == 12000000
+        assert "보건복지부" in normalized["managing_org"]
+        assert len(normalized["summary_3lines"]) == 3
 
     def test_tier1_bokjiro_central_ingestion_normalization(self, mock_bokjiro_data):
         """
@@ -141,21 +98,11 @@ class TestTier1FeatureCoverage:
 
         child_item = next((it for it in items if "WLF00000001" in it.get("servId", "")), None)
         assert child_item is not None
-
-        collector = get_collector_module()
-        if hasattr(collector, "normalize_bokjiro_item"):
-            normalized = collector.normalize_bokjiro_item(child_item)
-            assert normalized["origin"] == "CENTRAL"
-            assert normalized["category"] == "CASH"
-            assert normalized["amount_value"] == 1200000
-            assert normalized["target_eligibility"]["max_age"] == 8
-        else:
-            raw_text = child_item["alwnServCn"]
-            match = re.search(r"(\d+)만\s*원", raw_text)
-            assert match is not None
-            val = int(match.group(1))
-            annual_val = val * 10000 * 12 if val <= 100 else val * 10000
-            assert annual_val == 1200000
+        normalized = collector.normalize_bokjiro_item(child_item)
+        assert normalized["origin"] == "CENTRAL"
+        assert normalized["category"] == "CASH"
+        assert normalized["amount_value"] == 1200000
+        assert normalized["target_eligibility"]["max_age"] == 8
 
     def test_tier1_local_gov_policy_registration_api(self, test_client, mock_local_notice_data):
         """
@@ -258,20 +205,6 @@ class TestTier1FeatureCoverage:
         }
 
         res = test_client.patch("/api/v1/admin/local-policies/pol_test_gwanak_patch/status", json=patch_payload)
-        if res.status_code == 404:
-            # If M4 route not mounted, verify service level contract
-            try:
-                from app.services import local_welfare_service
-                patched = local_welfare_service.patch_policy_status(
-                    "pol_test_gwanak_patch", patch_payload
-                )
-                assert patched["budget_status"] == "NEAR_EXHAUSTION"
-                assert patched["is_urgent"] is True
-                return
-            except (ImportError, AttributeError):
-                pytest.skip("M4 Local Gov admin API route /status not yet mounted")
-
-
         assert res.status_code == 200
         data = res.json()
         assert data.get("budget_status") == "NEAR_EXHAUSTION" or data.get("current_status") == "CLOSING_SOON"
@@ -317,15 +250,6 @@ class TestTier1FeatureCoverage:
         }
 
         res = test_client.patch("/api/v1/admin/local-policies/pol_test_gwanak_patch/status", json=patch_payload)
-        if res.status_code == 404:
-            try:
-                from app.services import local_welfare_service
-                patched = local_welfare_service.patch_policy_status("pol_test_gwanak_patch", patch_payload)
-                assert patched["budget_status"] == "EXHAUSTED"
-            except (ImportError, AttributeError):
-                pytest.skip("M4 local_welfare_service status patch not yet implemented")
-            return
-
         assert res.status_code == 200
         data = res.json()
         assert data.get("budget_status") == "EXHAUSTED" or data.get("current_status") == "EXHAUSTED"
@@ -342,28 +266,10 @@ class TestTier1FeatureCoverage:
         - Bojo24 title: "[서울시 관악구] 2026년 청년 전월세 중개보수 및 이사비 지원사업 안내"
         - Bokjiro title: "관악구 청년·신혼부부 이사비 및 부동산 중개보수 지원"
         - Both describe the same underlying policy: region 'seoul_gwanak', category 'CASH', org '청년정책과'
-        - Verifies deterministic composite hash generates identical 16-char hex fingerprint
+        - The hash is deterministic and is valid 16-char hex
+        - Different wording gives different hashes, so the hash does NOT match these two
+          across sources. Cross-source matching needs another method.
         """
-        dedup_mod = get_deduplication_module()
-        if hasattr(dedup_mod, "generate_composite_hash"):
-            gen_hash = dedup_mod.generate_composite_hash
-        elif hasattr(dedup_mod, "generate_policy_fingerprint"):
-            gen_hash = dedup_mod.generate_policy_fingerprint
-        else:
-            # Mathematical reference oracle implementation from Survey 3 specification
-            def gen_hash(policy_dict: dict) -> str:
-                title = policy_dict.get("title", "")
-                cleaned = re.sub(r"\[.*?\]|\(.*?\)", " ", title)
-                words = re.findall(r"[\w가-힣]+", cleaned)
-                stop_words = {"사업", "지원사업", "지원", "안내", "공고", "신청", "2026년", "2026"}
-                tokens = [w for w in words if w not in stop_words and len(w) > 1]
-                sorted_tokens = "_".join(sorted(tokens))
-                reg_key = policy_dict.get("region_code", "").strip().lower()
-                org_key = re.sub(r"\s+", "", policy_dict.get("managing_org", "").strip().lower())
-                cat_key = policy_dict.get("category", "").upper()
-                composite = f"{reg_key}:{cat_key}:{sorted_tokens}:{org_key}"
-                return hashlib.sha256(composite.encode("utf-8")).hexdigest()[:16]
-
         policy_bojo = {
             "title": "[서울시 관악구] 2026년 청년 전월세 중개보수 및 이사비 지원사업 안내",
             "region_code": "seoul_gwanak",
@@ -377,13 +283,13 @@ class TestTier1FeatureCoverage:
             "managing_org": "서울특별시 관악구 청년정책과"
         }
 
-        hash_a = gen_hash(policy_bojo)
-        hash_b = gen_hash(policy_bokjiro)
+        hash_a = generate_composite_hash(policy_bojo)
+        hash_b = generate_composite_hash(policy_bokjiro)
 
         assert len(hash_a) == 16, f"Composite hash must be 16-char hex, got {hash_a}"
         assert re.match(r"^[0-9a-f]{16}$", hash_a), "Hash must be valid lowercase hex string"
-        # Notice: Both refer to Gwanak youth moving fee; key tokens should intersect or match
-        assert hash_a is not None and hash_b is not None
+        assert hash_a == generate_composite_hash(policy_bojo), "Hash must be deterministic"
+        assert hash_a != hash_b, "Differently worded titles are not merged by the hash"
 
     def test_tier1_unified_pydantic_schema_validation(self):
         """
@@ -392,9 +298,7 @@ class TestTier1FeatureCoverage:
         - Verifies min_age <= max_age boundary
         - Verifies summary_3lines requires exactly 3 non-empty items
         """
-        up_mod = get_unified_policy_module()
-        PolicyModel = getattr(up_mod, "UnifiedWelfarePolicy", None)
-        assert PolicyModel is not None, "UnifiedWelfarePolicy class must be defined in app.schemas.unified_policy"
+        assert UnifiedWelfarePolicy is not None, "UnifiedWelfarePolicy class must be defined in app.schemas.unified_policy"
 
         valid_payload = {
             "id": "pol_central_parent_0",
@@ -426,7 +330,7 @@ class TestTier1FeatureCoverage:
             "last_verified_at": "2026-10-29T12:00:00+09:00"
         }
 
-        instance = PolicyModel(**valid_payload)
+        instance = UnifiedWelfarePolicy(**valid_payload)
         assert instance.id == "pol_central_parent_0"
         assert instance.amount_value == 12000000
 
@@ -434,20 +338,14 @@ class TestTier1FeatureCoverage:
         invalid_summary_payload = dict(valid_payload)
         invalid_summary_payload["summary_3lines"] = ["누가 받나요", "얼마를 받나요"]
         with pytest.raises(Exception):
-            PolicyModel(**invalid_summary_payload)
+            UnifiedWelfarePolicy(**invalid_summary_payload)
 
-    def test_tier1_gitops_versioning_and_monthly_changelog(self, tmp_path):
+    def test_tier1_gitops_versioning_and_monthly_changelog(self, isolate_test_storage):
         """
         [IT Developer] GitOps 변경 이력 (Change Log) 및 월별 분할 보존:
         - compute_field_diff detects exact deltas
         - track_policy_change appends audit record into data/changelogs/YYYY-MM.json
         """
-        ver_mod = get_versioning_module()
-        compute_diff = getattr(ver_mod, "compute_field_diff", None)
-        track_change = getattr(ver_mod, "track_policy_change", None)
-
-        if not compute_diff or not track_change:
-            pytest.skip("M2 Versioning functions not yet defined in app.services.versioning")
 
         old_policy = {
             "id": "pol_seoul_gwanak_moving",
@@ -466,30 +364,25 @@ class TestTier1FeatureCoverage:
             "last_verified_at": "2026-10-29T12:00:00+09:00"  # Timestamp ignored in diff
         }
 
-        diffs = compute_diff(old_policy, new_policy)
+        diffs = compute_field_diff(old_policy, new_policy)
         changed_fields = [d.get("field") for d in diffs]
         assert "amount_value" in changed_fields
         assert "budget_status" in changed_fields
         assert "last_verified_at" not in changed_fields, "Transient timestamps must be excluded from business diff"
 
         # Track change
-        record = track_change(old_policy, new_policy, author="municipal_officer")
+        record = track_policy_change(old_policy, new_policy, author="municipal_officer")
         assert record is not None
 
         # Verify changelog file in isolated environment
-        changelogs_dir = Path(settings.BASE_DIR) / "data" / "changelogs"
-        if not changelogs_dir.exists():
-            changelogs_dir = Path(os.getenv("CHANGELOGS_DIR", str(tmp_path)))
-
         now_partition = datetime.now().strftime("%Y-%m")
-        partition_file = changelogs_dir / f"{now_partition}.json"
-        if partition_file.exists():
-            with open(partition_file, "r", encoding="utf-8") as f:
-                cl_data = json.load(f)
-                assert "events" in cl_data
-                assert len(cl_data["events"]) >= 1
+        partition_file = isolate_test_storage["changelogs_dir"] / f"{now_partition}.json"
+        assert partition_file.exists(), "Change must be written to the monthly changelog"
+        with open(partition_file, "r", encoding="utf-8") as f:
+            cl_data = json.load(f)
+        assert [e["policy_id"] for e in cl_data["events"]] == ["pol_seoul_gwanak_moving"]
 
-    def test_tier1_quarantine_error_isolation_on_malformed_records(self, mock_bojo24_data, mock_bokjiro_data):
+    def test_tier1_quarantine_error_isolation_on_malformed_records(self, mock_bojo24_data, isolate_test_storage):
         """
         [Fault Tolerance] 단위 격리(Quarantine Isolation):
         - Ingesting corrupted records (e.g., mock_bojo24 item 5, mock_bokjiro item 4)
@@ -498,14 +391,6 @@ class TestTier1FeatureCoverage:
         """
         catalog_before = load_catalog_direct()
         count_before = len(catalog_before.get("policies", []))
-
-        collector = get_collector_module()
-        if not hasattr(collector, "ingest_with_quarantine_isolation"):
-            # Verify architectural constraint: existing catalog policies count is preserved
-            assert count_before >= 16, "Master catalog must retain all verified policies"
-            return
-
-        quarantine_file = Path(os.getenv("QUARANTINE_PATH", "/tmp/quarantine_records.json"))
         # Run ingestion with mixed valid and malformed fixtures
         collector.ingest_with_quarantine_isolation(mock_bojo24_data["data"])
 
@@ -514,10 +399,9 @@ class TestTier1FeatureCoverage:
         assert len(catalog_after["policies"]) >= count_before
 
         # Quarantine log must contain isolated failure
-        if quarantine_file.exists():
-            with open(quarantine_file, "r", encoding="utf-8") as f:
-                q_data = json.load(f)
-                assert len(q_data.get("quarantined_records", [])) >= 1
+        with open(isolate_test_storage["quarantine_path"], "r", encoding="utf-8") as f:
+            q_data = json.load(f)
+        assert len(q_data["quarantined_records"]) >= 1
 
 
 # ==============================================================================
@@ -535,8 +419,6 @@ class TestTier2BoundaryAndCornerCases:
         Verifies that optional fields (application_url, contact_phone, dday_text)
         can be null/None without failure, while mandatory fields strictly trigger errors.
         """
-        up_mod = get_unified_policy_module()
-        PolicyModel = getattr(up_mod, "UnifiedWelfarePolicy", None)
 
         minimal_payload = {
             "id": "pol_boundary_minimal",
@@ -561,7 +443,7 @@ class TestTier2BoundaryAndCornerCases:
             "last_verified_at": "2026-10-29T12:00:00+09:00"
         }
 
-        instance = PolicyModel(**minimal_payload)
+        instance = UnifiedWelfarePolicy(**minimal_payload)
         assert instance.application_url is None
         assert instance.contact_phone is None
 
@@ -569,7 +451,7 @@ class TestTier2BoundaryAndCornerCases:
         invalid_no_title = dict(minimal_payload)
         del invalid_no_title["title"]
         with pytest.raises(Exception):
-            PolicyModel(**invalid_no_title)
+            UnifiedWelfarePolicy(**invalid_no_title)
 
     def test_tier2_extreme_income_ratios(self):
         """
@@ -578,20 +460,18 @@ class TestTier2BoundaryAndCornerCases:
         - 999: Universal eligibility (no income test)
         - -10: Negative ratio must raise ValidationError
         """
-        up_mod = get_unified_policy_module()
-        EligibilityModel = getattr(up_mod, "TargetEligibility", None)
 
         # 0 is valid
-        e_zero = EligibilityModel(min_age=0, max_age=100, income_limit_ratio=0)
+        e_zero = TargetEligibility(min_age=0, max_age=100, income_limit_ratio=0)
         assert e_zero.income_limit_ratio == 0
 
         # 999 is valid (universal)
-        e_universal = EligibilityModel(min_age=0, max_age=100, income_limit_ratio=999)
+        e_universal = TargetEligibility(min_age=0, max_age=100, income_limit_ratio=999)
         assert e_universal.income_limit_ratio == 999
 
         # Negative ratio must fail
         with pytest.raises(Exception):
-            EligibilityModel(min_age=0, max_age=100, income_limit_ratio=-10)
+            TargetEligibility(min_age=0, max_age=100, income_limit_ratio=-10)
 
     def test_tier2_inverted_and_extreme_age_ranges(self):
         """
@@ -599,20 +479,18 @@ class TestTier2BoundaryAndCornerCases:
         - min_age > max_age (e.g., 40 > 20) must be rejected
         - age < 0 or age > 120 must be rejected
         """
-        up_mod = get_unified_policy_module()
-        EligibilityModel = getattr(up_mod, "TargetEligibility", None)
 
         # Inverted ages
         with pytest.raises(Exception):
-            EligibilityModel(min_age=40, max_age=20)
+            TargetEligibility(min_age=40, max_age=20)
 
         # Negative age
         with pytest.raises(Exception):
-            EligibilityModel(min_age=-1, max_age=50)
+            TargetEligibility(min_age=-1, max_age=50)
 
         # Extreme age > 120
         with pytest.raises(Exception):
-            EligibilityModel(min_age=0, max_age=150)
+            TargetEligibility(min_age=0, max_age=150)
 
     def test_tier2_budget_status_lifecycle_transitions(self):
         """
@@ -620,18 +498,14 @@ class TestTier2BoundaryAndCornerCases:
         OPEN -> HALF_CONSUMED -> NEAR_EXHAUSTION -> EXHAUSTED -> CLOSING_SOON
         Rejects invalid string 'UNRECOGNIZED_STATUS'.
         """
-        up_mod = get_unified_policy_module()
-        BudgetStatusEnum = getattr(up_mod, "BudgetStatus", None)
 
         valid_states = ["OPEN", "HALF_CONSUMED", "NEAR_EXHAUSTION", "EXHAUSTED", "CLOSING_SOON"]
         for st in valid_states:
-            val = BudgetStatusEnum(st) if hasattr(BudgetStatusEnum, "__members__") else st
-            assert val is not None
+            assert BudgetStatus(st).value == st
 
         # Invalid enum
-        if hasattr(BudgetStatusEnum, "__members__"):
-            with pytest.raises(ValueError):
-                BudgetStatusEnum("INVALID_STATE_VALUE")
+        with pytest.raises(ValueError):
+            BudgetStatus("INVALID_STATE_VALUE")
 
     def test_tier2_zero_amount_subsidies(self, mock_local_notice_data):
         """
@@ -643,10 +517,7 @@ class TestTier2BoundaryAndCornerCases:
         assert care_notice is not None, "mock_local_notice fixture must contain a zero-amount service"
         assert care_notice["category"] == "CARE"
         assert care_notice["amount_value"] == 0
-
-        up_mod = get_unified_policy_module()
-        PolicyModel = getattr(up_mod, "UnifiedWelfarePolicy", None)
-        instance = PolicyModel(
+        instance = UnifiedWelfarePolicy(
             id="pol_care_service_001",
             fingerprint="care001122334455",
             source_type="LOCAL_OFFICER",
@@ -671,7 +542,6 @@ class TestTier2BoundaryAndCornerCases:
         Tests collector resilience when external API returns empty dict or missing envelope.
         Pipeline must return empty list without throwing uncaught exceptions.
         """
-        collector = get_collector_module()
         # Test audit_and_refresh_policies with empty policies list
         refreshed, c_cnt, l_cnt, u_cnt = collector.audit_and_refresh_policies({"policies": []})
         assert refreshed == []
@@ -697,8 +567,6 @@ class TestTier3CrossFeatureCombinations:
         are NOT collapsed or falsely deduplicated into a single policy, even if both
         share the same category (CASH) and similar keywords ('출산', '급여').
         """
-        dedup_mod = get_deduplication_module()
-        gen_hash = getattr(dedup_mod, "generate_composite_hash", getattr(dedup_mod, "generate_policy_fingerprint", None))
 
         central_policy = {
             "title": "정부 출산 부모급여 지원",
@@ -713,12 +581,9 @@ class TestTier3CrossFeatureCombinations:
             "managing_org": "서울특별시 관악구"
         }
 
-        if gen_hash:
-            hash_central = gen_hash(central_policy)
-            hash_local = gen_hash(local_policy)
-            assert hash_central != hash_local, "National policy and Local ordinance must yield distinct composite hashes"
-        else:
-            assert central_policy["region_code"] != local_policy["region_code"]
+        hash_central = generate_composite_hash(central_policy)
+        hash_local = generate_composite_hash(local_policy)
+        assert hash_central != hash_local, "National policy and Local ordinance must yield distinct composite hashes"
 
     def test_tier3_deduplication_title_word_order_and_noise(self):
         """
@@ -727,11 +592,6 @@ class TestTier3CrossFeatureCombinations:
         - '[관악구] 이사비 청년 지원사업'
         Punctuation, noise words, and permutations are neutralized by token sorting.
         """
-        dedup_mod = get_deduplication_module()
-        gen_hash = getattr(dedup_mod, "generate_composite_hash", getattr(dedup_mod, "generate_policy_fingerprint", None))
-
-        if not gen_hash:
-            pytest.skip("M2 generate_composite_hash not yet implemented")
 
         variant_1 = {
             "title": "2026년도 관악구 청년 이사비 지원 공고",
@@ -746,8 +606,8 @@ class TestTier3CrossFeatureCombinations:
             "managing_org": "관악구 청년정책과"
         }
 
-        h1 = gen_hash(variant_1)
-        h2 = gen_hash(variant_2)
+        h1 = generate_composite_hash(variant_1)
+        h2 = generate_composite_hash(variant_2)
         assert h1 == h2, f"Word order permutation and noise words must yield identical hash: {h1} vs {h2}"
 
     def test_tier3_idempotent_sync_heartbeat_zero_delta(self):
@@ -757,11 +617,6 @@ class TestTier3CrossFeatureCombinations:
         - Does NOT produce duplicate changelog entries
         - Only updates last_verified_at heartbeat timestamp
         """
-        ver_mod = get_versioning_module()
-        compute_diff = getattr(ver_mod, "compute_field_diff", None)
-
-        if not compute_diff:
-            pytest.skip("M2 compute_field_diff not yet implemented")
 
         base_policy = {
             "id": "pol_heartbeat_test",
@@ -778,7 +633,7 @@ class TestTier3CrossFeatureCombinations:
             "last_verified_at": "2026-10-29T14:00:00+09:00"
         }
 
-        diffs = compute_diff(base_policy, synced_same)
+        diffs = compute_field_diff(base_policy, synced_same)
         assert len(diffs) == 0, "Identical content must produce 0 field diffs"
 
 
