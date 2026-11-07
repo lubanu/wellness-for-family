@@ -8,8 +8,6 @@ import json
 import os
 from pathlib import Path
 
-import pytest
-
 import scripts.collector as collector
 from app.core.config import settings
 
@@ -33,5 +31,5 @@ def test_storage_paths_stay_outside_live_data():
         collector.CATALOG_PATH, collector.SYNC_PATH, collector.DATA_DIR,
     ]
 
-    # TODO(human): assert that no path in storage_paths sits inside live_dir.
-    pytest.fail("TODO(human): write the check, then delete this line")
+    inside_live_data = [p for p in storage_paths if Path(p).resolve().is_relative_to(live_dir)]
+    assert inside_live_data == [], f"Sandbox leak, these paths use live data: {inside_live_data}"
