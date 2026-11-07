@@ -2,1014 +2,293 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>웰패밀리 (WelFamily) - 지역 복지 정보 찾기 (시범)</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Google Fonts (Pretendard-like Inter + Noto Sans KR) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #f8fafc;
-      color: #0f172a;
-    }
-    .hide-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .hide-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    .badge-local {
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-      color: white;
-    }
-    .badge-central {
-      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-      color: white;
-    }
-
-    /* KWCAG 2.2 / WCAG 2.2 AAA Senior & Barrier-Free Mode */
-    body.senior-mode {
-      font-size: 118%;
-      line-height: 1.75;
-    }
-    body.senior-mode h1, body.senior-mode h2, body.senior-mode h3 {
-      font-weight: 800;
-    }
-    body.senior-mode button, 
-    body.senior-mode a, 
-    body.senior-mode input, 
-    body.senior-mode select {
-      min-height: 48px;
-    }
-    body.senior-mode .text-slate-400,
-    body.senior-mode .text-slate-500 {
-      color: #334155 !important;
-    }
-    body.senior-mode .text-slate-600 {
-      color: #0f172a !important;
-    }
-
-    /* Native HTML5 Dialog & Backdrop */
-    dialog::backdrop {
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(4px);
-    }
-    dialog {
-      overscroll-behavior: contain;
-    }
-
-    /* Skip navigation link */
-    .skip-link {
-      position: absolute;
-      top: -60px;
-      left: 12px;
-      background: #1d4ed8;
-      color: #ffffff;
-      padding: 10px 18px;
-      z-index: 9999;
-      border-radius: 8px;
-      font-weight: 800;
-      font-size: 14px;
-      text-decoration: none;
-      transition: top 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .skip-link:focus {
-      top: 12px;
-      outline: 3px solid #facc15;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="사는 곳을 고르면 전국 공통 복지와 지역 복지를 한곳에서 찾아볼 수 있는 민간 정보 안내 서비스입니다. 시범 운영 중입니다.">
+  <meta name="theme-color" content="#0f766e">
+  <title>웰패밀리 - 우리 동네 복지 찾기 (시범)</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f766e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11.5 12 4l9 7.5'/%3E%3Cpath d='M5.5 9.5V20h13V9.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-blue-500 selection:text-white">
+<body>
+  <!-- Icons: Lucide v0.460.0 (ISC License, https://lucide.dev/license). i-brand is custom. -->
+  <svg xmlns="http://www.w3.org/2000/svg" hidden>
+    <symbol id="i-brand" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M12 17.2s-3.4-2-3.4-4.2a1.9 1.9 0 0 1 3.4-1.2 1.9 1.9 0 0 1 3.4 1.2c0 2.2-3.4 4.2-3.4 4.2z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-external-link" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-a-large-small" viewBox="0 0 24 24"><path d="M21 14h-5"/><path d="M16 16v-3.5a2.5 2.5 0 0 1 5 0V16"/><path d="M4.5 13h6"/><path d="m3 16 4.5-9 4.5 9"/></symbol>
+    <symbol id="i-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  </svg>
 
-  <!-- ACCESSIBILITY: SKIP NAVIGATION & LIVE ANNOUNCER -->
-  <a href="#main-content" class="skip-link">본문 바로가기 (Skip to Main Content)</a>
-  <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <a href="#results" class="skip-link">복지 목록으로 바로 가기</a>
 
-  <!-- TOP HEADER -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
-        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 font-black text-xl">
-          W
-        </div>
-        <div>
-          <span class="font-extrabold text-lg tracking-tight text-slate-900">WelFamily</span>
-          <span class="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200">지역 복지 정보 찾기 (시범)</span>
-        </div>
-      </div>
-
-      <!-- Accessibility & Region -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        <button id="senior-mode-toggle" onclick="toggleSeniorMode()" aria-pressed="false" class="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 text-xs font-bold transition shadow-xs" title="시니어·저시력자를 위한 큰글씨 고대비 모드 토글">
-          <i data-lucide="zoom-in" class="w-3.5 h-3.5 text-blue-600"></i>
-          <span id="senior-mode-text">큰글씨</span>
-        </button>
-
-        <button onclick="switchTab('profile')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs sm:text-sm font-semibold transition">
-          <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i>
-          <span id="header-region-text">서울 관악구</span>
-        </button>
-
-      </div>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <span class="brand">
+        <svg class="icon" aria-hidden="true"><use href="#i-brand"></use></svg>
+        웰패밀리
+      </span>
+      <button id="text-size-toggle" type="button" class="button button--secondary" aria-pressed="false">
+        <svg class="icon" aria-hidden="true"><use href="#i-a-large-small"></use></svg>
+        큰글씨
+      </button>
     </div>
   </header>
 
-  <!-- DATA STATUS NOTICE -->
-  <div class="bg-amber-50 border-b border-amber-200 py-1.5 px-4 text-xs text-amber-900">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
-      <span class="font-bold">시범 운영 중입니다. 내용이 오래되었거나 틀릴 수 있으니, 신청 전 공식 사이트에서 꼭 확인하세요.</span>
-      <span id="sync-time-indicator">데이터 기준일을 확인할 수 없습니다</span>
+  <aside class="notice" aria-label="시범 운영 안내">
+    <div class="container notice__inner">
+      <p class="notice__message">
+        <svg class="icon" aria-hidden="true"><use href="#i-triangle-alert"></use></svg>
+        <span>시범 운영 중이에요. 내용이 오래되었거나 틀릴 수 있으니, 신청 전에 공식 사이트에서 꼭 확인하세요.</span>
+      </p>
+      <p id="data-stamp" class="notice__stamp">데이터 기준일을 확인할 수 없어요</p>
     </div>
-  </div>
+  </aside>
 
-  <!-- NAVIGATION TABS -->
-  <nav class="bg-white border-b border-slate-200 sticky top-16 z-30">
-    <div class="max-w-6xl mx-auto px-4 flex space-x-6 sm:space-x-8 text-sm font-semibold overflow-x-auto hide-scrollbar">
-      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 border-b-2 border-blue-600 text-blue-600 flex items-center space-x-1.5 transition shrink-0">
-        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-        <span>내 지역 복지</span>
-      </button>
-      <button onclick="switchTab('explorer')" id="nav-explorer" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
-        <i data-lucide="search" class="w-4 h-4"></i>
-        <span>복지 검색</span>
-      </button>
-      <button onclick="switchTab('profile')" id="nav-profile" class="py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0">
-        <i data-lucide="users" class="w-4 h-4"></i>
-        <span>지역 설정</span>
-      </button>
-    </div>
-  </nav>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <h1 id="hero-title" class="hero__title">우리 동네 복지, 한곳에서 찾아보세요</h1>
+        <p class="hero__lead">사는 곳을 고르면 전국 공통 복지와 그 지역의 복지를 함께 보여 드려요.</p>
 
-  <!-- MAIN CONTENT CONTAINER -->
-  <main id="main-content" tabindex="-1" class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 focus:outline-none">
-
-    <!-- ========================================== -->
-    <!-- 1. DASHBOARD VIEW -->
-    <!-- ========================================== -->
-    <div id="view-dashboard" class="space-y-6">
-
-      <!-- INTRO -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 class="text-xl font-bold tracking-tight text-slate-900 mb-1">내 지역 복지 정보 찾기</h2>
-          <p class="text-sm text-slate-600">거주 지역을 고르면 전국 공통 복지와 그 지역의 복지를 보여 드립니다. 받을 수 있는지와 금액은 아직 계산하지 않습니다.</p>
-        </div>
-        <button onclick="switchTab('profile')" class="shrink-0 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-bold transition shadow-sm">
-          지역 설정하기
-        </button>
-      </div>
-
-      <!-- POLICY CARDS SECTION -->
-      <div>
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-          <div>
-            <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-              <span>내 지역 복지 목록</span>
-              <span class="text-xs font-semibold px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full" id="policy-list-badge">0건</span>
-            </h3>
-            <p class="text-xs text-slate-500">선택한 지역 기준 목록입니다. 수급 자격은 확인하지 않았습니다.</p>
-          </div>
-
-          <!-- Quick Filter Tabs -->
-          <div class="flex items-center space-x-1.5 text-xs font-semibold bg-slate-100 p-1 rounded-lg">
-            <button onclick="filterDashboard('all')" id="dash-filter-all" class="px-2.5 py-1 rounded bg-white shadow-xs text-slate-900">전체</button>
-            <button onclick="filterDashboard('local')" id="dash-filter-local" class="px-2.5 py-1 rounded text-slate-600 hover:text-slate-900">지자체 특화 ★</button>
-            <button onclick="filterDashboard('central')" id="dash-filter-central" class="px-2.5 py-1 rounded text-slate-600 hover:text-slate-900">중앙정부 공통</button>
-          </div>
-        </div>
-
-        <!-- Dynamic Grid of Policy Cards -->
-        <div id="dashboard-policy-cards" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Populated by JavaScript -->
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ========================================== -->
-    <!-- 2. EXPLORER VIEW -->
-    <!-- ========================================== -->
-    <div id="view-explorer" class="space-y-6 hidden">
-      <!-- Search & Filters -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
-        <div class="relative">
-          <i data-lucide="search" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-400"></i>
-          <input type="text" id="explorer-search" oninput="handleSearch()" placeholder="정책명, 기관, 지원 내용 검색 (예: 월세, 첫만남, 난임)" class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
-        </div>
-
-        <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-100 text-xs font-medium">
-          <span class="text-slate-400 py-1 mr-1">카테고리:</span>
-          <button onclick="setCategoryFilter('ALL')" class="cat-filter-btn px-3 py-1 rounded-full bg-blue-600 text-white font-bold" data-cat="ALL">전체 보기</button>
-          <button onclick="setCategoryFilter('CASH')" class="cat-filter-btn px-3 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="CASH">💰 현금·수당</button>
-          <button onclick="setCategoryFilter('VOUCHER')" class="cat-filter-btn px-3 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="VOUCHER">🎟️ 바우처·이용권</button>
-          <button onclick="setCategoryFilter('DISCOUNT')" class="cat-filter-btn px-3 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="DISCOUNT">📉 요금감면·할인</button>
-          <button onclick="setCategoryFilter('CARE')" class="cat-filter-btn px-3 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="CARE">👶 돌봄·의료·건강</button>
-          <button onclick="setCategoryFilter('HOUSING')" class="cat-filter-btn px-3 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="HOUSING">🏠 주거·대출</button>
-        </div>
-      </div>
-
-      <!-- Results Count and Sort -->
-      <div class="flex items-center justify-between text-xs text-slate-500">
-        <div>검색 결과 총 <strong class="text-slate-900" id="explorer-count">0</strong>건</div>
-      </div>
-
-      <!-- Explorer Grid -->
-      <div id="explorer-policy-cards" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Rendered by JS -->
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- 3. REGION VIEW -->
-    <!-- ========================================== -->
-    <div id="view-profile" class="space-y-6 hidden">
-      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        <div class="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
-          <div>
-            <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-              <i data-lucide="map-pin" class="w-5 h-5 text-blue-600"></i>
-              <span>거주 지역 설정</span>
-            </h3>
-            <p class="text-xs text-slate-500">선택한 지역과 전국 공통 복지를 보여 드립니다. 가구 조건에 따른 자격 확인은 준비 중입니다.</p>
-          </div>
-          <button onclick="saveProfile()" class="shrink-0 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition shadow-sm">
-            지역 저장
-          </button>
-        </div>
-
-        <div class="max-w-md space-y-4">
-          <div>
-            <span class="block text-xs font-bold text-slate-700 mb-1.5">거주 지역 (시/도 및 시/군/구)</span>
-            <div class="grid grid-cols-2 gap-2">
-              <select id="profile-sido" aria-label="시/도" onchange="handleSidoChange()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500">
+        <fieldset class="region-picker">
+          <legend class="region-picker__label">어디에 사시나요?</legend>
+          <div class="region-picker__selects">
+            <div>
+              <label class="sr-only" for="region-sido">시/도</label>
+              <select id="region-sido" class="select">
+                <option value="">시/도 선택</option>
                 <option value="seoul">서울특별시</option>
                 <option value="gyeonggi">경기도</option>
                 <option value="busan">부산광역시</option>
               </select>
-              <select id="profile-sigungu" aria-label="시/군/구" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-blue-500">
-                <option value="gwanak">관악구</option>
-                <option value="gangnam">강남구</option>
-                <option value="mapo">마포구</option>
+            </div>
+            <div>
+              <label class="sr-only" for="region-sigungu">시/군/구</label>
+              <select id="region-sigungu" class="select" disabled>
+                <option value="">시/군/구 선택</option>
               </select>
             </div>
-            <p class="text-xs text-slate-500 mt-1">시범 운영 중이라 일부 지역만 선택할 수 있습니다.</p>
           </div>
+          <p class="hint">지금은 서울·경기·부산의 일부 지역만 고를 수 있어요.</p>
+        </fieldset>
 
-          <!-- Privacy Notice -->
-          <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl text-xs space-y-2">
-            <div class="flex items-center space-x-1.5 text-emerald-800 font-bold">
-              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
-              <span>개인정보 안내</span>
-            </div>
-            <p class="text-slate-600 leading-relaxed">
-              선택한 지역은 이 기기의 브라우저에만 저장됩니다. 웰패밀리는 이 정보를 수집하지 않습니다.
-            </p>
-            <button onclick="clearSavedRegion()" class="px-2.5 py-1 bg-white border border-slate-200 hover:bg-slate-50 rounded text-xs font-bold text-slate-700 transition">
-              저장된 지역 삭제
+        <div class="hero__options">
+          <label class="check">
+            <input id="region-remember" type="checkbox">
+            이 기기에 지역 기억하기
+          </label>
+          <p class="hint">이 기기의 브라우저에만 저장되고, 웰패밀리는 수집하지 않습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="results container" aria-labelledby="results-title" aria-busy="true">
+      <div class="toolbar">
+        <div>
+          <label class="field-label" for="search-input">복지 이름이나 내용으로 찾기</label>
+          <div class="search">
+            <svg class="icon search__icon" aria-hidden="true"><use href="#i-search"></use></svg>
+            <input id="search-input" class="search__input" type="search" placeholder="예: 월세, 첫만남" autocomplete="off">
+            <button id="search-clear" class="search__clear" type="button" aria-label="검색어 지우기" hidden>
+              <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
             </button>
           </div>
         </div>
+        <details id="filters" class="filters">
+          <summary class="filters__summary">
+            <span>조건으로 좁히기<span id="filter-count"></span></span>
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"></use></svg>
+          </summary>
+          <div class="toolbar__filters">
+            <div role="group" aria-labelledby="category-label">
+              <span id="category-label" class="filter-group__label">분야</span>
+              <div id="category-filters" class="filter-chips"></div>
+            </div>
+            <div role="group" aria-labelledby="origin-label">
+              <span id="origin-label" class="filter-group__label">범위</span>
+              <div id="origin-filters" class="filter-chips"></div>
+            </div>
+          </div>
+        </details>
       </div>
-    </div>
 
-    <footer class="mt-12 py-6 border-t border-slate-200 text-xs text-slate-600 space-y-2">
-      <p class="font-bold text-slate-800">이용 안내</p>
-      <ul class="space-y-1">
+      <div class="results__head">
+        <h2 id="results-title" class="results__title" tabindex="-1">전국 공통 복지</h2>
+        <p id="results-summary" class="results__summary" role="status">복지 정보를 불러오고 있어요.</p>
+        <p id="results-legend" class="legend" hidden>
+          <span class="chip chip--review">
+            <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+            확인 필요
+          </span>
+          <span>공식 자료와 아직 대조하지 않았고, 받을 수 있는지와 금액도 계산하지 않았어요. 신청 전에 꼭 확인하세요.</span>
+        </p>
+      </div>
+
+      <ul id="policy-skeleton" class="card-grid skeleton-list" aria-hidden="true">
+        <li><div class="skeleton-card"><div class="skeleton-line skeleton-line--short"></div><div class="skeleton-line skeleton-line--title"></div><div class="skeleton-line"></div></div></li>
+        <li><div class="skeleton-card"><div class="skeleton-line skeleton-line--short"></div><div class="skeleton-line skeleton-line--title"></div><div class="skeleton-line"></div></div></li>
+        <li><div class="skeleton-card"><div class="skeleton-line skeleton-line--short"></div><div class="skeleton-line skeleton-line--title"></div><div class="skeleton-line"></div></div></li>
+        <li><div class="skeleton-card"><div class="skeleton-line skeleton-line--short"></div><div class="skeleton-line skeleton-line--title"></div><div class="skeleton-line"></div></div></li>
+      </ul>
+
+      <ul id="policy-list" class="card-grid" hidden></ul>
+
+      <div id="show-more" class="show-more" hidden>
+        <button id="show-more-button" type="button" class="button button--secondary"></button>
+      </div>
+
+      <div id="results-empty" class="state-panel" hidden>
+        <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+        <p id="empty-title" class="state-panel__title"></p>
+        <p id="empty-text" class="state-panel__text"></p>
+        <div class="state-panel__actions">
+          <button id="empty-action" type="button" class="button button--primary"></button>
+        </div>
+      </div>
+
+      <div id="results-error" class="state-panel state-panel--error" hidden>
+        <svg class="icon" aria-hidden="true"><use href="#i-triangle-alert"></use></svg>
+        <p class="state-panel__title">복지 정보를 불러오지 못했어요</p>
+        <p class="state-panel__text">인터넷 연결을 확인하고 다시 시도해 주세요. 복지로나 보건복지상담센터 129에서도 찾아볼 수 있어요.</p>
+        <div class="state-panel__actions">
+          <button id="retry-button" type="button" class="button button--primary">
+            <svg class="icon" aria-hidden="true"><use href="#i-refresh-cw"></use></svg>
+            다시 시도
+          </button>
+          <a class="button button--secondary" href="https://www.bokjiro.go.kr" target="_blank" rel="noopener noreferrer">
+            복지로 열기<span class="sr-only"> (새 창)</span>
+          </a>
+        </div>
+      </div>
+
+      <noscript>
+        <div class="state-panel state-panel--error">
+          <p class="state-panel__title">이 페이지는 JavaScript가 필요해요</p>
+          <p class="state-panel__text">복지로(www.bokjiro.go.kr)나 보건복지상담센터 129에서 찾아보세요.</p>
+        </div>
+      </noscript>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <h2 class="site-footer__title">이용 안내</h2>
+      <ul class="site-footer__list">
         <li>이 서비스의 내용은 참고용 안내입니다. 공식 결정이 아니며, 실제 지원 여부와 금액은 담당 기관의 심사로 정해집니다.</li>
         <li>웰패밀리는 정부나 지방자치단체가 운영하는 서비스가 아닙니다. 민간 정보 안내 서비스입니다.</li>
         <li>데이터 출처: 지금 보이는 정책은 운영자가 직접 입력한 시범 데이터입니다. 공공데이터 연동은 준비 중입니다.</li>
-        <li>정확한 정보:
-          <a href="https://www.bokjiro.go.kr" target="_blank" rel="noopener noreferrer" class="underline font-bold text-slate-800 hover:text-blue-600">복지로</a>,
-          <a href="https://www.gov.kr" target="_blank" rel="noopener noreferrer" class="underline font-bold text-slate-800 hover:text-blue-600">정부24</a>,
+        <li>
+          정확한 정보:
+          <a href="https://www.bokjiro.go.kr" target="_blank" rel="noopener noreferrer">복지로<span class="sr-only"> (새 창)</span></a>,
+          <a href="https://www.gov.kr" target="_blank" rel="noopener noreferrer">정부24<span class="sr-only"> (새 창)</span></a>,
           보건복지상담센터 129
         </li>
       </ul>
-      <p class="text-slate-500">© 2026 WelFamily</p>
-    </footer>
+      <p class="hint">© 2026 WelFamily</p>
+    </div>
+  </footer>
 
-  </main>
+  <template id="policy-card-template">
+    <li>
+      <article class="card">
+        <div class="card__meta">
+          <span class="chip" data-slot="origin">
+            <svg class="icon" aria-hidden="true"><use href="#i-map-pin"></use></svg>
+            <span data-slot="origin-text"></span>
+          </span>
+          <span class="chip chip--quiet" data-slot="category"></span>
+          <span class="chip chip--review">
+            <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+            확인 필요
+          </span>
+        </div>
+        <h3 class="card__title"><button type="button" class="card__open" data-slot="title"></button></h3>
+        <p class="card__org" data-slot="org"></p>
+        <p class="card__summary" data-slot="summary"></p>
+        <div class="card__foot">
+          <span class="card__amount" data-slot="amount"></span>
+          <span class="card__more" aria-hidden="true">
+            자세히
+            <svg class="icon"><use href="#i-chevron-right"></use></svg>
+          </span>
+        </div>
+      </article>
+    </li>
+  </template>
 
-  <!-- ========================================== -->
-  <!-- 1. POLICY DETAIL NATIVE DIALOG (WCAG 2.2 AAA ACCESSIBLE) -->
-  <!-- ========================================== -->
-  <dialog id="policy-modal" class="rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-0 p-0 m-auto" aria-labelledby="modal-title">
-    <div class="bg-white rounded-2xl w-full border border-slate-100">
-      <div class="sticky top-0 bg-white/95 backdrop-blur-md px-6 py-4 border-b border-slate-100 flex items-center justify-between z-10">
-        <span id="modal-agency-badge" class="px-2.5 py-1 rounded-full text-xs font-bold badge-local">지자체 특화</span>
-        <button onclick="closePolicyModal()" class="p-1 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="닫기">
-          <i data-lucide="x" class="w-5 h-5"></i>
+  <dialog id="policy-dialog" class="dialog" aria-labelledby="dialog-title">
+    <div class="dialog__head">
+      <div class="dialog__top">
+        <div id="dialog-chips" class="card__meta">
+          <span class="chip" data-slot="origin">
+            <svg class="icon" aria-hidden="true"><use href="#i-map-pin"></use></svg>
+            <span data-slot="origin-text"></span>
+          </span>
+          <span class="chip chip--quiet" data-slot="category"></span>
+          <span class="chip chip--review">
+            <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+            확인 필요
+          </span>
+        </div>
+        <button id="dialog-close" type="button" class="dialog__close" aria-label="닫기">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
         </button>
       </div>
+      <p id="dialog-org" class="card__org"></p>
+      <h2 id="dialog-title" class="dialog__title"></h2>
+      <p id="dialog-amount" class="dialog__amount"></p>
+    </div>
 
-      <div class="p-6 space-y-5">
-        <div>
-          <span id="modal-managing-org" class="text-xs font-semibold text-slate-600">서울특별시 관악구 청년정책과</span>
-          <h3 id="modal-title" class="text-xl font-bold text-slate-900 mt-0.5">관악구 청년·신혼부부 부동산 중개보수 및 이사비 지원</h3>
-          <div class="flex items-center space-x-2 mt-2">
-            <span class="text-2xl font-black text-blue-600" id="modal-amount">최대 400,000 원</span>
-            <span class="text-xs font-semibold px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded" id="modal-type-tag">현금 실비 지원</span>
-            <span class="text-xs font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">확인 필요</span>
+    <div class="dialog__body">
+      <section aria-labelledby="facts-title">
+        <h3 id="facts-title" class="dialog__section-title">한눈에 보기</h3>
+        <dl class="facts">
+          <div>
+            <dt>누가 받나요</dt>
+            <dd id="fact-who"></dd>
           </div>
-        </div>
-
-        <!-- 3-Line Plain Language Summary Box -->
-        <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-4 space-y-2">
-          <h4 class="font-extrabold text-blue-900 text-xs flex items-center space-x-1.5">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-blue-600"></i>
-            <span>3줄 쉬운 말 핵심 요약</span>
-          </h4>
-          <ul class="text-xs text-blue-950 space-y-1 font-medium" id="modal-3lines">
-            <li>• <strong>누가 받나요:</strong> 관악구로 이사 온 신혼부부 및 청년 무주택 가구</li>
-            <li>• <strong>얼마를 받나요:</strong> 부동산 중개수수료 및 이사 차량비 최대 40만 원</li>
-            <li>• <strong>어떻게 받나요:</strong> 임대차계약서와 영수증 첨부하여 구청 온라인 접수</li>
-          </ul>
-        </div>
-
-        <!-- Document Checklist -->
-        <div>
-          <h4 class="font-bold text-slate-900 text-sm mb-2 flex items-center justify-between">
-            <span>📋 신청 전 필수 서류 체크리스트</span>
-            <span class="text-[11px] text-slate-500">모바일에서 바로 체크해보세요</span>
-          </h4>
-          <div class="space-y-2 text-xs" id="modal-docs-container">
-            <!-- Rendered by JS -->
+          <div>
+            <dt>얼마를 받나요</dt>
+            <dd id="fact-what"></dd>
           </div>
-        </div>
-
-        <!-- Contact Info -->
-        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700">
-          <div class="flex items-center space-x-1">
-            <i data-lucide="phone" class="w-3.5 h-3.5 text-slate-500"></i>
-            <span><strong>문의처:</strong> <span id="modal-contact-phone">129</span></span>
+          <div>
+            <dt>어떻게 받나요</dt>
+            <dd id="fact-how"></dd>
           </div>
-        </div>
+        </dl>
+      </section>
 
-        <!-- Official Link -->
-        <div class="pt-2 space-y-2">
-          <a id="modal-apply-link" href="https://www.bokjiro.go.kr" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition text-center shadow-sm">
-            공식 사이트에서 확인하기
-          </a>
-          <p class="text-xs text-slate-500 text-center">참고용 안내입니다. 자격과 금액은 공식 사이트나 담당 기관에서 확인하세요.</p>
-        </div>
-      </div>
+      <section id="doc-section" aria-labelledby="docs-title">
+        <h3 id="docs-title" class="dialog__section-title">챙길 서류</h3>
+        <div id="doc-list" class="doc-list"></div>
+        <p id="doc-progress" class="doc-progress" role="status"></p>
+      </section>
+
+      <section aria-labelledby="contact-title">
+        <h3 id="contact-title" class="dialog__section-title">문의</h3>
+        <a id="dialog-phone" class="contact-link" href="tel:129">
+          <svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>
+          <span id="dialog-phone-text">129</span>
+        </a>
+      </section>
+    </div>
+
+    <div class="dialog__foot">
+      <a id="dialog-link" class="button button--primary button--block" href="https://www.bokjiro.go.kr" target="_blank" rel="noopener noreferrer">
+        공식 사이트에서 확인하기
+        <svg class="icon" aria-hidden="true"><use href="#i-external-link"></use></svg>
+        <span class="sr-only">(새 창)</span>
+      </a>
+      <p class="hint">참고용 안내입니다. 자격과 금액은 공식 사이트나 담당 기관에서 확인하세요.</p>
     </div>
   </dialog>
-
-  <!-- JAVASCRIPT LOGIC & DATABASE -->
-  <script>
-    // ==========================================
-    // 1. DATA STORE (POLICIES MASTER DATASET)
-    // ==========================================
-    let POLICIES = [
-      {
-        id: "pol_gwanak_moving",
-        title: "관악구 청년·신혼부부 이사비 및 중개보수 지원",
-        origin: "LOCAL",
-        region: "seoul_gwanak",
-        regionName: "서울시 관악구",
-        managingOrg: "서울특별시 관악구 청년정책과",
-        category: "CASH",
-        categoryName: "현금지원",
-        amountValue: 400000,
-        amountText: "최대 400,000 원",
-        certainty: 98,
-        isUrgent: true,
-        dday: "D-3",
-        status: "UNCLAIMED",
-        summary3: [
-          "관악구로 전입한 지 1년 이내의 무주택 신혼부부 및 청년 가구",
-          "부동산 중개보수와 이사 실비 최대 40만 원을 계좌로 지급",
-          "선착순 예산 소진형으로 마감 전 온라인 신청 필수"
-        ],
-        docs: [
-          { name: "주민등록등본", canOnline: true, issuer: "정부24 무료 발급" },
-          { name: "부동산 임대차계약서 사본", canOnline: false, issuer: "본인 소지본" },
-          { name: "중개보수 영수증 또는 이사비 영수증", canOnline: false, issuer: "업체 발급" },
-          { name: "본인 명의 통장 사본", canOnline: false, issuer: "은행 앱 캡처" }
-        ],
-        matchTags: ["newlywed", "housing"]
-      },
-      {
-        id: "pol_parent_allowance",
-        title: "2026 정부 공통 부모급여 (만 1세)",
-        origin: "CENTRAL",
-        region: "ALL",
-        regionName: "전국 공통",
-        managingOrg: "보건복지부",
-        category: "CASH",
-        categoryName: "현금지원",
-        amountValue: 6000000,
-        amountText: "월 50만 원 (연 600만 원)",
-        certainty: 100,
-        isUrgent: false,
-        dday: "매월 25일",
-        status: "CLAIMED",
-        summary3: [
-          "만 1세(12~23개월) 아동을 양육하는 모든 부모",
-          "소득 및 재산 기준과 무관하게 매월 50만 원 현금 지급",
-          "복지로 웹사이트 또는 거주지 주민센터에서 상시 신청"
-        ],
-        docs: [
-          { name: "사회보장급여 신청서", canOnline: true, issuer: "복지로 웹 서식" },
-          { name: "아동 명의 통장 사본", canOnline: false, issuer: "은행 발급" }
-        ],
-        matchTags: ["infant"]
-      },
-      {
-        id: "pol_child_allowance",
-        title: "정부 아동수당 (만 8세 미만)",
-        origin: "CENTRAL",
-        region: "ALL",
-        regionName: "전국 공통",
-        managingOrg: "보건복지부",
-        category: "CASH",
-        categoryName: "현금지원",
-        amountValue: 1200000,
-        amountText: "월 10만 원 (연 120만 원)",
-        certainty: 100,
-        isUrgent: false,
-        dday: "매월 25일",
-        status: "CLAIMED",
-        summary3: [
-          "만 8세 미만(0~95개월) 모든 아동",
-          "부모 소득 무관 매월 25일 10만 원 현금 입금",
-          "출생신고 시 행복출산 원스톱 서비스로 일괄 신청 완료"
-        ],
-        docs: [
-          { name: "아동수당 지급신청서", canOnline: true, issuer: "정부24 / 복지로" }
-        ],
-        matchTags: ["infant", "multichild"]
-      },
-      {
-        id: "pol_seoul_care",
-        title: "서울형 가사돌봄 서비스 (연 10회 지원)",
-        origin: "LOCAL",
-        region: "seoul_gwanak",
-        regionName: "서울특별시 전체",
-        managingOrg: "서울특별시 여성가족실",
-        category: "CARE",
-        categoryName: "돌봄서비스",
-        amountValue: 500000,
-        amountText: "연 10회 (약 50만 원 상당)",
-        certainty: 92,
-        isUrgent: false,
-        dday: "상시 접수",
-        status: "UNCLAIMED",
-        summary3: [
-          "서울시 거주 기준 중위소득 150% 이하 맞벌이·임산부 가구",
-          "가정당 가사관리사 무료 방문 청소·세탁 연 10회 바우처 지원",
-          "서울시 여성가족재단 포털을 통해 온라인 신청"
-        ],
-        docs: [
-          { name: "주민등록등본", canOnline: true, issuer: "정부24" },
-          { name: "건강보험료 납부확인서", canOnline: true, issuer: "국민건강보험공단" },
-          { name: "맞벌이 증빙(재직증명서)", canOnline: false, issuer: "회사 발급" }
-        ],
-        matchTags: ["newlywed", "infant"]
-      },
-      {
-        id: "pol_first_encounter",
-        title: "첫만남이용권 바우처 (첫째 200만/둘째 300만)",
-        origin: "CENTRAL",
-        region: "ALL",
-        regionName: "전국 공통",
-        managingOrg: "보건복지부",
-        category: "VOUCHER",
-        categoryName: "바우처",
-        amountValue: 2000000,
-        amountText: "2,000,000 원 (일시 바우처)",
-        certainty: 100,
-        isUrgent: false,
-        dday: "사용기한 1년",
-        status: "CLAIMED",
-        summary3: [
-          "2022년 이후 출생한 모든 아동 (출생 초기)",
-          "국민행복카드 바우처 포인트 형태로 일시 지급",
-          "육아용품, 병원, 조리원, 식음료 등 폭넓게 사용 가능"
-        ],
-        docs: [
-          { name: "출생증명서", canOnline: false, issuer: "병원 발급" }
-        ],
-        matchTags: ["infant"]
-      },
-      {
-        id: "pol_utility_discount",
-        title: "영유아 가구 전기요금 30% 감면 지원",
-        origin: "CENTRAL",
-        region: "ALL",
-        regionName: "전국 공통",
-        managingOrg: "한국전력공사 / 산업통상자원부",
-        category: "DISCOUNT",
-        categoryName: "요금감면",
-        amountValue: 192000,
-        amountText: "월 최대 1.6만 원 (연 19.2만 원)",
-        certainty: 100,
-        isUrgent: false,
-        dday: "한전 신청",
-        status: "UNCLAIMED",
-        summary3: [
-          "만 3세 미만 영유아가 포함된 주거용 가구",
-          "해당 월 전기요금의 30% (월 최대 1만 6천 원 한도) 자동 차감",
-          "한전 ON(한전사이버지점) 또는 국번 없이 123 유선 신청"
-        ],
-        docs: [
-          { name: "주민등록등본", canOnline: true, issuer: "정부24" }
-        ],
-        matchTags: ["infant"]
-      },
-      {
-        id: "pol_gwanak_postpartum",
-        title: "관악구 산후조리비 지원사업 (관악사랑상품권)",
-        origin: "LOCAL",
-        region: "seoul_gwanak",
-        regionName: "서울시 관악구",
-        managingOrg: "관악구 보건소",
-        category: "VOUCHER",
-        categoryName: "바우처",
-        amountValue: 500000,
-        amountText: "500,000 원 (지역상품권)",
-        certainty: 95,
-        isUrgent: false,
-        dday: "출산 후 60일 내",
-        status: "UNCLAIMED",
-        summary3: [
-          "관악구 6개월 이상 거주 출산 가정",
-          "산후조리비 50만 원 상당의 관악사랑상품권(제로페이) 지급",
-          "관악구 보건소 모자보건실 또는 서울시 임신출산정보센터 신청"
-        ],
-        docs: [
-          { name: "출생증명서 및 주민등록등본", canOnline: true, issuer: "정부24" }
-        ],
-        matchTags: ["infant", "newlywed"]
-      },
-      {
-        id: "pol_youth_rent",
-        title: "청년 월세 한시 특별지원 (월 20만원 지원)",
-        origin: "CENTRAL",
-        region: "ALL",
-        regionName: "전국 공통",
-        managingOrg: "국토교통부",
-        category: "HOUSING",
-        categoryName: "주거지원",
-        amountValue: 2400000,
-        amountText: "월 20만 원 (최대 240만 원)",
-        certainty: 88,
-        isUrgent: false,
-        dday: "상시 접수",
-        status: "UNCLAIMED",
-        summary3: [
-          "만 19~34세 부모와 별도 거주하는 무주택 청년",
-          "청년독립가구 중위 60% 이하, 원가구 중위 100% 이하",
-          "복지로 웹사이트 또는 행정복지센터 방문 접수"
-        ],
-        docs: [
-          { name: "임대차계약서", canOnline: false, issuer: "본인 소지" },
-          { name: "최근 3개월 월세 이체 증빙", canOnline: true, issuer: "은행 앱" }
-        ],
-        matchTags: ["housing", "youth"]
-      }
-    ];
-
-    // ==========================================
-    // 2. STATE MANAGEMENT
-    // ==========================================
-    let currentTab = 'dashboard';
-    let currentCategoryFilter = 'ALL';
-    let currentDashFilter = 'all';
-    let currentRegion = 'seoul_gwanak';
-    let currentSearchTerm = '';
-
-    // ==========================================
-    // 3. TAB NAVIGATION
-    // ==========================================
-    function switchTab(tabId) {
-      currentTab = tabId;
-      const tabs = ['dashboard', 'explorer', 'profile'];
-      tabs.forEach(t => {
-        const view = document.getElementById(`view-${t}`);
-        const nav = document.getElementById(`nav-${t}`);
-        if (!view || !nav) return;
-        if (t === tabId) {
-          view.classList.remove('hidden');
-          nav.className = "py-3 border-b-2 border-blue-600 text-blue-600 flex items-center space-x-1.5 transition shrink-0";
-        } else {
-          view.classList.add('hidden');
-          nav.className = "py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center space-x-1.5 transition shrink-0";
-        }
-      });
-      lucide.createIcons();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 4. RENDERING FUNCTIONS
-    // ==========================================
-    const REVIEW_BADGE = '<span class="text-xs font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">확인 필요</span>';
-
-    function getFilteredPolicies() {
-      return POLICIES.filter(p => {
-        // Region matching: national, the selected sigungu, or its parent sido
-        const matchRegion = (p.region === 'ALL' || p.region === currentRegion || currentRegion.startsWith(`${p.region}_`));
-        if (!matchRegion) return false;
-
-        // Search term matching
-        if (currentSearchTerm) {
-          const text = (p.title + p.managingOrg + p.summary3.join(' ')).toLowerCase();
-          if (!text.includes(currentSearchTerm.toLowerCase())) return false;
-        }
-
-        // Category filter
-        if (currentCategoryFilter !== 'ALL' && p.category !== currentCategoryFilter) {
-          return false;
-        }
-
-        return true;
-      });
-    }
-
-    function renderDashboardCards() {
-      const container = document.getElementById('dashboard-policy-cards');
-      container.innerHTML = '';
-
-      let list = getFilteredPolicies();
-      if (currentDashFilter === 'local') {
-        list = list.filter(p => p.origin === 'LOCAL');
-      } else if (currentDashFilter === 'central') {
-        list = list.filter(p => p.origin === 'CENTRAL');
-      }
-
-      list.forEach(policy => {
-        const isLocal = policy.origin === 'LOCAL';
-        const card = document.createElement('div');
-        card.className = "bg-white border border-slate-200 hover:border-blue-400 rounded-2xl p-5 shadow-xs hover:shadow-md transition cursor-pointer flex flex-col justify-between";
-        card.onclick = () => openPolicyModal(policy.id);
-
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <div class="flex items-center space-x-1.5">
-                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${isLocal ? 'badge-local' : 'badge-central'}">
-                  ${isLocal ? '지자체 특화 ★' : '중앙부처 공통'}
-                </span>
-                <span class="text-xs text-slate-500 font-medium">${policy.regionName}</span>
-              </div>
-              ${REVIEW_BADGE}
-            </div>
-
-            <h4 class="font-bold text-slate-900 text-base mb-1 tracking-tight">${policy.title}</h4>
-            <div class="text-xs text-slate-500 mb-3">${policy.managingOrg}</div>
-
-            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 mb-3 space-y-1 text-xs text-slate-700">
-              <p class="truncate">• ${policy.summary3[0]}</p>
-              <p class="truncate font-semibold text-slate-900">• ${policy.summary3[1]}</p>
-            </div>
-          </div>
-
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <span class="text-base font-extrabold text-blue-700">${policy.amountText}</span>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs font-bold text-slate-600 flex items-center">
-                <span>상세보기</span>
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
-              </span>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-
-      // Update badge
-      document.getElementById('policy-list-badge').innerText = `${list.length}건`;
-      lucide.createIcons();
-    }
-
-    function renderExplorer() {
-      const container = document.getElementById('explorer-policy-cards');
-      container.innerHTML = '';
-
-      const list = getFilteredPolicies();
-      document.getElementById('explorer-count').innerText = list.length;
-
-      list.forEach(policy => {
-        const isLocal = policy.origin === 'LOCAL';
-        const card = document.createElement('div');
-        card.className = "bg-white border border-slate-200 hover:border-blue-400 rounded-2xl p-5 shadow-xs hover:shadow-md transition cursor-pointer flex flex-col justify-between";
-        card.onclick = () => openPolicyModal(policy.id);
-
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${isLocal ? 'badge-local' : 'badge-central'}">
-                ${isLocal ? '지자체 특화 ★' : '중앙부처 공통'}
-              </span>
-              <span class="flex items-center space-x-1.5">
-                <span class="text-xs font-semibold px-2 py-0.5 bg-slate-100 text-slate-700 rounded">${policy.categoryName}</span>
-                ${REVIEW_BADGE}
-              </span>
-            </div>
-            <h4 class="font-bold text-slate-900 text-base mb-1">${policy.title}</h4>
-            <div class="text-xs text-slate-500 mb-2">${policy.managingOrg}</div>
-            <p class="text-xs text-slate-600 line-clamp-2 mb-3">${policy.summary3[0]} / ${policy.summary3[1]}</p>
-          </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <span class="text-sm font-extrabold text-blue-600">${policy.amountText}</span>
-            <span class="text-xs font-bold text-slate-500 flex items-center">
-              <span>서류 보기</span>
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
-            </span>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-      lucide.createIcons();
-    }
-
-    // ==========================================
-    // 5. MODAL LOGIC
-    // ==========================================
-    function openPolicyModal(policyId) {
-      const p = POLICIES.find(item => item.id === policyId);
-      if (!p) return;
-
-      document.getElementById('modal-title').innerText = p.title;
-      document.getElementById('modal-managing-org').innerText = p.managingOrg;
-      document.getElementById('modal-amount').innerText = p.amountText;
-      document.getElementById('modal-type-tag').innerText = p.categoryName;
-
-      const badge = document.getElementById('modal-agency-badge');
-      if (p.origin === 'LOCAL') {
-        badge.innerText = `지자체 특화 (${p.regionName})`;
-        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold badge-local";
-      } else {
-        badge.innerText = "중앙부처 전국 공통";
-        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold badge-central";
-      }
-
-      // 3 lines summary
-      const summaryList = document.getElementById('modal-3lines');
-      summaryList.innerHTML = `
-        <li>• <strong>누가 받나요:</strong> ${p.summary3[0]}</li>
-        <li>• <strong>얼마를 받나요:</strong> ${p.summary3[1]}</li>
-        <li>• <strong>어떻게 받나요:</strong> ${p.summary3[2]}</li>
-      `;
-
-      // Docs Checklist
-      const docsContainer = document.getElementById('modal-docs-container');
-      docsContainer.innerHTML = '';
-      p.docs.forEach((doc, idx) => {
-        const item = document.createElement('label');
-        item.className = "flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition";
-        item.innerHTML = `
-          <div class="flex items-center space-x-2.5">
-            <input type="checkbox" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500">
-            <span class="font-medium text-slate-800">${doc.name}</span>
-          </div>
-          <span class="text-[11px] font-semibold px-2 py-0.5 ${doc.canOnline ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'} rounded">
-            ${doc.issuer}
-          </span>
-        `;
-        docsContainer.appendChild(item);
-      });
-
-      // Contact and official link (only http or https links are used)
-      document.getElementById('modal-contact-phone').innerText = p.contactPhone || '129';
-      document.getElementById('modal-apply-link').href =
-        /^https?:\/\//.test(p.applicationUrl || '') ? p.applicationUrl : 'https://www.bokjiro.go.kr';
-
-      const pModal = document.getElementById('policy-modal');
-      if (typeof pModal.showModal === 'function') {
-        pModal.showModal();
-      } else {
-        pModal.classList.remove('hidden');
-      }
-      announceA11y(`${p.title} 상세 정보 창이 열렸습니다.`);
-      lucide.createIcons();
-    }
-
-    function closePolicyModal() {
-      const pModal = document.getElementById('policy-modal');
-      if (typeof pModal.close === 'function') {
-        pModal.close();
-      } else {
-        pModal.classList.add('hidden');
-      }
-      announceA11y("상세 정보 창이 닫혔습니다.");
-    }
-
-    // ==========================================
-    // 5-1. ACCESSIBILITY
-    // ==========================================
-    let isSeniorMode = false;
-    function toggleSeniorMode() {
-      isSeniorMode = !isSeniorMode;
-      document.body.classList.toggle('senior-mode', isSeniorMode);
-      const btn = document.getElementById('senior-mode-toggle');
-      const text = document.getElementById('senior-mode-text');
-      btn.setAttribute('aria-pressed', isSeniorMode ? 'true' : 'false');
-      if (isSeniorMode) {
-        btn.classList.add('bg-amber-100', 'border-amber-400', 'text-amber-950');
-        text.innerText = "큰글씨 ON";
-        announceA11y("어르신 및 저시력자를 위한 큰글씨 고대비 모드가 활성화되었습니다.");
-      } else {
-        btn.classList.remove('bg-amber-100', 'border-amber-400', 'text-amber-950');
-        text.innerText = "큰글씨";
-        announceA11y("일반 글씨 모드로 전환되었습니다.");
-      }
-    }
-
-    function announceA11y(msg) {
-      const announcer = document.getElementById('a11y-announcer');
-      if (announcer) {
-        announcer.textContent = msg;
-      }
-    }
-
-    // ==========================================
-    // 6. FILTERING
-    // ==========================================
-    function filterDashboard(type) {
-      currentDashFilter = type;
-      ['all', 'local', 'central'].forEach(t => {
-        const btn = document.getElementById(`dash-filter-${t}`);
-        if (t === type) {
-          btn.className = "px-2.5 py-1 rounded bg-white shadow-xs text-slate-900 font-bold";
-        } else {
-          btn.className = "px-2.5 py-1 rounded text-slate-600 hover:text-slate-900";
-        }
-      });
-      renderDashboardCards();
-    }
-
-    function setCategoryFilter(cat) {
-      currentCategoryFilter = cat;
-      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
-        if (btn.getAttribute('data-cat') === cat) {
-          btn.className = "cat-filter-btn px-3 py-1 rounded-full bg-blue-600 text-white font-bold";
-        } else {
-          btn.className = "cat-filter-btn px-3 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200";
-        }
-      });
-      renderExplorer();
-    }
-
-    function handleSearch() {
-      currentSearchTerm = document.getElementById('explorer-search').value;
-      renderExplorer();
-    }
-
-    function handleSidoChange() {
-      const sido = document.getElementById('profile-sido').value;
-      const sigungu = document.getElementById('profile-sigungu');
-      sigungu.innerHTML = '';
-      if (sido === 'seoul') {
-        sigungu.innerHTML = '<option value="gwanak">관악구</option><option value="gangnam">강남구</option><option value="mapo">마포구</option>';
-      } else if (sido === 'gyeonggi') {
-        sigungu.innerHTML = '<option value="seongnam">성남시</option><option value="suwon">수원시</option><option value="yongin">용인시</option>';
-      } else {
-        sigungu.innerHTML = '<option value="haeundae">해운대구</option><option value="busanjin">부산진구</option>';
-      }
-    }
-
-    // ==========================================
-    // 7. REGION STORAGE & DATA LOADING
-    // ==========================================
-    const STORAGE_KEY = 'welfamily_user_profile_v1';
-
-    function applyRegion(sido, sigungu) {
-      const sidoSelect = document.getElementById('profile-sido');
-      const sigunguSelect = document.getElementById('profile-sigungu');
-      sidoSelect.value = sido;
-      handleSidoChange();
-      sigunguSelect.value = sigungu;
-      currentRegion = `${sido}_${sigungu}`;
-      document.getElementById('header-region-text').innerText =
-        `${sidoSelect.selectedOptions[0].text.substring(0, 2)} ${sigunguSelect.selectedOptions[0].text}`;
-    }
-
-    function saveProfile() {
-      const sido = document.getElementById('profile-sido').value;
-      const sigungu = document.getElementById('profile-sigungu').value;
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ sido, sigungu }));
-      } catch (e) {
-        console.warn('LocalStorage save failed:', e);
-      }
-      applyRegion(sido, sigungu);
-      announceA11y('거주 지역을 이 기기에 저장했습니다.');
-      renderDashboardCards();
-      renderExplorer();
-      switchTab('dashboard');
-    }
-
-    function loadSavedProfile() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (saved && saved.sido && saved.sigungu) {
-          applyRegion(saved.sido, saved.sigungu);
-        }
-      } catch (e) {
-        console.warn('Failed to load saved region:', e);
-      }
-    }
-
-    function clearSavedRegion() {
-      try {
-        localStorage.removeItem(STORAGE_KEY);
-      } catch (e) {
-        console.warn('LocalStorage delete failed:', e);
-      }
-      applyRegion('seoul', 'gwanak');
-      renderDashboardCards();
-      renderExplorer();
-      announceA11y('저장된 지역을 삭제했습니다.');
-      alert('저장된 지역을 삭제했습니다.');
-    }
-
-    async function loadRemoteCatalog() {
-      const paths = ['data/welfare_catalog.json', '../data/welfare_catalog.json', './data/welfare_catalog.json'];
-      for (const p of paths) {
-        try {
-          const resp = await fetch(p);
-          if (resp.ok) {
-            const data = await resp.json();
-            if (data.policies && data.policies.length > 0) {
-              // Convert schema format if necessary
-              POLICIES = data.policies.map(item => ({
-                id: item.id,
-                title: item.title,
-                origin: item.origin,
-                region: item.region_code || item.region,
-                regionName: item.region_name || item.regionName,
-                managingOrg: item.managing_org || item.managingOrg,
-                category: item.category,
-                categoryName: item.category_name || item.categoryName,
-                amountValue: item.amount_value || item.amountValue || 0,
-                amountText: item.amount_text || item.amountText,
-                applicationUrl: item.application_url,
-                contactPhone: item.contact_phone,
-                summary3: item.summary_3lines || item.summary3 || [],
-                docs: (item.required_documents || item.docs || []).map(d => ({
-                  name: d.name,
-                  canOnline: d.can_online !== undefined ? d.can_online : d.canOnline,
-                  issuer: d.issuer
-                }))
-              }));
-              console.log(`[WelFamily] Successfully loaded ${POLICIES.length} policies from ${p}`);
-              renderDashboardCards();
-              renderExplorer();
-              break;
-            }
-          }
-        } catch (e) {
-          // fetch error (e.g. running on file:// protocol), fallback silently
-        }
-      }
-
-      // Check sync status metadata
-      const syncPaths = ['data/latest_sync.json', '../data/latest_sync.json', './data/latest_sync.json'];
-      for (const sp of syncPaths) {
-        try {
-          const sresp = await fetch(sp);
-          if (sresp.ok) {
-            const sdata = await sresp.json();
-            if (sdata.last_sync_at) {
-              const dateStr = new Date(sdata.last_sync_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' });
-              document.getElementById('sync-time-indicator').innerText = `데이터 기준일: ${dateStr} (정책 ${sdata.total_active_policies}개)`;
-            }
-            break;
-          }
-        } catch (e) {}
-      }
-    }
-
-    // ==========================================
-    // 8. INITIALIZATION
-    // ==========================================
-    window.onload = function() {
-      lucide.createIcons();
-      loadSavedProfile();
-      renderDashboardCards();
-      renderExplorer();
-      loadRemoteCatalog();
-
-      // Native dialog backdrop auto-close handlers
-      const pModal = document.getElementById('policy-modal');
-      if (pModal) {
-        pModal.addEventListener('click', (e) => {
-          const rect = pModal.getBoundingClientRect();
-          const inDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
-          if (!inDialog) closePolicyModal();
-        });
-      }
-    };
-  </script>
 </body>
 </html>

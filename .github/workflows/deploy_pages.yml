@@ -29,7 +29,7 @@ jobs:
       - name: Prepare Static Artifacts
         run: |
           mkdir -p dist/data
-          cp prototype/index.html dist/index.html
+          cp prototype/index.html prototype/styles.css prototype/app.js dist/
           cp data/welfare_catalog.json data/latest_sync.json dist/data/
 
       - name: Block Unfinished Content
